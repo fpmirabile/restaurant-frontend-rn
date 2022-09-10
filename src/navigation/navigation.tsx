@@ -1,13 +1,14 @@
 import * as React from 'react';
-import { Home } from '../App';
 import { NavigationContainer } from '@react-navigation/native';
 import {
   createNativeStackNavigator,
   // type NativeStackScreenProps,
 } from '@react-navigation/native-stack';
+import { Login } from '../components/pages/';
 
 type RootStackParamList = {
   Home: undefined;
+  Login: undefined;
   // Profile: { userId: string };
   // Feed: { sort: 'latest' | 'top' } | undefined;
 };
@@ -18,14 +19,12 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export function Navigation() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={Home} />
-        {/* <RootStack.Screen
-          name="Profile"
-          component={Profile}
-          initialParams={{ userId: user.id }}
-        />
-        <RootStack.Screen name="Feed" component={Feed} /> */}
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+        initialRouteName="Login">
+        <Stack.Screen name="Login" component={Login} />
       </Stack.Navigator>
     </NavigationContainer>
   );

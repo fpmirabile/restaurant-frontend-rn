@@ -1,2 +1,2 @@
 export { store } from './store';
-export * as reducers from './reducers';
+export { testReducer } from './reducers/test/reducer';

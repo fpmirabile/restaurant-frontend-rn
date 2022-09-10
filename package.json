@@ -20,6 +20,7 @@
     "react-redux": "^8.0.2"
   },
   "devDependencies": {
+    "react-native-reanimated": "^2.10.0",
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",

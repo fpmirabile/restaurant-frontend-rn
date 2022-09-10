@@ -12,5 +12,6 @@ const messageSlice = createSlice({
   },
 });
 
-export const actions = messageSlice.actions;
-export const reducer = messageSlice.reducer;
+const actions = messageSlice.actions;
+const reducer = messageSlice.reducer;
+export const testReducer = { actions, reducer };
