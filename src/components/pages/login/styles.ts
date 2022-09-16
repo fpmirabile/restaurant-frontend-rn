@@ -3,7 +3,7 @@ import { COLORS } from '../../../style-constants';
 
 export const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    //flex: 1,
     // display: 'flex',
     width: '100%',
     height: '100%',
@@ -16,7 +16,9 @@ export const styles = StyleSheet.create({
     marginHorizontal: 24,
     minHeight: 278,
     minWidth: 312,
+    maxHeight: 410,
     flexDirection: 'column',
+    
   },
   tabs: {
     flexDirection: 'row',
@@ -39,6 +41,8 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.pink,
   },
   selectedLoginContent: {
+    display: 'flex',
+    flexDirection: 'column',
     marginVertical: 16,
     marginHorizontal: 16,
   },

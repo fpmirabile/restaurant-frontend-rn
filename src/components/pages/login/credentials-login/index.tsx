@@ -39,7 +39,7 @@ export function LoginWithCredentials() {
         textColorStyle={styles.forgotPasswordColor}
         message="¿Olvidaste tu contraseña?"
       />
-      <Button title="Ingresar" />
+      <Button title="Ingresar"/>
     </View>
   );
 }
