@@ -6,8 +6,8 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: COLORS.background,
-    justifyContent: 'flex-start',
-    paddingTop:'25%'
+    // justifyContent: 'flex-start',
+    // paddingTop:'25%'
   },
   loginBox: {
     backgroundColor: COLORS.white,
@@ -54,5 +54,12 @@ export const styles = StyleSheet.create({
   elevation:{
     elevation: 20,
     shadowColor: '#FEBDD8',
+  },
+  image: {
+    flex: 1,
+    //justifyContent: "center"
+    justifyContent: 'flex-start',
+    paddingTop:'40%',
+    alignItems: 'center',
   },
 });
