@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { View, ImageBackground } from 'react-native';
 import { Title, TouchableText } from '../../shared';
 import { LoginWithCredentials } from './credentials-login';
 import { LoginWithSSO } from './sso-login';
@@ -26,7 +26,7 @@ export function Login({}: PropTypes) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.loginBox}>
+      <View style={[styles.loginBox,styles.elevation]}>
         <View style={styles.tabs}>
           <View style={clientStyles}>
             <TouchableText

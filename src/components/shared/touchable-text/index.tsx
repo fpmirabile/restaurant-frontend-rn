@@ -8,6 +8,7 @@ import {
   TextStyle,
 } from 'react-native';
 import { styles } from './styles';
+import { AppText } from '../text-styles/appText';
 
 interface PropTypes {
   message: string;
@@ -32,7 +33,8 @@ export function TouchableText({
         onPress={onPress}
         onPressIn={onPressIn}
         onPressOut={onPressOut}>
-        <Text style={[styles.message, textColorStyle]}>{message}</Text>
+        <AppText.Body2 center>{message}</AppText.Body2>
+        {/* <Text style={[styles.message, textColorStyle]}>{message}</Text> */}
       </TouchableOpacity>
     </View>
   );

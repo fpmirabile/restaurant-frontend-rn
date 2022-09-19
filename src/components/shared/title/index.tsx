@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { StyleProp, Text, View, ViewStyle } from 'react-native';
 import { styles } from './styles';
+import { AppText } from '../text-styles/appText';
+
 
 interface PropTypes {
   title: string;
@@ -10,7 +12,8 @@ interface PropTypes {
 export function Title({ title, containerStyles = {} }: PropTypes) {
   return (
     <View style={[styles.container, containerStyles]}>
-      <Text style={styles.title}>{title}</Text>
+      <AppText.Title>{title}</AppText.Title>
+      {/* <Text style={styles.title}>{title}</Text> */}
     </View>
   );
 }

@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
     // justifyContent: 'space-between',
     // alignSelf:'stretch',
     marginTop: 16,
+    fontFamily:"FredokaOne-Regular",
   },
   
   container:{
@@ -14,5 +15,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     display: 'flex',
     height:120,
+    fontFamily:"FredokaOne-Regular",
   }
 });

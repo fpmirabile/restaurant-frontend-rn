@@ -3,12 +3,11 @@ import { COLORS } from '../../../style-constants';
 
 export const styles = StyleSheet.create({
   container: {
-    //flex: 1,
-    // display: 'flex',
-    width: '100%',
-    height: '100%',
+    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: COLORS.background,
+    justifyContent: 'flex-start',
+    paddingTop:'25%'
   },
   loginBox: {
     backgroundColor: COLORS.white,
@@ -18,6 +17,8 @@ export const styles = StyleSheet.create({
     minWidth: 312,
     maxHeight: 410,
     flexDirection: 'column',
+    
+    //marginTop: '20%'
     
   },
   tabs: {
@@ -47,6 +48,11 @@ export const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   loginTitle: {
+    fontFamily:'FredokaOne-Regular',
     marginBottom: 8,
+  },
+  elevation:{
+    elevation: 20,
+    shadowColor: '#FEBDD8',
   },
 });
