@@ -4,7 +4,7 @@ import {
   createNativeStackNavigator,
   // type NativeStackScreenProps,
 } from '@react-navigation/native-stack';
-import { Login } from '../components/pages/';
+import { Login, Home, HomeNavHeader } from '../components/pages/';
 
 type RootStackParamList = {
   Home: undefined;
@@ -19,12 +19,23 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export function Navigation() {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}
-        initialRouteName="Login">
-        <Stack.Screen name="Login" component={Login} />
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="Login"
+          component={Login}
+        />
+        <Stack.Screen
+          options={{
+            header: () => {
+              return <HomeNavHeader />;
+            },
+          }}
+          component={Home}
+          name="Home"
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
