@@ -4,17 +4,20 @@ import { Input, TouchableText } from '../../../shared';
 import { Body, CTAText, Title } from '../../../shared/morfando-text';
 import { Button } from '../../../shared';
 import { styles } from './styles';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../../../navigation/navigation';
 
 type InputType = 'email' | 'nya' | 'password';
-export function UserRegistration() {
+export type RouterProps = NativeStackScreenProps<RootStackParamList, 'Registration'>;
+
+export function UserRegistration({navigation}:RouterProps) {
   const [email, setUseremail] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
   // const [passwordrepeted, setPassword] = React.useState<string>('');
   const [nya, setNameAndSurname] = React.useState<string>('');
 
   const goToMain = () =>{
-    //Aca le meto para irme a la pantalla anterior
-    return;
+    navigation.goBack()
   };
 
   const handleInputOnChange = (input: InputType) => (text: string) => {
@@ -70,7 +73,7 @@ export function UserRegistration() {
         <View style={styles.button}>
           <Button title="Registrarse"/>
           <View>
-            <TouchableText message='Cancelar' type='ctatext' containerStyles={styles.cancelcta}></TouchableText>
+            <TouchableText message='Cancelar' type='ctatext' containerStyles={styles.cancelcta} onPress={goToMain}></TouchableText>
           </View>
         </View>
       </ImageBackground>

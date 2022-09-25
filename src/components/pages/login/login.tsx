@@ -2,17 +2,18 @@ import * as React from 'react';
 import { View, ImageBackground } from 'react-native';
 import { TouchableText } from '../../shared';
 import { LoginWithCredentials } from './credentials-login';
-import { RegistroTandC } from './footer-registro';
+import { RegisterFooter } from './footer-registro';
 import { LoginWithSSO } from './sso-login';
 import { styles } from './styles';
 import {Body, Body2, Caption, Title} from '../../shared/morfando-text';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../../navigation/navigation';
 
-
-interface PropTypes {}
+export type PropTypes = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 type Tab = 'client' | 'restaurant';
 
-export function Login({}: PropTypes) {
+export function Login({navigation}: PropTypes) {
   const [selectedTab, setSelectedTab] = React.useState<Tab>('client');
   const clientStyles = [
     styles.tab,
@@ -26,6 +27,10 @@ export function Login({}: PropTypes) {
   const handleTabPress = (tab: Tab) => () => {
     setSelectedTab(tab);
   };
+  const goToRegistration = ()=>{
+    navigation.push('Registration')
+  }
+
 
   return (
     <View style={styles.container}>
@@ -57,7 +62,7 @@ export function Login({}: PropTypes) {
         </View>
       </View>
       <View style={{flex:1}}>
-        {selectedTab==='restaurant' &&<RegistroTandC/>}
+        {selectedTab==='restaurant' &&<RegisterFooter onRegistration={goToRegistration}/>}
       </View>
       </ImageBackground>
     </View>
