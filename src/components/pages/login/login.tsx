@@ -30,20 +30,24 @@ export function Login({}: PropTypes) {
   return (
     <View style={styles.container}>
       <ImageBackground source={require('../../../assets/images/background.png')} resizeMode="center" style={styles.image}>
+      <View style={styles.title}>
+          <Title>Morfando Inc</Title>
+      </View>
+      <View style={{flex:6}}>
         <View style={[styles.loginBox,styles.elevation]}>
-          <View style={styles.tabs}>
-            <View style={clientStyles}>
+        <View style={styles.tabs}>
+          <View style={clientStyles}>
               <TouchableText 
                 onPress={handleTabPress('client')}
                 message="Soy cliente"
               />
-            </View>
-            <View style={restaurantStyles}>
+          </View>
+          <View style={restaurantStyles}>
               <TouchableText 
                 onPress={handleTabPress('restaurant')}
                 message="Soy dueño de restaurante"
               />
-            </View>
+          </View>
           </View>
           <View style={styles.selectedLoginContent}>
             <Title style={styles.loginTitle}>Login</Title>
@@ -51,7 +55,10 @@ export function Login({}: PropTypes) {
             {selectedTab === 'restaurant' && <LoginWithCredentials/>}
           </View>
         </View>
+      </View>
+      <View style={{flex:1}}>
         {selectedTab==='restaurant' &&<RegistroTandC/>}
+      </View>
       </ImageBackground>
     </View>
   );

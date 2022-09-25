@@ -25,7 +25,7 @@ export function Navigation() {
           headerShown: false,
         }}
         initialRouteName="Login">
-        <Stack.Screen name="Login" component={UserRegistration} />
+        <Stack.Screen name="Login" component={Login} />
       </Stack.Navigator>
     </NavigationContainer>
   );

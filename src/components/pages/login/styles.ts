@@ -16,6 +16,12 @@ export const styles = StyleSheet.create({
     maxHeight: 410,
     flexDirection: 'column',
   },
+  title:{
+    flex:1,
+    marginTop:32,
+    alignItems: 'center',
+    width:328,
+  },
   tabs: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -52,9 +58,7 @@ export const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    //justifyContent: "center"
-    justifyContent: 'flex-start',
-    paddingTop:'35%',
+    justifyContent: 'center',
     alignItems: 'center',
   },
 });
