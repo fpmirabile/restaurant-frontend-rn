@@ -9,6 +9,12 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
+
+  "rnpm": {
+  "assets": [
+    "./src/assets/fonts/"
+  ]
+  },
   "dependencies": {
     "@react-navigation/native": "^6.0.12",
     "@react-navigation/native-stack": "^6.8.0",
