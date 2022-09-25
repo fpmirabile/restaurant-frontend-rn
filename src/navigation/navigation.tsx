@@ -5,16 +5,18 @@ import {
   // type NativeStackScreenProps,
 } from '@react-navigation/native-stack';
 import { Login } from '../components/pages/';
+import { UserRegistration } from '../components/pages/login/user-registration'
 
-type RootStackParamList = {
+export type RootStackParamList = {
   Home: undefined;
   Login: undefined;
+  Registration: undefined;
   // Profile: { userId: string };
   // Feed: { sort: 'latest' | 'top' } | undefined;
 };
 
 // This will allow to mock props in each view
-// type Props = NativeStackScreenProps<RootStackParamList, 'Profile', 'MyStack'>;
+// export type RouterProps = NativeStackScreenProps<RootStackParamList, 'Registration'>;
 const Stack = createNativeStackNavigator<RootStackParamList>();
 export function Navigation() {
   return (
@@ -24,7 +26,8 @@ export function Navigation() {
           headerShown: false,
         }}
         initialRouteName="Login">
-        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Login" component={Login}/>
+        <Stack.Screen name="Registration" component={UserRegistration} />
       </Stack.Navigator>
     </NavigationContainer>
   );
