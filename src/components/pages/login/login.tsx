@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { View, ImageBackground } from 'react-native';
-import { Title, TouchableText } from '../../shared';
+import { TouchableText } from '../../shared';
 import { LoginWithCredentials } from './credentials-login';
+import { RegistroTandC } from './footer-registro';
 import { LoginWithSSO } from './sso-login';
 import { styles } from './styles';
+import {Body, Body2, Caption, Title} from '../../shared/morfando-text';
 
 
 interface PropTypes {}
@@ -31,24 +33,25 @@ export function Login({}: PropTypes) {
         <View style={[styles.loginBox,styles.elevation]}>
           <View style={styles.tabs}>
             <View style={clientStyles}>
-              <TouchableText
+              <TouchableText 
                 onPress={handleTabPress('client')}
                 message="Soy cliente"
               />
             </View>
             <View style={restaurantStyles}>
-              <TouchableText
+              <TouchableText 
                 onPress={handleTabPress('restaurant')}
                 message="Soy dueño de restaurante"
               />
             </View>
           </View>
           <View style={styles.selectedLoginContent}>
-            <Title containerStyles={styles.loginTitle} title="Login" />
+            <Title style={styles.loginTitle}>Login</Title>
             {selectedTab === 'client' && <LoginWithSSO />}
-            {selectedTab === 'restaurant' && <LoginWithCredentials />}
+            {selectedTab === 'restaurant' && <LoginWithCredentials/>}
           </View>
         </View>
+        {selectedTab==='restaurant' &&<RegistroTandC/>}
       </ImageBackground>
     </View>
   );

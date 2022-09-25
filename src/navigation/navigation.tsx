@@ -5,6 +5,7 @@ import {
   // type NativeStackScreenProps,
 } from '@react-navigation/native-stack';
 import { Login } from '../components/pages/';
+import { UserRegistration } from '../components/pages/login/user-registration'
 
 type RootStackParamList = {
   Home: undefined;
@@ -24,7 +25,7 @@ export function Navigation() {
           headerShown: false,
         }}
         initialRouteName="Login">
-        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Login" component={UserRegistration} />
       </Stack.Navigator>
     </NavigationContainer>
   );

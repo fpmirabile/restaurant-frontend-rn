@@ -6,8 +6,6 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: COLORS.background,
-    // justifyContent: 'flex-start',
-    // paddingTop:'25%'
   },
   loginBox: {
     backgroundColor: COLORS.white,
@@ -17,9 +15,6 @@ export const styles = StyleSheet.create({
     minWidth: 312,
     maxHeight: 410,
     flexDirection: 'column',
-    
-    //marginTop: '20%'
-    
   },
   tabs: {
     flexDirection: 'row',
@@ -59,7 +54,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     //justifyContent: "center"
     justifyContent: 'flex-start',
-    paddingTop:'40%',
+    paddingTop:'35%',
     alignItems: 'center',
   },
 });
