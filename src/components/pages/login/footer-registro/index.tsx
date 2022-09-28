@@ -6,19 +6,25 @@ import { TouchableText } from '../../../shared';
 
 interface PropTypes {
   onRegistration: () => void;
+  showRegisterButton: boolean;
 }
 
-export function RegisterFooter({ onRegistration }: PropTypes) {
+export function RegisterFooter({
+  onRegistration,
+  showRegisterButton,
+}: PropTypes) {
   return (
     <View>
-      <View style={styles.registerContainer}>
-        <Body2>¿No tenes cuenta? </Body2>
-        <TouchableText
-          type="body2DarkPink"
-          message="Registrate"
-          onPress={onRegistration}
-        />
-      </View>
+      {showRegisterButton && (
+        <View style={styles.registerContainer}>
+          <Body2>¿No tenes cuenta? </Body2>
+          <TouchableText
+            type="body2DarkPink"
+            message="Registrate"
+            onPress={onRegistration}
+          />
+        </View>
+      )}
       <View style={styles.tandc}>
         <Caption>* Al registrarse, usted acepta nuestros</Caption>
         <TouchableText

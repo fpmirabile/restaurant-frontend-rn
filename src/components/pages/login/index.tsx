@@ -63,9 +63,10 @@ export function Login({ navigation }: PropTypes) {
           </View>
         </View>
         <View style={{ flex: 1 }}>
-          {selectedTab === 'restaurant' && (
-            <RegisterFooter onRegistration={goToRegistration} />
-          )}
+          <RegisterFooter
+            onRegistration={goToRegistration}
+            showRegisterButton={selectedTab === 'restaurant'}
+          />
         </View>
       </ImageBackground>
     </View>
