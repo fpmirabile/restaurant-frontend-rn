@@ -8,43 +8,55 @@ import {
   TextStyle,
 } from 'react-native';
 import { styles } from './styles';
-import { Body, Title, Caption,Body2, CTAText } from '../morfando-text';
+import { Body, Title, Caption, Body2, CTAText } from '../';
 
-interface PropTypes { //Estas son las caracteristicas que va a cumplir esta interfaz las cosas con signo de pregunta son las que estoy aceptando que no existan
+interface PropTypes {
   message: string;
   onPress?: () => void;
   onPressIn?: () => void;
   onPressOut?: () => void;
   containerStyles?: StyleProp<ViewStyle>;
   textColorStyle?: StyleProp<TextStyle>;
-  type?: TouchebleType;
+  type?: TouchableType;
 }
 
-type TouchebleType = 'title' | 'body' | 'caption'| 'body2Darpink'|'captionDarkpink'|'ctatext' ;
+type TouchableType =
+  | 'title'
+  | 'body'
+  | 'caption'
+  | 'body2DarkPink'
+  | 'captionDarkPink'
+  | 'ctaText';
 
 export function TouchableText({
   message,
   onPress,
   onPressIn,
   onPressOut,
-  containerStyles = {},//Todo lo que tiene igual, si no lo llamo cuando invoco al componente, estare tomando lo del lado derecho del igual.
-  textColorStyle = {},
-  type = "body",// Aca lo que digo, es que si no invoco al Type por defecto le queda Body
+  containerStyles = {},
+  type = 'body',
 }: PropTypes) {
-
-    return (
-      <View style={[styles.container, containerStyles]}>
-        <TouchableOpacity
-          onPress={onPress}
-          onPressIn={onPressIn}
-          onPressOut={onPressOut}>
-            {type==="title"&&<Title >{message}</Title>}
-            {type==="body"&&<Body center>{message}</Body>}
-            {type==="body2Darpink"&&<Body2 darkpinkcolor fontType='bold'>{message}</Body2>}
-            {type==="caption"&&<Caption>{message}</Caption>}
-            {type==="ctatext"&&<CTAText>{message}</CTAText>}
-            {type==="captionDarkpink"&&<Caption darkpinkcolor fontType='bold'>{message}</Caption>}
-        </TouchableOpacity>
-      </View>
-    );
+  return (
+    <View style={[styles.container, containerStyles]}>
+      <TouchableOpacity
+        onPress={onPress}
+        onPressIn={onPressIn}
+        onPressOut={onPressOut}>
+        {type === 'title' && <Title>{message}</Title>}
+        {type === 'body' && <Body center>{message}</Body>}
+        {type === 'body2DarkPink' && (
+          <Body2 darkPinkColor fontType="bold">
+            {message}
+          </Body2>
+        )}
+        {type === 'caption' && <Caption>{message}</Caption>}
+        {type === 'ctaText' && <CTAText>{message}</CTAText>}
+        {type === 'captionDarkPink' && (
+          <Caption darkPinkColor fontType="bold">
+            {message}
+          </Caption>
+        )}
+      </TouchableOpacity>
+    </View>
+  );
 }

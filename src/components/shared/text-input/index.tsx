@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { StyleProp, TextInput, View, ViewStyle } from 'react-native';
+import { ImageSourcePropType } from 'react-native';
+import { Image, StyleProp, TextInput, View, ViewStyle } from 'react-native';
 import { styles } from './styles';
 
 interface PropTypes {
   placeholder?: string;
   onChangeText?: (text: string) => void;
   value: string;
-  // rightIcon?: any;
+  rightIcon?: ImageSourcePropType;
   containerStyles?: StyleProp<ViewStyle>;
 }
 
@@ -14,6 +15,7 @@ export function Input({
   placeholder,
   onChangeText,
   value,
+  rightIcon,
   containerStyles = {},
 }: PropTypes) {
   return (
@@ -24,6 +26,7 @@ export function Input({
         placeholder={placeholder}
         value={value}
       />
+      {rightIcon && <Image style={styles.rightIcon} source={rightIcon} />}
     </View>
   );
 }
