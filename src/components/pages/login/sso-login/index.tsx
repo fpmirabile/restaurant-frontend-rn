@@ -4,13 +4,17 @@ import { styles } from './styles';
 import { Body } from '../../../shared/morfando-text';
 import { Button } from '../../../shared';
 
-export function LoginWithSSO() {
+interface PropTypes {
+  onLogin: () => void;
+}
+
+export function LoginWithSSO({ onLogin }: PropTypes) {
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
         <Body>Inicie sesión o regístrese utilizando su cuenta de Google.</Body>
       </View>
-      <Button title="Inicia sesion con Google" />
+      <Button title="Inicia sesion con Google" onPress={onLogin} />
     </View>
   );
 }

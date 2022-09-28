@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     width: '100%',
   },
   forgotPasswordColor: {
-    color: COLORS.orangePrimary,
+    color: COLORS.darkPink,
     textAlign: 'left',
   },
 });

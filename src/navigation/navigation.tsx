@@ -4,16 +4,11 @@ import {
   createNativeStackNavigator,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
-import {
-  Login,
-  Home,
-  HomeNavHeader,
-  UserRegistration,
-} from '../components/pages/';
+import { Login, Home, UserRegistration } from '../components/pages/';
+import { HomeNavHeader } from '../components/headers';
 
-export type MorfandoRouterParams<
-  A extends keyof RootStackParamList,
-> = NativeStackScreenProps<RootStackParamList, A>;
+export interface MorfandoRouterParams<A extends keyof RootStackParamList>
+  extends NativeStackScreenProps<RootStackParamList, A> {}
 
 type RootStackParamList = {
   Home: undefined;
@@ -39,6 +34,7 @@ export function Navigation() {
             header: () => {
               return <HomeNavHeader />;
             },
+            headerShown: true,
           }}
           component={Home}
           name="Home"

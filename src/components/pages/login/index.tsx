@@ -8,7 +8,7 @@ import { styles } from './styles';
 import { Title } from '../../shared/morfando-text';
 import { MorfandoRouterParams } from '../../../navigation/navigation';
 
-type PropTypes = MorfandoRouterParams<'Login'>;
+interface PropTypes extends MorfandoRouterParams<'Login'> {}
 type Tab = 'client' | 'restaurant';
 
 export function Login({ navigation }: PropTypes) {
@@ -25,9 +25,20 @@ export function Login({ navigation }: PropTypes) {
   const handleTabPress = (tab: Tab) => () => {
     setSelectedTab(tab);
   };
+
   const goToRegistration = () => {
     navigation.push('Registration');
   };
+
+  const onCredentialsLogin = () => {
+    // TODO: Validation + Endpoint awaiting + checking responses
+    navigation.push("Home");
+  }
+
+  const onSSOLogin = () => {
+    // TODO: Validation + Endpoint awaiting + checking responses
+    navigation.push("Home");
+  }
 
   return (
     <View style={styles.container}>
@@ -56,8 +67,8 @@ export function Login({ navigation }: PropTypes) {
             </View>
             <View style={styles.selectedLoginContent}>
               <Title style={styles.loginTitle}>Login</Title>
-              {selectedTab === 'client' && <LoginWithSSO />}
-              {selectedTab === 'restaurant' && <LoginWithCredentials />}
+              {selectedTab === 'client' && <LoginWithSSO onLogin={onSSOLogin} />}
+              {selectedTab === 'restaurant' && <LoginWithCredentials onLogin={onCredentialsLogin} />}
             </View>
           </View>
         </View>

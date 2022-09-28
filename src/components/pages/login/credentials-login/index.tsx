@@ -5,7 +5,11 @@ import { styles } from './styles';
 import { Body } from '../../../shared/morfando-text';
 
 type InputType = 'username' | 'password';
-export function LoginWithCredentials() {
+interface PropTypes {
+  onLogin: () => void;
+}
+
+export function LoginWithCredentials({ onLogin }: PropTypes) {
   const [username, setUsername] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
 
@@ -40,7 +44,7 @@ export function LoginWithCredentials() {
         textColorStyle={styles.forgotPasswordColor}
         message="¿Olvidaste tu contraseña?"
       />
-      <Button title="Ingresar" />
+      <Button title="Ingresar" onPress={onLogin} />
     </View>
   );
 }

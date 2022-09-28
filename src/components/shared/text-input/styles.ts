@@ -2,7 +2,9 @@ import { StyleSheet } from 'react-native';
 import { COLORS } from '../../../style-constants';
 
 export const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flexDirection: 'row',
+  },
   input: {
     borderRadius: 3.5,
     borderColor: COLORS.black,
@@ -13,5 +15,13 @@ export const styles = StyleSheet.create({
     letterSpacing: 0.15,
     color: COLORS.black,
     paddingHorizontal: 16,
+    flex: 1,
   },
+  rightIcon: {
+    right: 15,
+    alignSelf: 'center',
+    position: 'absolute',
+    resizeMode: 'stretch',
+    alignItems: 'center',
+  }
 });

@@ -7,7 +7,7 @@ import { MorfandoRouterParams } from '../../../navigation/navigation';
 import { styles } from './styles';
 
 type InputType = 'email' | 'nya' | 'password';
-type RouterProps = MorfandoRouterParams<'Registration'>;
+interface RouterProps extends MorfandoRouterParams<'Registration'> {}
 
 export function UserRegistration({ navigation }: RouterProps) {
   const [email, setUserEmail] = React.useState<string>('');
