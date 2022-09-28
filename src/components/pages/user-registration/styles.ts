@@ -1,31 +1,25 @@
 import { StyleSheet } from 'react-native';
-import { COLORS } from '../../../../style-constants';
+import { COLORS } from '../../../style-constants';
 
 export const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-    
-      },
-
-  textContainer:{
-    marginTop: 16,
-    fontFamily:"FredokaOne-Regular",
+  container: {
+    flex: 1,
+    alignItems: 'center',
   },
   image: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  text:{
-    paddingTop:8,
+  text: {
+    paddingTop: 8,
     alignItems: 'center',
   },
-  title:{
-    flex:1,
-    marginTop:32,
+  title: {
+    flex: 1,
+    marginTop: 32,
     alignItems: 'center',
-    width:328,
+    width: 328,
   },
   loginBox: {
     backgroundColor: COLORS.white,
@@ -36,9 +30,9 @@ export const styles = StyleSheet.create({
     maxHeight: 410,
     flexDirection: 'column',
   },
-  elevation:{
+  elevation: {
     elevation: 20,
-    shadowColor: '#FEBDD8',
+    shadowColor: COLORS.shadow,
   },
   emailInput: {
     marginTop: 16,
@@ -50,13 +44,12 @@ export const styles = StyleSheet.create({
     marginVertical: 16,
     marginHorizontal: 16,
   },
-  button:{
-    flex:1,
-    width:280
+  button: {
+    flex: 1,
+    width: 280,
   },
-  cancelcta:{
-    alignItems:'center',
-    marginTop:16,
-  }
-
+  cancelCta: {
+    alignItems: 'center',
+    marginTop: 16,
+  },
 });

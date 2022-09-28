@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
-import { TouchableText } from '../../../shared';
+import { View } from 'react-native';
 import { styles } from './styles';
 import { Body } from '../../../shared/morfando-text';
 import { Button } from '../../../shared';

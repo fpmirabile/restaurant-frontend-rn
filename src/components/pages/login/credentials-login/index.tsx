@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { Button, Input, TouchableText } from '../../../shared';
 import { styles } from './styles';
-import {Body, Title} from '../../../shared/morfando-text';
+import { Body } from '../../../shared/morfando-text';
 
 type InputType = 'username' | 'password';
 export function LoginWithCredentials() {
@@ -19,9 +19,11 @@ export function LoginWithCredentials() {
   };
 
   return (
-    <View style={styles.restaurantOwner}>
-      <Body>Utilice su correo electrónico y contraseña para administrar sus
-        restaurantes.</Body>
+    <View>
+      <Body>
+        Utilice su correo electrónico y contraseña para administrar sus
+        restaurantes.
+      </Body>
       <Input
         onChangeText={handleInputOnChange('username')}
         containerStyles={styles.emailInput}
@@ -38,7 +40,7 @@ export function LoginWithCredentials() {
         textColorStyle={styles.forgotPasswordColor}
         message="¿Olvidaste tu contraseña?"
       />
-      <Button title="Ingresar"/>
+      <Button title="Ingresar" />
     </View>
   );
 }

@@ -5,7 +5,9 @@ const COLORS = {
   white: '#FFFFFF',
   black: '#000000DE',
   background: '#FAFAFA',
-  darkpink: '#FB0067',
+  darkPink: '#FB0067',
+
+  shadow: '#FEBDD8',
 };
 
 export { COLORS };
