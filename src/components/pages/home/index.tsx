@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { View, FlatList, ListRenderItemInfo, Image } from 'react-native';
 import { MorfandoRouterParams } from '../../../navigation/navigation';
-import { Body, Input } from '../../shared';
-import { Body2 } from '../../shared/morfando-text';
+import { Body, Body2, Input } from '../../shared';
 import { styles } from './styles';
 import { Shadow } from 'react-native-shadow-2';
 const TestImage = require('../../../assets/images/image.png');

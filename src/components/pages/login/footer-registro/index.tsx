@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { View } from 'react-native';
 import { styles } from './styles';
-import { Body2, Caption } from '../../../shared/morfando-text';
-import { TouchableText } from '../../../shared';
+import { TouchableText, Body2, Caption } from '../../../shared';
 
 interface PropTypes {
   onRegistration: () => void;
