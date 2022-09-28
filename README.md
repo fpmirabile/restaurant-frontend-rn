@@ -1,6 +1,6 @@
 # TP Aplicaciones distribuidas - Frontend
 
-This frontend has been done in `React-Native v18` for the 2nd semester of 2022.
+This frontend has been done in `React-Native v0.7` for the 2nd semester of 2022.
 
 ## Installation
 

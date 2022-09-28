@@ -16,5 +16,6 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '700',
     lineHeight: 16,
+    fontFamily:"FredokaOne-Regular",
   },
 });
