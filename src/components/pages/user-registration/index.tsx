@@ -3,12 +3,11 @@ import { View, ImageBackground } from 'react-native';
 import { Input, TouchableText } from '../../shared';
 import { Body, Title } from '../../shared/morfando-text';
 import { Button } from '../../shared';
+import { MorfandoRouterParams } from '../../../navigation/navigation';
 import { styles } from './styles';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../../navigation/navigation';
 
 type InputType = 'email' | 'nya' | 'password';
-type RouterProps = NativeStackScreenProps<RootStackParamList, 'Registration'>;
+type RouterProps = MorfandoRouterParams<'Registration'>;
 
 export function UserRegistration({ navigation }: RouterProps) {
   const [email, setUserEmail] = React.useState<string>('');

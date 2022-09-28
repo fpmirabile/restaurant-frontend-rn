@@ -2,11 +2,20 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import {
   createNativeStackNavigator,
-  // type NativeStackScreenProps,
+  NativeStackScreenProps,
 } from '@react-navigation/native-stack';
-import { Login, Home, HomeNavHeader, UserRegistration } from '../components/pages/';
+import {
+  Login,
+  Home,
+  HomeNavHeader,
+  UserRegistration,
+} from '../components/pages/';
 
-export type RootStackParamList = {
+export type MorfandoRouterParams<
+  A extends keyof RootStackParamList,
+> = NativeStackScreenProps<RootStackParamList, A>;
+
+type RootStackParamList = {
   Home: undefined;
   Login: undefined;
   Registration: undefined;
@@ -14,8 +23,6 @@ export type RootStackParamList = {
   // Feed: { sort: 'latest' | 'top' } | undefined;
 };
 
-// This will allow to mock props in each view
-// export type RouterProps = NativeStackScreenProps<RootStackParamList, 'Registration'>;
 const Stack = createNativeStackNavigator<RootStackParamList>();
 export function Navigation() {
   return (
@@ -25,7 +32,7 @@ export function Navigation() {
           headerShown: false,
         }}
         initialRouteName="Login">
-        <Stack.Screen name="Login" component={Login}/>
+        <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Registration" component={UserRegistration} />
         <Stack.Screen
           options={{

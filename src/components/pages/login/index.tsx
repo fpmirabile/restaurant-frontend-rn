@@ -6,10 +6,9 @@ import { RegisterFooter } from './footer-registro';
 import { LoginWithSSO } from './sso-login';
 import { styles } from './styles';
 import { Title } from '../../shared/morfando-text';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../../navigation/navigation';
+import { MorfandoRouterParams } from '../../../navigation/navigation';
 
-type PropTypes = NativeStackScreenProps<RootStackParamList, 'Login'>;
+type PropTypes = MorfandoRouterParams<'Login'>;
 type Tab = 'client' | 'restaurant';
 
 export function Login({ navigation }: PropTypes) {
