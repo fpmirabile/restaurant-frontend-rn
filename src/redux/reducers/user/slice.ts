@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getUsernameAndPassword } from '../../../api/session';
+import { getUsernameAndPassword, setSession } from '../../../api/session';
 
 const initialLoading = createAsyncThunk(
   'general/loadApp',
@@ -29,8 +29,14 @@ const generalAppSlice = createSlice({
     },
   },
   reducers: {
-    login: (state, action: PayloadAction<string>) => {
-      state.auth.jwt = action.payload;
+    login: (
+      state,
+      action: PayloadAction<{ username: string; password: string }>,
+    ) => {
+      const { username, password } = action.payload;
+      setSession({ username, password });
+      state.auth.username = action.payload.username;
+      state.auth.password = action.payload.password;
     },
   },
   extraReducers(builder) {

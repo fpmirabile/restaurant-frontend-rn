@@ -7,11 +7,14 @@ import { LoginWithSSO } from './sso-login';
 import { styles } from './styles';
 import { Title } from '../../shared/morfando-text';
 import { MorfandoRouterParams } from '../../../navigation/navigation';
+import { useAppDispatch } from '../../../redux/store';
+import { general } from '../../../redux';
 
 interface PropTypes extends MorfandoRouterParams<'Login'> {}
 type Tab = 'client' | 'restaurant';
 
 export function Login({ navigation }: PropTypes) {
+  const dispatcher = useAppDispatch();
   const [selectedTab, setSelectedTab] = React.useState<Tab>('client');
   const clientStyles = [
     styles.tab,
@@ -31,14 +34,20 @@ export function Login({ navigation }: PropTypes) {
   };
 
   const onCredentialsLogin = () => {
+    dispatcher(
+      general.actions.login({ username: 'sarasa', password: 'sarasa' }),
+    );
     // TODO: Validation + Endpoint awaiting + checking responses
-    navigation.push("Home");
-  }
+    // navigation.push("Home");
+  };
 
   const onSSOLogin = () => {
+    dispatcher(
+      general.actions.login({ username: 'sarasa', password: 'sarasa' }),
+    );
     // TODO: Validation + Endpoint awaiting + checking responses
-    navigation.push("Home");
-  }
+    // navigation.push("Home");
+  };
 
   return (
     <View style={styles.container}>
@@ -67,8 +76,12 @@ export function Login({ navigation }: PropTypes) {
             </View>
             <View style={styles.selectedLoginContent}>
               <Title style={styles.loginTitle}>Login</Title>
-              {selectedTab === 'client' && <LoginWithSSO onLogin={onSSOLogin} />}
-              {selectedTab === 'restaurant' && <LoginWithCredentials onLogin={onCredentialsLogin} />}
+              {selectedTab === 'client' && (
+                <LoginWithSSO onLogin={onSSOLogin} />
+              )}
+              {selectedTab === 'restaurant' && (
+                <LoginWithCredentials onLogin={onCredentialsLogin} />
+              )}
             </View>
           </View>
         </View>

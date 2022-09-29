@@ -6,8 +6,9 @@ import {
 } from '@react-navigation/native-stack';
 import { Login, Home, UserRegistration } from '../components/pages/';
 import { HomeNavHeader } from '../components/headers';
-import { useAppSelector } from '../redux/store';
+import { useAppDispatch, useAppSelector } from '../redux/store';
 import { LoadingScreen } from '../components/loading-screen';
+import { general } from '../redux';
 
 export interface MorfandoRouterParams<A extends keyof RootStackParamList>
   extends NativeStackScreenProps<RootStackParamList, A> {}
@@ -22,11 +23,13 @@ type RootStackParamList = {
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 export function Navigation() {
+  const dispatcher = useAppDispatch();
   const {
     isAppInitLoading,
     auth: { username },
   } = useAppSelector(state => state.general);
   if (isAppInitLoading) {
+    dispatcher(general.actions.initialLoading());
     return <LoadingScreen />;
   }
 
@@ -37,12 +40,12 @@ export function Navigation() {
           headerShown: false,
         }}>
         {!username ? ( // !username == significa que no existe el usuario o nunca se logeo. Por ende todo lo que esta a continuacion del "?" es un flow de registro/login
-          <>
+          <Stack.Group>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Registration" component={UserRegistration} />
-          </>
+          </Stack.Group>
         ) : (
-          <>
+          <Stack.Group>
             <Stack.Screen
               options={{
                 header: () => {
@@ -53,7 +56,7 @@ export function Navigation() {
               component={Home}
               name="Home"
             />
-          </>
+          </Stack.Group>
         )}
       </Stack.Navigator>
     </NavigationContainer>

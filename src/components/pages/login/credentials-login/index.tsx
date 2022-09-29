@@ -9,7 +9,9 @@ interface PropTypes {
   onLogin: () => void;
 }
 
-export function LoginWithCredentials({ onLogin }: PropTypes) {
+export const LoginWithCredentials = React.memo(LoginWithCredentialsComponent);
+
+function LoginWithCredentialsComponent({ onLogin }: PropTypes) {
   const [username, setUsername] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
 
