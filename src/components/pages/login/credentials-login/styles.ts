@@ -2,11 +2,9 @@ import { StyleSheet } from 'react-native';
 import { COLORS } from '../../../../style-constants';
 
 export const styles = StyleSheet.create({
-  description: {
-    letterSpacing: 0.5,
-    fontSize: 16,
-    lineHeight: 24,
-    color: COLORS.blueSecondary,
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
   },
   emailInput: {
     marginTop: 16,
@@ -14,7 +12,6 @@ export const styles = StyleSheet.create({
   },
   forgotPassword: {
     marginVertical: 16,
-    width: '100%',
   },
   forgotPasswordColor: {
     color: COLORS.darkPink,

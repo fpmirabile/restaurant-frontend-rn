@@ -4,6 +4,7 @@ import { MorfandoRouterParams } from '../../../navigation/navigation';
 import { Body, Body2, Input } from '../../shared';
 import { styles } from './styles';
 import { Shadow } from 'react-native-shadow-2';
+import { removeSession } from '../../../api/session';
 const TestImage = require('../../../assets/images/image.png');
 
 interface PropTypes extends MorfandoRouterParams<'Home'> {}
@@ -26,7 +27,7 @@ const RestaurantItem = React.memo(
         {disabled && (
           <View style={styles.backdrop}>
             <View style={styles.backdropInnerContainer}>
-              <Body center fontType='bold' style={{ color: 'white' }}>
+              <Body center fontType="bold" style={{ color: 'white' }}>
                 Cerrado temporalmente
               </Body>
             </View>
@@ -106,6 +107,7 @@ const header = () => {
 };
 
 export function Home({}: PropTypes) {
+  removeSession();
   return (
     <View style={styles.container}>
       <FlatList

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {
   View,
-  Text,
   TouchableOpacity,
   StyleProp,
   ViewStyle,
@@ -16,7 +15,7 @@ interface PropTypes {
   onPressIn?: () => void;
   onPressOut?: () => void;
   containerStyles?: StyleProp<ViewStyle>;
-  textColorStyle?: StyleProp<TextStyle>;
+  textStyles?: StyleProp<TextStyle>;
   type?: TouchableType;
 }
 
@@ -34,29 +33,34 @@ export function TouchableText({
   onPressIn,
   onPressOut,
   containerStyles = {},
+  textStyles = {},
   type = 'body',
 }: PropTypes) {
   return (
-    <View style={[styles.container, containerStyles]}>
-      <TouchableOpacity
-        onPress={onPress}
-        onPressIn={onPressIn}
-        onPressOut={onPressOut}>
-        {type === 'title' && <Title>{message}</Title>}
-        {type === 'body' && <Body center>{message}</Body>}
+    <TouchableOpacity
+      onPress={onPress}
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}>
+      <View style={[styles.container, containerStyles]}>
+        {type === 'title' && <Title style={textStyles}>{message}</Title>}
+        {type === 'body' && (
+          <Body style={textStyles} center>
+            {message}
+          </Body>
+        )}
         {type === 'body2DarkPink' && (
-          <Body2 darkPinkColor fontType="bold">
+          <Body2 style={textStyles} darkPinkColor fontType="bold">
             {message}
           </Body2>
         )}
-        {type === 'caption' && <Caption>{message}</Caption>}
-        {type === 'ctaText' && <CTAText>{message}</CTAText>}
+        {type === 'caption' && <Caption style={textStyles}>{message}</Caption>}
+        {type === 'ctaText' && <CTAText style={textStyles}>{message}</CTAText>}
         {type === 'captionDarkPink' && (
-          <Caption darkPinkColor fontType="bold">
+          <Caption style={textStyles} darkPinkColor fontType="bold">
             {message}
           </Caption>
         )}
-      </TouchableOpacity>
-    </View>
+      </View>
+    </TouchableOpacity>
   );
 }

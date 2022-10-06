@@ -25,16 +25,16 @@ function LoginWithCredentialsComponent({ onLogin }: PropTypes) {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Body>
         Utilice su correo electrónico y contraseña para administrar sus
         restaurantes.
       </Body>
       <Input
         onChangeText={handleInputOnChange('username')}
-        containerStyles={styles.emailInput}
         value={username}
         placeholder="Email"
+        containerStyles={styles.emailInput}
       />
       <Input
         onChangeText={handleInputOnChange('password')}
@@ -43,7 +43,7 @@ function LoginWithCredentialsComponent({ onLogin }: PropTypes) {
       />
       <TouchableText
         containerStyles={styles.forgotPassword}
-        textColorStyle={styles.forgotPasswordColor}
+        textStyles={styles.forgotPasswordColor}
         message="¿Olvidaste tu contraseña?"
       />
       <Button title="Ingresar" onPress={onLogin} />

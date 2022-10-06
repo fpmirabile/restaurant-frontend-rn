@@ -15,6 +15,8 @@ export const styles = StyleSheet.create({
     letterSpacing: 0.15,
     color: COLORS.black,
     paddingHorizontal: 16,
+    height: 46,
+    fontFamily: 'OpenSans-Regular',
     flex: 1,
   },
   rightIcon: {
@@ -23,5 +25,5 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     resizeMode: 'stretch',
     alignItems: 'center',
-  }
+  },
 });

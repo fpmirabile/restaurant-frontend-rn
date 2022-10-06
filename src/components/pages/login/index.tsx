@@ -1,14 +1,13 @@
 import * as React from 'react';
 import { View, ImageBackground } from 'react-native';
-import { TouchableText } from '../../shared';
+import { TouchableText, Title } from '../../shared';
 import { LoginWithCredentials } from './credentials-login';
 import { RegisterFooter } from './footer-registro';
 import { LoginWithSSO } from './sso-login';
-import { styles } from './styles';
-import { Title } from '../../shared/morfando-text';
 import { MorfandoRouterParams } from '../../../navigation/navigation';
 import { useAppDispatch } from '../../../redux/store';
 import { general } from '../../../redux';
+import { styles } from './styles';
 
 interface PropTypes extends MorfandoRouterParams<'Login'> {}
 type Tab = 'client' | 'restaurant';
@@ -54,23 +53,29 @@ export function Login({ navigation }: PropTypes) {
       <ImageBackground
         source={require('../../../assets/images/background.png')}
         resizeMode="center"
-        style={styles.image}>
+        style={styles.imageBackground}>
         <View style={styles.title}>
           <Title>Morfando Inc</Title>
         </View>
-        <View style={{ flex: 6 }}>
-          <View style={[styles.loginBox, styles.elevation]}>
+        <View style={styles.topSideContainer}>
+          <View
+            style={[
+              styles.loginBox,
+              selectedTab === 'restaurant' ? styles.loginBoxFlex : {},
+            ]}>
             <View style={styles.tabs}>
-              <View style={clientStyles}>
+              <View style={{ flex: 1 }}>
                 <TouchableText
                   onPress={handleTabPress('client')}
                   message="Soy cliente"
+                  containerStyles={clientStyles}
                 />
               </View>
-              <View style={restaurantStyles}>
+              <View style={{ flex: 1 }}>
                 <TouchableText
                   onPress={handleTabPress('restaurant')}
                   message="Soy dueño de restaurante"
+                  containerStyles={restaurantStyles}
                 />
               </View>
             </View>
@@ -85,7 +90,7 @@ export function Login({ navigation }: PropTypes) {
             </View>
           </View>
         </View>
-        <View style={{ flex: 1 }}>
+        <View style={styles.footerContainer}>
           <RegisterFooter
             onRegistration={goToRegistration}
             showRegisterButton={selectedTab === 'restaurant'}

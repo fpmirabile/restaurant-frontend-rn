@@ -1,20 +1,12 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  client: {},
-
-  textContainer:{
-    // justifyContent: 'space-between',
-    // alignSelf:'stretch',
-    marginTop: 16,
-    fontFamily:"FredokaOne-Regular",
-  },
-  
-  container:{
-    flexDirection: 'column',
+  container: {
+    flex: 1,
     justifyContent: 'space-between',
-    display: 'flex',
-    height:120,
-    fontFamily:"FredokaOne-Regular",
-  }
+  },
+  textContainer: {
+    marginTop: 16,
+  },
+  buttonContainer: {},
 });

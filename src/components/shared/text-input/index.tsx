@@ -1,6 +1,12 @@
 import * as React from 'react';
-import { ImageSourcePropType } from 'react-native';
-import { Image, StyleProp, TextInput, View, ViewStyle } from 'react-native';
+import {
+  Image,
+  StyleProp,
+  TextInput,
+  View,
+  ViewStyle,
+  ImageSourcePropType,
+} from 'react-native';
 import { styles } from './styles';
 
 interface PropTypes {
