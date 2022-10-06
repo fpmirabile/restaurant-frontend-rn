@@ -8,7 +8,9 @@ interface PropTypes {
   onLogin: () => void;
 }
 
-export function LoginWithSSO({ onLogin }: PropTypes) {
+export const LoginWithSSO = React.memo(LoginWithSSOComponent);
+
+function LoginWithSSOComponent({ onLogin }: PropTypes) {
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>

@@ -8,7 +8,9 @@ interface PropTypes {
   showRegisterButton: boolean;
 }
 
-export function RegisterFooter({
+export const RegisterFooter = React.memo(RegisterFooterComponent);
+
+function RegisterFooterComponent({
   onRegistration,
   showRegisterButton,
 }: PropTypes) {

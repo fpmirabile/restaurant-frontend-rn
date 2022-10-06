@@ -1,2 +1,2 @@
 export { store } from './store';
-export { testReducer } from './reducers/test/reducer';
+export { general } from './reducers/user/slice';
