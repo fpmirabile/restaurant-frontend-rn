@@ -7,7 +7,7 @@ import {
   TextStyle,
 } from 'react-native';
 import { styles } from './styles';
-import { Body, Title, Caption, Body2, CTAText } from '../';
+import { Body, Title, Caption, Body2, CTAText } from '../morfando-text';
 
 interface PropTypes {
   message: string;

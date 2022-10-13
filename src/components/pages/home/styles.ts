@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { COLORS } from '../../../style-constants';
+import { COLORS } from '../../../constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -7,11 +7,11 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: COLORS.white,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   listHeaderContainer: {
     justifyContent: 'center',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
   },
   inputContainer: {
     marginBottom: 16,
@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
   },
   titleContainer: {
     marginBottom: 16,
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   restaurantIcon: {
     width: 24,
@@ -45,5 +45,5 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.blueSecondary,
     padding: 10,
     borderRadius: 4,
-  }
+  },
 });

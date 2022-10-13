@@ -4,8 +4,8 @@ import {
   createNativeStackNavigator,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
-import { Login, Home, UserRegistration } from '../components/pages/';
-import { HomeNavHeader } from '../components/headers';
+import { Login, Home, UserRegistration, Profile } from '../components/pages/';
+import { HomeNavHeader, ProfileNavHeader } from '../components/headers';
 import { useAppDispatch, useAppSelector } from '../redux/store';
 import { LoadingScreen } from '../components/loading-screen';
 import { general } from '../redux';
@@ -17,7 +17,7 @@ type RootStackParamList = {
   Home: undefined;
   Login: undefined;
   Registration: undefined;
-  // Profile: { userId: string };
+  Profile: undefined;
   // Feed: { sort: 'latest' | 'top' } | undefined;
 };
 
@@ -39,7 +39,7 @@ export function Navigation() {
         screenOptions={{
           headerShown: false,
         }}>
-        {!username ? ( // !username == significa que no existe el usuario o nunca se logeo. Por ende todo lo que esta a continuacion del "?" es un flow de registro/login
+        {!username ? (
           <Stack.Group>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Registration" component={UserRegistration} />
@@ -48,13 +48,30 @@ export function Navigation() {
           <Stack.Group>
             <Stack.Screen
               options={{
-                header: () => {
-                  return <HomeNavHeader />;
+                header: ({ navigation }) => {
+                  const handleHamburgerPress = () => {
+                    navigation.navigate('Profile');
+                  };
+
+                  return (
+                    <HomeNavHeader onHamburgerClick={handleHamburgerPress} />
+                  );
                 },
                 headerShown: true,
               }}
               component={Home}
               name="Home"
+            />
+            <Stack.Screen
+              name="Profile"
+              component={Profile}
+              options={{
+                animation: 'slide_from_left',
+                header: ({ navigation }) => (
+                  <ProfileNavHeader onPressBack={navigation.goBack} />
+                ),
+                headerShown: true,
+              }}
             />
           </Stack.Group>
         )}

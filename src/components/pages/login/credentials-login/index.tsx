@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { Button, Input, TouchableText } from '../../../shared';
 import { styles } from './styles';
 import { Body } from '../../../shared/morfando-text';
+import { localizedStrings } from '../../../../localization/localized-strings';
 
 type InputType = 'username' | 'password';
 interface PropTypes {
@@ -33,20 +34,20 @@ function LoginWithCredentialsComponent({ onLogin }: PropTypes) {
       <Input
         onChangeText={handleInputOnChange('username')}
         value={username}
-        placeholder="Email"
+        placeholder={localizedStrings.login.email}
         containerStyles={styles.emailInput}
       />
       <Input
         onChangeText={handleInputOnChange('password')}
         value={password}
-        placeholder="Contraseña"
+        placeholder={localizedStrings.login.password}
       />
       <TouchableText
         containerStyles={styles.forgotPassword}
         textStyles={styles.forgotPasswordColor}
-        message="¿Olvidaste tu contraseña?"
+        message={localizedStrings.login.forgotPassword}
       />
-      <Button title="Ingresar" onPress={onLogin} />
+      <Button title={localizedStrings.login.login} onPress={onLogin} />
     </View>
   );
 }
