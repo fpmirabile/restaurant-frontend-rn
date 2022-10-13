@@ -1,14 +1,20 @@
 import * as React from 'react';
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
+import { ICONS } from '../../../constants';
 import { Title } from '../../shared';
+import { ImageButton } from '../../shared/';
 import { styles } from './styles';
 
-export function HomeNavHeader() {
+interface PropTypes {
+  onHamburgerClick: () => void;
+}
+
+export function HomeNavHeader({ onHamburgerClick }: PropTypes) {
   return (
     <View style={styles.headerContainer}>
-      <Image source={require('../../../assets/images/icons/burger-icon.png')} />
+      <ImageButton onPress={onHamburgerClick} imageSvg={ICONS.burgerMenu} />
       <Title darkPinkColor>Morfando Inc</Title>
-      <Image source={require('../../../assets/images/icons/filter-icon.png')} />
+      <ImageButton imageSvg={ICONS.filter} />
     </View>
   );
 }

@@ -5,6 +5,7 @@ import { Body, Body2, Input } from '../../shared';
 import { styles } from './styles';
 import { Shadow } from 'react-native-shadow-2';
 import { removeSession } from '../../../api/session';
+import { ICONS } from '../../../constants';
 const TestImage = require('../../../assets/images/image.png');
 
 interface PropTypes extends MorfandoRouterParams<'Home'> {}
@@ -15,7 +16,7 @@ const condition = (/*prevProps, nextProps*/) => {
 
 const RestaurantItem = React.memo(
   ({ index }: ListRenderItemInfo<any>): JSX.Element => {
-    const favorite = index % 2 === 0;
+    // const favorite = index % 2 === 0;
     const disabled = index === 1;
     return (
       <Shadow
@@ -47,13 +48,13 @@ const RestaurantItem = React.memo(
             <Body>Parrilla</Body>
           </View>
           <View style={{ justifyContent: 'center' }}>
-            <Image
+            {/* <Image
               source={
                 favorite
-                  ? require('../../../assets/images/icons/like.png')
+                  ?
                   : require('../../../assets/images/icons/not-fill-like.png')
               }
-            />
+            /> */}
           </View>
         </View>
         <View>
@@ -86,6 +87,8 @@ const RestaurantItem = React.memo(
 );
 
 const header = () => {
+  const RestaurantIcon = React.memo(ICONS.restaurant);
+
   return (
     <View style={styles.listHeaderContainer}>
       <View style={styles.inputContainer}>
@@ -96,10 +99,7 @@ const header = () => {
         />
       </View>
       <View style={styles.titleContainer}>
-        <Image
-          style={styles.restaurantIcon}
-          source={require('../../../assets/images/icons/restaurant-icon.png')}
-        />
+        <View style={styles.restaurantIcon}>{<RestaurantIcon />}</View>
         <Body fontType="bold">Restaurantes cerca tuyo</Body>
       </View>
     </View>

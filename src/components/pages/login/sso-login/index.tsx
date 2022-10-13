@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { View } from 'react-native';
+import { localizedStrings } from '../../../../localization/localized-strings';
 import { Button, Body } from '../../../shared';
 import { styles } from './styles';
 
@@ -16,7 +17,7 @@ function LoginWithSSOComponent({ onLogin }: PropTypes) {
         <Body>Inicie sesión o regístrese utilizando su cuenta de Google.</Body>
       </View>
       <View style={styles.buttonContainer}>
-        <Button title="Inicia sesion con Google" onPress={onLogin} />
+        <Button title={localizedStrings.login.ssoLogin} onPress={onLogin} />
       </View>
     </View>
   );

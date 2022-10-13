@@ -1,7 +1,11 @@
 import { StyleSheet } from 'react-native';
-import { COLORS } from '../../../style-constants';
+import { COLORS } from '../../../constants';
 
 export const styles = StyleSheet.create({
+  shadowContainer: {
+    borderRadius: 4,
+    backgroundColor: COLORS.white,
+  },
   container: {
     backgroundColor: COLORS.darkPink,
     paddingHorizontal: 6,
@@ -13,9 +17,15 @@ export const styles = StyleSheet.create({
   },
   title: {
     color: COLORS.white,
-    fontSize: 14,
-    fontWeight: '700',
-    lineHeight: 16,
-    fontFamily:"FredokaOne-Regular",
   },
+  transparent: {
+    backgroundColor: COLORS.white,
+    margin: 16,
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+  },
+  hasRightIcon: {
+    justifyContent: 'space-between',
+  },
+  rightIcon: {},
 });

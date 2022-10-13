@@ -12,3 +12,4 @@ export {
   Headline6,
 } from './morfando-text';
 export { ScrollPage } from './scroll-page';
+export { ImageButton } from './image-button';

@@ -47,12 +47,10 @@ export const Body = ({
   fontType,
   ...props
 }: AppTextProps) => {
-  const font =
-    fontType === 'regular'
-      ? [styles.body]
-      : fontType === 'bold'
-      ? [styles.bold]
-      : [];
+  const font = [
+    fontType === 'regular' && styles.body,
+    fontType === 'bold' && styles.bold,
+  ];
   return (
     <AppText
       {...props}
@@ -74,12 +72,10 @@ export const Body2 = ({
   fontType,
   ...props
 }: AppTextProps) => {
-  const font =
-    fontType === 'regular'
-      ? [styles.body]
-      : fontType === 'bold'
-      ? [styles.bold]
-      : [];
+  const font = [
+    fontType === 'regular' && styles.body,
+    fontType === 'bold' && styles.bold,
+  ];
   return (
     <AppText
       {...props}
@@ -105,12 +101,10 @@ export const Caption = ({
   fontType,
   ...props
 }: AppTextProps) => {
-  const font =
-    fontType === 'regular'
-      ? [styles.body]
-      : fontType === 'bold'
-      ? [styles.bold]
-      : [];
+  const font = [
+    fontType === 'regular' && styles.body,
+    fontType === 'bold' && styles.bold,
+  ];
   return (
     <AppText
       {...props}

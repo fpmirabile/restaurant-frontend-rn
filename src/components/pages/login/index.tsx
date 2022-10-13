@@ -8,6 +8,7 @@ import { MorfandoRouterParams } from '../../../navigation/navigation';
 import { useAppDispatch } from '../../../redux/store';
 import { general } from '../../../redux';
 import { styles } from './styles';
+import { localizedStrings } from '../../../localization/localized-strings';
 
 interface PropTypes extends MorfandoRouterParams<'Login'> {}
 type Tab = 'client' | 'restaurant';
@@ -55,7 +56,7 @@ export function Login({ navigation }: PropTypes) {
         resizeMode="center"
         style={styles.imageBackground}>
         <View style={styles.title}>
-          <Title>Morfando Inc</Title>
+          <Title>{localizedStrings.appName}</Title>
         </View>
         <View style={styles.topSideContainer}>
           <View
@@ -67,14 +68,14 @@ export function Login({ navigation }: PropTypes) {
               <View style={{ flex: 1 }}>
                 <TouchableText
                   onPress={handleTabPress('client')}
-                  message="Soy cliente"
+                  message={localizedStrings.login.iAmClient}
                   containerStyles={clientStyles}
                 />
               </View>
               <View style={{ flex: 1 }}>
                 <TouchableText
                   onPress={handleTabPress('restaurant')}
-                  message="Soy dueño de restaurante"
+                  message={localizedStrings.login.iAmOwner}
                   containerStyles={restaurantStyles}
                 />
               </View>

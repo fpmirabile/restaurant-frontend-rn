@@ -1,16 +1,29 @@
 import * as React from 'react';
-import { TouchableOpacity, Image, ImageSourcePropType } from 'react-native';
-import { style } from './style';
+import {
+  TouchableOpacity,
+  Image,
+  ImageSourcePropType,
+  ImageStyle,
+} from 'react-native';
+import { SvgProps } from 'react-native-svg';
 
 interface PropTypes {
   onPress?: () => void;
-  imageSource: ImageSourcePropType;
+  imageStyle?: ImageStyle;
+  imageSource?: ImageSourcePropType;
+  imageSvg?: React.FC<SvgProps>;
 }
 
-export function ImageButton({ onPress, imageSource }: PropTypes) {
+export function ImageButton({
+  onPress,
+  imageStyle = {},
+  imageSource,
+  imageSvg: ImageSVG,
+}: PropTypes) {
   return (
     <TouchableOpacity onPress={onPress}>
-      <Image source={imageSource} />
+      {!!ImageSVG && <ImageSVG style={imageStyle} />}
+      {!!imageSource && <Image style={imageStyle} source={imageSource} />}
     </TouchableOpacity>
   );
 }
