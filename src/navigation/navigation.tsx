@@ -4,8 +4,8 @@ import {
   createNativeStackNavigator,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
-import { Login, Home, UserRegistration, Profile } from '../components/pages/';
-import { HomeNavHeader, ProfileNavHeader } from '../components/headers';
+import { Login, Home, UserRegistration, Profile } from '../pages';
+import { HomeNavHeader, ProfileNavHeader } from '../headers';
 import { useAppSelector } from '../redux/store';
 import { LoadingScreen } from '../components/loading-screen';
 

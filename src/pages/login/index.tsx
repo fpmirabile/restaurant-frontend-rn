@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { View, ImageBackground } from 'react-native';
-import { TouchableText, Title } from '../../shared';
+import { TouchableText, Title } from '../../components/shared';
 import { LoginWithCredentials } from './credentials-login';
 import { RegisterFooter } from './footer-registro';
 import { LoginWithSSO } from './sso-login';
-import { MorfandoRouterParams } from '../../../navigation/navigation';
-import { useAppDispatch } from '../../../redux/store';
-import { actions } from '../../../redux';
+import { MorfandoRouterParams } from '../../navigation/navigation';
+import { useAppDispatch } from '../../redux/store';
+import { actions } from '../../redux';
 import { styles } from './styles';
-import { localizedStrings } from '../../../localization/localized-strings';
+import { localizedStrings } from '../../localization/localized-strings';
 
 interface PropTypes extends MorfandoRouterParams<'Login'> {}
 type Tab = 'client' | 'restaurant';

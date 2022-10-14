@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { View, Image, SectionList } from 'react-native';
 import { SvgProps } from 'react-native-svg';
-import { ICONS } from '../../../constants';
-import { localizedStrings } from '../../../localization/localized-strings';
+import { ICONS } from '../../constants';
+import { localizedStrings } from '../../localization/localized-strings';
 import {
   Body,
   TransparentButton,
   Caption,
   ImageButton,
   Title,
-} from '../../shared';
+} from '../../components/shared';
 import { styles } from './styles';
 
 interface HeaderProps {

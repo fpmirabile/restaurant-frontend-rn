@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { View, ImageBackground } from 'react-native';
-import { Input, TouchableText } from '../../shared';
-import { Body, Title } from '../../shared/morfando-text';
-import { Button } from '../../shared';
-import { MorfandoRouterParams } from '../../../navigation/navigation';
+import { Input, TouchableText } from '../../components/shared';
+import { Body, Title } from '../../components/shared/morfando-text';
+import { Button } from '../../components/shared';
+import { MorfandoRouterParams } from '../../navigation/navigation';
 import { styles } from './styles';
 
 type InputType = 'email' | 'nya' | 'password';

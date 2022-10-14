@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { View } from 'react-native';
-import { ICONS } from '../../../../constants';
-import { localizedStrings } from '../../../../localization/localized-strings';
-import { Body, TransparentButton } from '../../../shared';
+import { ICONS } from '../../../constants';
+import { localizedStrings } from '../../../localization/localized-strings';
+import { Body, TransparentButton } from '../../../components/shared';
 import { styles } from './styles';
 
 interface PropTypes {

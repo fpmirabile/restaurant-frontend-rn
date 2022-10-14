@@ -1,9 +1,13 @@
 import * as React from 'react';
 import { View } from 'react-native';
-import { ColorfulButton, Input, TouchableText } from '../../../shared';
+import {
+  ColorfulButton,
+  Input,
+  TouchableText,
+} from '../../../components/shared';
 import { styles } from './styles';
-import { Body } from '../../../shared/morfando-text';
-import { localizedStrings } from '../../../../localization/localized-strings';
+import { Body } from '../../../components/shared/morfando-text';
+import { localizedStrings } from '../../../localization/localized-strings';
 
 type InputType = 'username' | 'password';
 interface PropTypes {
