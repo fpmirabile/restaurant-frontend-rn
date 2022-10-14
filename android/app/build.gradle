@@ -285,6 +285,8 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    implementation 'com.facebook.fresco:animated-gif:2.5.0'
 }
 
 if (isNewArchitectureEnabled()) {

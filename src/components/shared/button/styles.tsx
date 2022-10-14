@@ -14,6 +14,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 4,
+    height: 36,
   },
   title: {
     color: COLORS.white,
@@ -28,4 +29,9 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   rightIcon: {},
+  loadingIcon: {
+    alignSelf: 'center',
+    height: 38,
+    width: 38,
+  },
 });

@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Image } from 'react-native';
 import { Shadow } from 'react-native-shadow-2';
 import { SvgProps } from 'react-native-svg';
 import { Body2 } from '../morfando-text';
 import { styles } from './styles';
 
 type ButtonType = 'transparent' | 'normal';
-
 interface PropTypes {
   title: string;
+  isLoading?: boolean;
   onPress?: () => void;
   onLongPress?: () => void;
   buttonType?: ButtonType;
@@ -17,6 +17,7 @@ interface PropTypes {
 
 export function Button({
   title,
+  isLoading = false,
   onPress,
   onLongPress,
   rightIcon: SvgIcon,
@@ -36,11 +37,19 @@ export function Button({
             buttonType === 'transparent' && styles.transparent,
             !!SvgIcon && styles.hasRightIcon,
           ]}>
-          <Body2
-            fontType="bold"
-            style={[buttonType === 'normal' && styles.title]}>
-            {title}
-          </Body2>
+          {!isLoading && (
+            <Body2
+              fontType="bold"
+              style={[buttonType === 'normal' && styles.title]}>
+              {title}
+            </Body2>
+          )}
+          {isLoading && (
+            <Image
+              style={styles.loadingIcon}
+              source={require('../../../assets/images/loading/loading.gif')}
+            />
+          )}
           {!!SvgIcon && <SvgIcon style={styles.rightIcon} />}
         </View>
       </Shadow>

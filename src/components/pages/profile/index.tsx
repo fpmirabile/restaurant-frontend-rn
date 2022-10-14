@@ -40,7 +40,7 @@ const Item = React.memo(({ buttons }: ItemProps) => {
     <View>
       {buttons.map(({ buttonAction, buttonTitle, icon }, index) => {
         return (
-          <View key={`btn-${index}`} style={{ marginVertical: 4 }}>
+          <View key={`btn-${index}`} style={styles.buttonContainer}>
             <Button
               buttonType="transparent"
               title={buttonTitle}

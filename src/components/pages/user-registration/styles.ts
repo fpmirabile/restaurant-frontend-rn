@@ -21,7 +21,10 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     width: 328,
   },
-  loginBox: {
+  whiteBoxContainer: {
+    flex: 3,
+  },
+  whiteBox: {
     backgroundColor: COLORS.white,
     borderRadius: 4,
     marginHorizontal: 24,

@@ -6,9 +6,8 @@ import {
 } from '@react-navigation/native-stack';
 import { Login, Home, UserRegistration, Profile } from '../components/pages/';
 import { HomeNavHeader, ProfileNavHeader } from '../components/headers';
-import { useAppDispatch, useAppSelector } from '../redux/store';
+import { useAppSelector } from '../redux/store';
 import { LoadingScreen } from '../components/loading-screen';
-import { general } from '../redux';
 
 export interface MorfandoRouterParams<A extends keyof RootStackParamList>
   extends NativeStackScreenProps<RootStackParamList, A> {}
@@ -23,13 +22,11 @@ type RootStackParamList = {
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 export function Navigation() {
-  const dispatcher = useAppDispatch();
   const {
     isAppInitLoading,
     auth: { username },
   } = useAppSelector(state => state.general);
   if (isAppInitLoading) {
-    dispatcher(general.actions.initialLoading());
     return <LoadingScreen />;
   }
 

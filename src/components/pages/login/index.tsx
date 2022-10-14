@@ -14,14 +14,15 @@ interface PropTypes extends MorfandoRouterParams<'Login'> {}
 type Tab = 'client' | 'restaurant';
 
 export function Login({ navigation }: PropTypes) {
-  const dispatcher = useAppDispatch();
+  const dispatch = useAppDispatch();
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [selectedTab, setSelectedTab] = React.useState<Tab>('client');
   const clientStyles = [
-    styles.tab,
+    styles.tabTextContainer,
     selectedTab === 'client' ? {} : styles.notSelectedTab,
   ];
   const restaurantStyles = [
-    styles.tab,
+    styles.tabTextContainer,
     selectedTab === 'restaurant' ? {} : styles.notSelectedTab,
   ];
 
@@ -34,17 +35,24 @@ export function Login({ navigation }: PropTypes) {
   };
 
   const onCredentialsLogin = () => {
-    dispatcher(
-      general.actions.login({ username: 'sarasa', password: 'sarasa' }),
-    );
+    setIsLoading(true);
+    setTimeout(() => {
+      dispatch(
+        general.actions.login({ username: 'sarasa', password: 'sarasa' }),
+      );
+    }, 1000);
     // TODO: Validation + Endpoint awaiting + checking responses
     // navigation.push("Home");
   };
 
   const onSSOLogin = () => {
-    dispatcher(
-      general.actions.login({ username: 'sarasa', password: 'sarasa' }),
-    );
+    setIsLoading(true);
+    setTimeout(() => {
+      dispatch(
+        general.actions.login({ username: 'sarasa', password: 'sarasa' }),
+      );
+    }, 1000);
+
     // TODO: Validation + Endpoint awaiting + checking responses
     // navigation.push("Home");
   };
@@ -65,14 +73,14 @@ export function Login({ navigation }: PropTypes) {
               selectedTab === 'restaurant' ? styles.loginBoxFlex : {},
             ]}>
             <View style={styles.tabs}>
-              <View style={{ flex: 1 }}>
+              <View style={styles.tab}>
                 <TouchableText
                   onPress={handleTabPress('client')}
                   message={localizedStrings.login.iAmClient}
                   containerStyles={clientStyles}
                 />
               </View>
-              <View style={{ flex: 1 }}>
+              <View style={styles.tab}>
                 <TouchableText
                   onPress={handleTabPress('restaurant')}
                   message={localizedStrings.login.iAmOwner}
@@ -83,10 +91,13 @@ export function Login({ navigation }: PropTypes) {
             <View style={styles.selectedLoginContent}>
               <Title style={styles.loginTitle}>Login</Title>
               {selectedTab === 'client' && (
-                <LoginWithSSO onLogin={onSSOLogin} />
+                <LoginWithSSO isLoading={isLoading} onLogin={onSSOLogin} />
               )}
               {selectedTab === 'restaurant' && (
-                <LoginWithCredentials onLogin={onCredentialsLogin} />
+                <LoginWithCredentials
+                  isLoading={isLoading}
+                  onLogin={onCredentialsLogin}
+                />
               )}
             </View>
           </View>

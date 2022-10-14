@@ -24,4 +24,7 @@ export const styles = StyleSheet.create({
   editIcon: {
     marginLeft: 8,
   },
+  buttonContainer: {
+    marginVertical: 4,
+  },
 });

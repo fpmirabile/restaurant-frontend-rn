@@ -42,8 +42,8 @@ export function UserRegistration({ navigation }: RouterProps) {
           fácil y rápida.
         </Body>
       </View>
-      <View style={{ flex: 3 }}>
-        <View style={[styles.loginBox, styles.elevation]}>
+      <View style={styles.whiteBoxContainer}>
+        <View style={[styles.whiteBox, styles.elevation]}>
           <View style={styles.selectedLoginContent}>
             <Input
               onChangeText={handleInputOnChange('email')}
@@ -79,7 +79,8 @@ export function UserRegistration({ navigation }: RouterProps) {
             message="Cancelar"
             type="ctaText"
             containerStyles={styles.cancelCta}
-            onPress={goToMain}></TouchableText>
+            onPress={goToMain}
+          />
         </View>
       </View>
     </ImageBackground>

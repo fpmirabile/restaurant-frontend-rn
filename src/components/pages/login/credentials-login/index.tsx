@@ -7,12 +7,13 @@ import { localizedStrings } from '../../../../localization/localized-strings';
 
 type InputType = 'username' | 'password';
 interface PropTypes {
+  isLoading: boolean;
   onLogin: () => void;
 }
 
 export const LoginWithCredentials = React.memo(LoginWithCredentialsComponent);
 
-function LoginWithCredentialsComponent({ onLogin }: PropTypes) {
+function LoginWithCredentialsComponent({ isLoading, onLogin }: PropTypes) {
   const [username, setUsername] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
 
@@ -47,7 +48,11 @@ function LoginWithCredentialsComponent({ onLogin }: PropTypes) {
         textStyles={styles.forgotPasswordColor}
         message={localizedStrings.login.forgotPassword}
       />
-      <Button title={localizedStrings.login.login} onPress={onLogin} />
+      <Button
+        isLoading={isLoading}
+        title={localizedStrings.login.login}
+        onPress={onLogin}
+      />
     </View>
   );
 }

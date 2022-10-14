@@ -22,8 +22,16 @@ export function ImageButton({
 }: PropTypes) {
   return (
     <TouchableOpacity onPress={onPress}>
-      {!!ImageSVG && <ImageSVG style={imageStyle} />}
-      {!!imageSource && <Image style={imageStyle} source={imageSource} />}
+      {ImageSVG ? (
+        <ImageSVG style={imageStyle} />
+      ) : (
+        <Image
+          style={imageStyle}
+          source={
+            imageSource || require('../../../assets/images/not-found.png')
+          }
+        />
+      )}
     </TouchableOpacity>
   );
 }

@@ -33,6 +33,9 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   tab: {
+    flex: 1,
+  },
+  tabTextContainer: {
     borderTopWidth: 2,
     borderTopColor: COLORS.darkPink,
     paddingHorizontal: 16,
