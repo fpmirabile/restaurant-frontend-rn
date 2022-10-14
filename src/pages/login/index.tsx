@@ -60,7 +60,7 @@ export function Login({ navigation }: PropTypes) {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('../../../assets/images/background.png')}
+        source={require('../../assets/images/background.png')}
         resizeMode="center"
         style={styles.imageBackground}>
         <View style={styles.title}>

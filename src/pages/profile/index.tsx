@@ -21,7 +21,7 @@ interface HeaderProps {
 const Header = ({}: HeaderProps) => {
   return (
     <View style={styles.personalInformationContainer}>
-      <Image source={require('../../../assets/images/temporal/Ellipse.png')} />
+      <Image source={require('../../assets/images/temporal/Ellipse.png')} />
       <View style={styles.personalNameContainer}>
         <View style={styles.profileName}>
           <Title>Lucas</Title>

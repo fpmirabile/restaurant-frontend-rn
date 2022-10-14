@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, ImageBackground } from 'react-native';
 import { Input, TouchableText } from '../../components/shared';
 import { Body, Title } from '../../components/shared/morfando-text';
-import { Button } from '../../components/shared';
+import { ColorfulButton } from '../../components/shared';
 import { MorfandoRouterParams } from '../../navigation/navigation';
 import { styles } from './styles';
 
@@ -32,7 +32,7 @@ export function UserRegistration({ navigation }: RouterProps) {
 
   return (
     <ImageBackground
-      source={require('../../../assets/images/background.png')}
+      source={require('../../assets/images/background.png')}
       resizeMode="center"
       style={styles.image}>
       <View style={styles.title}>
@@ -73,7 +73,7 @@ export function UserRegistration({ navigation }: RouterProps) {
         </View>
       </View>
       <View style={styles.button}>
-        <Button title="Registrarse" />
+        <ColorfulButton title="Registrarse" />
         <View>
           <TouchableText
             message="Cancelar"

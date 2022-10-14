@@ -6,7 +6,7 @@ import { styles } from './styles';
 import { Shadow } from 'react-native-shadow-2';
 import { removeSession } from '../../api/session';
 import { ICONS } from '../../constants';
-const TestImage = require('../../../assets/images/image.png');
+const TestImage = require('../../assets/images/image.png');
 
 interface PropTypes extends MorfandoRouterParams<'Home'> {}
 
@@ -93,7 +93,7 @@ const header = () => {
     <View style={styles.listHeaderContainer}>
       <View style={styles.inputContainer}>
         <Input
-          rightIcon={require('../../../assets/images/icons/search.png')}
+          rightIcon={require('../../assets/images/icons/search.png')}
           value=""
           placeholder="Buscar restaurantes / tipo de comida"
         />
