@@ -16,8 +16,6 @@ interface PropTypes {
   isLoading?: boolean;
   rightIcon?: React.FC<SvgProps>;
   leftIcon?: React.FC<SvgProps>;
-  onPress?: () => void;
-  onLongPress?: () => void;
   buttonContainerStyle?: StyleProp<ViewStyle>;
   color?: 'white' | 'black';
 }
@@ -59,7 +57,23 @@ function Button({
   );
 }
 
-interface TransparentProps extends PropTypes {
+interface ColorfulButtonProps extends PropTypes {
+  onPress?: () => void;
+  onLongPress?: () => void;
+}
+export function ColorfulButton({
+  onPress,
+  onLongPress,
+  ...props
+}: ColorfulButtonProps) {
+  return (
+    <TouchableOpacity onPress={onPress} onLongPress={onLongPress}>
+      <Button color="white" {...props} />
+    </TouchableOpacity>
+  );
+}
+
+interface TransparentProps extends ColorfulButtonProps {
   size?: 'small' | 'big';
 }
 export function TransparentButton({
@@ -87,14 +101,6 @@ export function TransparentButton({
           {...props}
         />
       </Shadow>
-    </TouchableOpacity>
-  );
-}
-
-export function ColorfulButton({ onPress, onLongPress, ...props }: PropTypes) {
-  return (
-    <TouchableOpacity onPress={onPress} onLongPress={onLongPress}>
-      <Button color="white" {...props} />
     </TouchableOpacity>
   );
 }
