@@ -6,7 +6,7 @@ import { RegisterFooter } from './footer-registro';
 import { LoginWithSSO } from './sso-login';
 import { MorfandoRouterParams } from '../../../navigation/navigation';
 import { useAppDispatch } from '../../../redux/store';
-import { general } from '../../../redux';
+import { actions } from '../../../redux';
 import { styles } from './styles';
 import { localizedStrings } from '../../../localization/localized-strings';
 
@@ -38,7 +38,7 @@ export function Login({ navigation }: PropTypes) {
     setIsLoading(true);
     setTimeout(() => {
       dispatch(
-        general.actions.login({ username: 'sarasa', password: 'sarasa' }),
+        actions.userActions.login({ username: 'sarasa', password: 'sarasa' }),
       );
     }, 1000);
     // TODO: Validation + Endpoint awaiting + checking responses
@@ -49,7 +49,7 @@ export function Login({ navigation }: PropTypes) {
     setIsLoading(true);
     setTimeout(() => {
       dispatch(
-        general.actions.login({ username: 'sarasa', password: 'sarasa' }),
+        actions.userActions.login({ username: 'sarasa', password: 'sarasa' }),
       );
     }, 1000);
 
