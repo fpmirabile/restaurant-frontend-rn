@@ -1,6 +1,18 @@
 # TP Aplicaciones distribuidas - Frontend
 
 This frontend has been done in `React-Native v0.7` for the 2nd semester of 2022.
+This app is about food delivery, the concept behind this is that **restaurant owners** can sign up and afterwards register their restaurant with different kind of menus. **Clients** users will be able to login through the Google SSO and request different menus from those restaurant and pay through the app.
+
+## Developers (Group 2):
+
+- Mirabile Fernando
+- Shevchuk Calo Miguel Omar
+- Nicolas Gastiazoro
+- Lucas Bollela
+
+### TL (Professors)
+- Mazzeo Christian Alejandro
+- Timerman Joaquin
 
 ## Installation
 

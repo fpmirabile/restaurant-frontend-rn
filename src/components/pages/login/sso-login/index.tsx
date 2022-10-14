@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { View } from 'react-native';
+import { ICONS } from '../../../../constants';
 import { localizedStrings } from '../../../../localization/localized-strings';
-import { Button, Body } from '../../../shared';
+import { Body, TransparentButton } from '../../../shared';
 import { styles } from './styles';
 
 interface PropTypes {
@@ -18,10 +19,11 @@ function LoginWithSSOComponent({ isLoading, onLogin }: PropTypes) {
         <Body>Inicie sesión o regístrese utilizando su cuenta de Google.</Body>
       </View>
       <View style={styles.buttonContainer}>
-        <Button
+        <TransparentButton
           isLoading={isLoading}
           title={localizedStrings.login.ssoLogin}
           onPress={onLogin}
+          leftIcon={ICONS.google}
         />
       </View>
     </View>

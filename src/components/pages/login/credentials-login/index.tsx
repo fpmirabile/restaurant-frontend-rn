@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View } from 'react-native';
-import { Button, Input, TouchableText } from '../../../shared';
+import { ColorfulButton, Input, TouchableText } from '../../../shared';
 import { styles } from './styles';
 import { Body } from '../../../shared/morfando-text';
 import { localizedStrings } from '../../../../localization/localized-strings';
@@ -48,7 +48,7 @@ function LoginWithCredentialsComponent({ isLoading, onLogin }: PropTypes) {
         textStyles={styles.forgotPasswordColor}
         message={localizedStrings.login.forgotPassword}
       />
-      <Button
+      <ColorfulButton
         isLoading={isLoading}
         title={localizedStrings.login.login}
         onPress={onLogin}

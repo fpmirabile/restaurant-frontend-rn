@@ -3,7 +3,13 @@ import { View, Image, SectionList } from 'react-native';
 import { SvgProps } from 'react-native-svg';
 import { ICONS } from '../../../constants';
 import { localizedStrings } from '../../../localization/localized-strings';
-import { Body, Button, Caption, ImageButton, Title } from '../../shared';
+import {
+  Body,
+  TransparentButton,
+  Caption,
+  ImageButton,
+  Title,
+} from '../../shared';
 import { styles } from './styles';
 
 interface HeaderProps {
@@ -41,11 +47,11 @@ const Item = React.memo(({ buttons }: ItemProps) => {
       {buttons.map(({ buttonAction, buttonTitle, icon }, index) => {
         return (
           <View key={`btn-${index}`} style={styles.buttonContainer}>
-            <Button
-              buttonType="transparent"
+            <TransparentButton
               title={buttonTitle}
               onPress={buttonAction}
               rightIcon={icon}
+              size="big"
             />
           </View>
         );

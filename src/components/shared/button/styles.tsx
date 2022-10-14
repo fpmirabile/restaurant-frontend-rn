@@ -15,20 +15,22 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 4,
     height: 36,
+    flexDirection: 'row',
   },
   title: {
     color: COLORS.white,
   },
   transparent: {
     backgroundColor: COLORS.white,
-    margin: 16,
-    alignItems: 'flex-start',
-    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 8,
   },
-  hasRightIcon: {
+  bigTransparent: {
+    margin: 16,
+  },
+  hasIcon: {
     justifyContent: 'space-between',
   },
-  rightIcon: {},
   loadingIcon: {
     alignSelf: 'center',
     height: 38,
