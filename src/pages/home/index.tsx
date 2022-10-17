@@ -10,10 +10,6 @@ const TestImage = require('../../assets/images/image.png');
 
 interface PropTypes extends MorfandoRouterParams<'Home'> {}
 
-const condition = (/*prevProps, nextProps*/) => {
-  return true;
-};
-
 const RestaurantItem = React.memo(
   ({ index }: ListRenderItemInfo<any>): JSX.Element => {
     // const favorite = index % 2 === 0;
@@ -83,7 +79,6 @@ const RestaurantItem = React.memo(
       </Shadow>
     );
   },
-  condition,
 );
 
 const header = () => {

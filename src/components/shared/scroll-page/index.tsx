@@ -4,20 +4,24 @@ import { styles } from './styles';
 
 interface PropTypes {
   nestedScrollEnabled?: boolean;
-  viewStyles?: StyleProp<ViewStyle>;
+  scrollViewStyles?: StyleProp<ViewStyle>;
+  internalContainerStyles?: StyleProp<ViewStyle>;
   children: React.ReactNode;
 }
 
 export function ScrollPage({
   children,
-  viewStyles = {},
+  internalContainerStyles = {},
+  scrollViewStyles = {},
   nestedScrollEnabled = false,
 }: PropTypes) {
   return (
     <ScrollView
       nestedScrollEnabled={nestedScrollEnabled}
-      style={styles.scrollView}>
-      <View style={[styles.containerView, viewStyles]}>{children}</View>
+      style={[styles.scrollView, scrollViewStyles]}>
+      <View style={[styles.containerView, internalContainerStyles]}>
+        {children}
+      </View>
     </ScrollView>
   );
 }
