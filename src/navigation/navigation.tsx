@@ -8,6 +8,7 @@ import { Login, Home, UserRegistration, Profile } from '../pages';
 import { HomeNavHeader, ProfileNavHeader } from '../headers';
 import { useAppSelector } from '../redux/store';
 import { LoadingScreen } from '../components/loading-screen';
+import { CreateRestaurant } from '../pages/restaurant';
 
 export interface MorfandoRouterParams<A extends keyof RootStackParamList>
   extends NativeStackScreenProps<RootStackParamList, A> {}
@@ -17,6 +18,7 @@ type RootStackParamList = {
   Login: undefined;
   Registration: undefined;
   Profile: undefined;
+  CreateRestaurant: undefined;
   // Feed: { sort: 'latest' | 'top' } | undefined;
 };
 
@@ -43,6 +45,10 @@ export function Navigation() {
           </Stack.Group>
         ) : (
           <Stack.Group>
+            <Stack.Screen
+              name="CreateRestaurant"
+              component={CreateRestaurant}
+            />
             <Stack.Screen
               options={{
                 header: ({ navigation }) => {
