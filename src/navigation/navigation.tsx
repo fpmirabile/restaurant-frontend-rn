@@ -47,10 +47,6 @@ export function Navigation() {
         ) : (
           <Stack.Group>
             <Stack.Screen
-              name="CreateRestaurant"
-              component={CreateRestaurant}
-            />
-            <Stack.Screen
               options={{
                 header: ({ navigation }) => {
                   const handleHamburgerPress = () => {
@@ -76,6 +72,10 @@ export function Navigation() {
                 ),
                 headerShown: true,
               }}
+            />
+            <Stack.Screen
+              name="CreateRestaurant"
+              component={CreateRestaurant}
             />
             <Stack.Screen
               name="FinishedRestaurantCreation"
