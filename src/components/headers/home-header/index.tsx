@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { View } from 'react-native';
-import { ICONS } from '../../constants';
-import { Title } from '../../components/shared';
-import { ImageButton } from '../../components/shared';
+import { ICONS } from '../../../constants';
+import { Title } from '../../shared';
+import { ImageButton } from '../../shared/';
 import { styles } from './styles';
 
 interface PropTypes {
