@@ -9,6 +9,7 @@ import TrashIcon from './assets/images/icons/trash-icon.svg';
 import GoogleIcon from './assets/images/icons/google-icon.svg';
 import LeftChevronIcon from './assets/images/icons/chevron-left-icon.svg';
 import RightChevronIcon from './assets/images/icons/chevron-right-icon.svg';
+import AddImageIcon from './assets/images/icons/add-image-icon.svg';
 
 const COLORS = {
   blueSecondary: '#211D42',
@@ -33,6 +34,7 @@ const ICONS = {
   google: GoogleIcon,
   leftChevron: LeftChevronIcon,
   rightChevron: RightChevronIcon,
+  addImage: AddImageIcon,
 };
 
 export { COLORS, ICONS };
