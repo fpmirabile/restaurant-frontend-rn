@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { View, FlatList, ListRenderItemInfo, Image } from 'react-native';
 import { MorfandoRouterParams } from '../../navigation/navigation';
-import { Body, Body2, Input } from '../../components/shared';
+import { Body, Body2, ColorfulButton, Input } from '../../components/shared';
 import { styles } from './styles';
 import { Shadow } from 'react-native-shadow-2';
 import { removeSession } from '../../api/session';
 import { ICONS } from '../../constants';
+import { localizedStrings } from '../../localization/localized-strings';
 const TestImage = require('../../assets/images/image.png');
 
 interface PropTypes extends MorfandoRouterParams<'Home'> {}
@@ -101,13 +102,16 @@ const header = () => {
   );
 };
 
-export function Home({}: PropTypes) {
+export function Home({ navigation }: PropTypes) {
+  const handleNewRestaurant = React.useCallback(() => {
+    navigation.push('CreateRestaurant');
+  }, [navigation]);
   removeSession();
   return (
     <View style={styles.container}>
       <FlatList
         ListHeaderComponent={header}
-        data={[{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}]}
+        data={[{}, {}, {}]}
         renderItem={React.useCallback((props: ListRenderItemInfo<any>) => {
           return <RestaurantItem {...props} />;
         }, [])}
@@ -124,6 +128,13 @@ export function Home({}: PropTypes) {
           );
         }}
       />
+      <View style={styles.createNewRestaurantContainer}>
+        <ColorfulButton
+          buttonContainerStyle={styles.newRestaurantButton}
+          onPress={handleNewRestaurant}
+          title={localizedStrings.home.createNewRestaurant}
+        />
+      </View>
     </View>
   );
 }

@@ -46,4 +46,12 @@ export const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 4,
   },
+  createNewRestaurantContainer: {
+    backgroundColor: COLORS.white,
+    paddingVertical: 18,
+    paddingHorizontal: 16,
+  },
+  newRestaurantButton: {
+    minWidth: '100%',
+  },
 });
