@@ -8,6 +8,8 @@ import { Login, Home, UserRegistration, Profile } from '../pages';
 import { HomeNavHeader, ProfileNavHeader } from '../headers';
 import { useAppSelector } from '../redux/store';
 import { LoadingScreen } from '../components/loading-screen';
+import { SearchFilter } from '../pages/search-filter';
+import { SearchFilterNavHeader } from '../headers/search-filter';
 
 export interface MorfandoRouterParams<A extends keyof RootStackParamList>
   extends NativeStackScreenProps<RootStackParamList, A> {}
@@ -17,6 +19,7 @@ type RootStackParamList = {
   Login: undefined;
   Registration: undefined;
   Profile: undefined;
+  SearchFilter: undefined; //NG231020221915 - PRUEBA NAVIGATION
   // Feed: { sort: 'latest' | 'top' } | undefined;
 };
 
@@ -50,8 +53,16 @@ export function Navigation() {
                     navigation.navigate('Profile');
                   };
 
+                  //NG231020221915 - PRUEBA NAVIGATION
+                  const handleFilterPress = () => {
+                    navigation.navigate('SearchFilter');
+                  };
+
                   return (
-                    <HomeNavHeader onHamburgerClick={handleHamburgerPress} />
+                    <HomeNavHeader
+                      onHamburgerClick={handleHamburgerPress}
+                      onFilterClick={handleFilterPress}
+                    />
                   );
                 },
                 headerShown: true,
@@ -70,6 +81,21 @@ export function Navigation() {
                 headerShown: true,
               }}
             />
+            {
+              //NG231020221915 - PRUEBA NAVIGATION FILTRO
+              <Stack.Screen
+                name="SearchFilter"
+                component={SearchFilter}
+                options={{
+                  animation: 'slide_from_right',
+                  header: ({ navigation }) => (
+                    <SearchFilterNavHeader onPressBack={navigation.goBack} />
+                  ),
+                  headerShown: true,
+                }}
+              />
+              //NG231020221915 - PRUEBA NAVIGATION FILTRO
+            }
           </Stack.Group>
         )}
       </Stack.Navigator>

@@ -7,14 +7,15 @@ import { styles } from './styles';
 
 interface PropTypes {
   onHamburgerClick: () => void;
+  onFilterClick: () => void;
 }
 
-export function HomeNavHeader({ onHamburgerClick }: PropTypes) {
+export function HomeNavHeader({ onHamburgerClick, onFilterClick }: PropTypes) {
   return (
     <View style={styles.headerContainer}>
       <ImageButton onPress={onHamburgerClick} imageSvg={ICONS.burgerMenu} />
       <Title darkPinkColor>Morfando Inc</Title>
-      <ImageButton imageSvg={ICONS.filter} />
+      <ImageButton onPress={onFilterClick} imageSvg={ICONS.filter} />
     </View>
   );
 }
