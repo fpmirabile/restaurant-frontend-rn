@@ -4,12 +4,19 @@ import {
   createNativeStackNavigator,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
-import { Login, Home, UserRegistration, Profile } from '../pages';
+import {
+  Login,
+  Home,
+  UserRegistration,
+  Profile,
+  SearchFilter,
+  SuccessRegistration,
+} from '../pages';
 import { HomeNavHeader, ProfileNavHeader } from '../headers';
 import { useAppSelector } from '../redux/store';
 import { LoadingScreen } from '../components/loading-screen';
 import { CreateRestaurant, RestaurantCreated } from '../pages/restaurant';
-import { SearchFilter } from '../pages/search-filter';
+// import { SearchFilter } from '../pages/search-filter';
 import { SearchFilterNavHeader } from '../headers/search-filter';
 
 export interface MorfandoRouterParams<A extends keyof RootStackParamList>
@@ -22,7 +29,8 @@ type RootStackParamList = {
   Profile: undefined;
   CreateRestaurant: undefined;
   FinishedRestaurantCreation: undefined;
-  SearchFilter: undefined; //NG231020221915 - PRUEBA NAVIGATION
+  SearchFilter: undefined;
+  SuccessRegistration: undefined;
   // Feed: { sort: 'latest' | 'top' } | undefined;
 };
 
@@ -46,6 +54,10 @@ export function Navigation() {
           <Stack.Group>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Registration" component={UserRegistration} />
+            <Stack.Screen
+              name="SuccessRegistration"
+              component={SuccessRegistration}
+            />
           </Stack.Group>
         ) : (
           <Stack.Group>
@@ -56,7 +68,6 @@ export function Navigation() {
                     navigation.navigate('Profile');
                   };
 
-                  //NG231020221915 - PRUEBA NAVIGATION
                   const handleFilterPress = () => {
                     navigation.navigate('SearchFilter');
                   };
@@ -93,7 +104,6 @@ export function Navigation() {
               component={RestaurantCreated}
             />
             {
-              //NG231020221915 - PRUEBA NAVIGATION FILTRO
               <Stack.Screen
                 name="SearchFilter"
                 component={SearchFilter}
@@ -105,7 +115,6 @@ export function Navigation() {
                   headerShown: true,
                 }}
               />
-              //NG231020221915 - PRUEBA NAVIGATION FILTRO
             }
           </Stack.Group>
         )}

@@ -18,6 +18,10 @@ export function UserRegistration({ navigation }: RouterProps) {
     navigation.goBack();
   };
 
+  const goToSuccessRegistration = () => {
+    navigation.push('SuccessRegistration');
+  };
+
   const handleInputOnChange = (input: InputType) => (text: string) => {
     if (input === 'email') {
       setUserEmail(text);
@@ -73,7 +77,7 @@ export function UserRegistration({ navigation }: RouterProps) {
         </View>
       </View>
       <View style={styles.button}>
-        <ColorfulButton title="Registrarse" />
+        <ColorfulButton title="Registrarse" onPress={goToSuccessRegistration} />
         <View>
           <TouchableText
             message="Cancelar"

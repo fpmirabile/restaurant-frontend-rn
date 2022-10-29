@@ -7,10 +7,10 @@ interface PropTypes {
   onPressBack: () => void;
 }
 
-export function SearchFilterNavHeader({ onPressBack }: PropTypes) {
+export function ProfileNavHeader({ onPressBack }: PropTypes) {
   return (
     <View style={styles.headerContainer}>
-      <TouchableText message="x" onPress={onPressBack} type="title" />
+      <TouchableText message="< Volver" onPress={onPressBack} type="ctaText" />
     </View>
   );
 }
