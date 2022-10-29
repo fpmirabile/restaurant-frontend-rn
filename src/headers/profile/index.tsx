@@ -7,7 +7,7 @@ interface PropTypes {
   onPressBack: () => void;
 }
 
-export function ProfileNavHeader({ onPressBack }: PropTypes) {
+export function SearchFilterNavHeader({ onPressBack }: PropTypes) {
   return (
     <View style={styles.headerContainer}>
       <TouchableText message="< Volver" onPress={onPressBack} type="ctaText" />
