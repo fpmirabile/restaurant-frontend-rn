@@ -11,6 +11,8 @@ import {
   Title,
 } from '../../components/shared';
 import { styles } from './styles';
+import { useAppDispatch } from '../../redux/store';
+import { actions } from '../../redux';
 
 interface HeaderProps {
   name: string;
@@ -67,11 +69,67 @@ const SectionHeader = ({ title }: SectionHeaderProps) => <Body>{title}</Body>;
 
 interface PropTypes {}
 export function Profile({}: PropTypes) {
+  const dispatch = useAppDispatch();
+  const getProfileInformation = React.useCallback(
+    () => [
+      {
+        title: localizedStrings.profile.myFavRestaurants,
+        data: [
+          {
+            id: 1,
+            buttons: [
+              {
+                buttonTitle: localizedStrings.profile.myLikes,
+                buttonAction: () => {},
+                icon: ICONS.like,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        title: localizedStrings.profile.legalInfo,
+        data: [
+          {
+            id: 2,
+            buttons: [
+              {
+                buttonTitle: localizedStrings.profile.tAndCond,
+                buttonAction: () => {},
+                icon: ICONS.info2,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        title: localizedStrings.profile.accountManagement,
+        data: [
+          {
+            id: 3,
+            buttons: [
+              {
+                buttonTitle: localizedStrings.profile.signOut,
+                buttonAction: () => dispatch(actions.userActions.logOut()),
+                icon: ICONS.signOut,
+              },
+              {
+                buttonTitle: localizedStrings.profile.deleteAccount,
+                buttonAction: () => {},
+                icon: ICONS.trash,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    [dispatch],
+  );
   return (
     <View style={styles.container}>
       <SectionList
         ListHeaderComponent={Header}
-        sections={data}
+        sections={getProfileInformation()}
         keyExtractor={item => `${item.id}`}
         renderItem={({ item }) => <Item {...item} />}
         renderSectionHeader={({ section: { title } }) => (
@@ -83,56 +141,3 @@ export function Profile({}: PropTypes) {
     </View>
   );
 }
-
-const data = [
-  {
-    title: localizedStrings.profile.myFavRestaurants,
-    data: [
-      {
-        id: 1,
-        buttons: [
-          {
-            buttonTitle: localizedStrings.profile.myLikes,
-            buttonAction: () => {},
-            icon: ICONS.like,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    title: localizedStrings.profile.legalInfo,
-    data: [
-      {
-        id: 2,
-        buttons: [
-          {
-            buttonTitle: localizedStrings.profile.tAndCond,
-            buttonAction: () => {},
-            icon: ICONS.info2,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    title: localizedStrings.profile.accountManagement,
-    data: [
-      {
-        id: 3,
-        buttons: [
-          {
-            buttonTitle: localizedStrings.profile.signOut,
-            buttonAction: () => {},
-            icon: ICONS.signOut,
-          },
-          {
-            buttonTitle: localizedStrings.profile.deleteAccount,
-            buttonAction: () => {},
-            icon: ICONS.trash,
-          },
-        ],
-      },
-    ],
-  },
-];
