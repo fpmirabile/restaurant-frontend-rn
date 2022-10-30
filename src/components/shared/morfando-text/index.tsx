@@ -26,10 +26,20 @@ export const Headline5 = ({ style, center, ...props }: AppTextProps) => (
   />
 );
 
-export const Headline6 = ({ style, center, ...props }: AppTextProps) => (
+export const Headline6 = ({
+  style,
+  center,
+  darkPinkColor,
+  ...props
+}: AppTextProps) => (
   <AppText
     {...props}
-    style={[styles.headline6, center && styles.center, style]}
+    style={[
+      styles.headline6,
+      center && styles.center,
+      darkPinkColor && styles.darkPinkColor,
+      style,
+    ]}
   />
 );
 
