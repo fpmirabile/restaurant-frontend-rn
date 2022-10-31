@@ -10,13 +10,32 @@ import { actions } from '../../redux';
 import { styles } from './styles';
 import { localizedStrings } from '../../localization/localized-strings';
 
+export type LoginForm = {
+  username: {
+    error: boolean;
+    value: string;
+  };
+  password: {
+    error: boolean;
+    value: string;
+  };
+};
 interface PropTypes extends MorfandoRouterParams<'Login'> {}
 type Tab = 'client' | 'restaurant';
 
 export function Login({ navigation }: PropTypes) {
   const dispatch = useAppDispatch();
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [selectedTab, setSelectedTab] = React.useState<Tab>('client');
+  const [loginForm, setLoginForm] = React.useState<LoginForm>({
+    username: {
+      error: false,
+      value: '',
+    },
+    password: {
+      error: false,
+      value: '',
+    },
+  });
   const clientStyles = [
     styles.tabTextContainer,
     selectedTab === 'client' ? {} : styles.notSelectedTab,
@@ -35,26 +54,35 @@ export function Login({ navigation }: PropTypes) {
   };
 
   const onCredentialsLogin = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      dispatch(
-        actions.userActions.login({ username: 'sarasa', password: 'sarasa' }),
-      );
-    }, 1000);
+    const hasError = Object.values(loginForm).some(obj => obj.error);
+    if (hasError) {
+      return;
+    }
+    dispatch(
+      actions.userActions.loginWithCredentials({
+        username: loginForm.username.value,
+        password: loginForm.password.value,
+      }),
+    );
+  };
+
+  const onSSOLogin = () => {
+    dispatch(
+      actions.userActions.loginWithCredentials({
+        username: 'sarasa',
+        password: 'sarasa',
+      }),
+    );
+
     // TODO: Validation + Endpoint awaiting + checking responses
     // navigation.push("Home");
   };
 
-  const onSSOLogin = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      dispatch(
-        actions.userActions.login({ username: 'sarasa', password: 'sarasa' }),
-      );
-    }, 1000);
-
-    // TODO: Validation + Endpoint awaiting + checking responses
-    // navigation.push("Home");
+  const handleUserCredentialsChanged = (field: Partial<LoginForm>) => {
+    setLoginForm({
+      ...loginForm,
+      ...field,
+    });
   };
 
   return (
@@ -91,12 +119,13 @@ export function Login({ navigation }: PropTypes) {
             <View style={styles.selectedLoginContent}>
               <Title style={styles.loginTitle}>Login</Title>
               {selectedTab === 'client' && (
-                <LoginWithSSO isLoading={isLoading} onLogin={onSSOLogin} />
+                <LoginWithSSO onLogin={onSSOLogin} />
               )}
               {selectedTab === 'restaurant' && (
                 <LoginWithCredentials
-                  isLoading={isLoading}
                   onLogin={onCredentialsLogin}
+                  onFormChanged={handleUserCredentialsChanged}
+                  form={loginForm}
                 />
               )}
             </View>

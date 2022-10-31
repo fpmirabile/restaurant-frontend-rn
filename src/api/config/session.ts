@@ -7,18 +7,23 @@ import {
   STORAGE_TYPE,
 } from 'react-native-keychain';
 
-interface AuthSession {
-  username: string;
-  password: string;
+// interface AuthSession {
+//   username: string;
+//   password: string;
+// }
+
+interface JwtSession {
+  jwt: string;
+  refreshToken: string;
 }
 
 interface TokenStorage {
-  getItem: (options: Options) => Promise<UserCredentials | false> | null;
+  getItem: (options?: Options) => Promise<UserCredentials | false> | null;
   setItem: (
-    options: Options,
     value: Pick<UserCredentials, 'username' | 'password'>,
+    options?: Options,
   ) => void;
-  removeItem: (options: Options) => void;
+  removeItem: (options?: Options) => void;
 }
 
 interface TokenStorageMap {
@@ -37,7 +42,7 @@ const STORAGE: TokenStorageMap = {
   session: {
     getItem: options =>
       tryOrNull(async () => await getGenericPassword(options)),
-    setItem: (options, values) =>
+    setItem: (values, options) =>
       tryOrNull(() =>
         setGenericPassword(values.username, values.password, options),
       ),
@@ -45,16 +50,26 @@ const STORAGE: TokenStorageMap = {
   },
 };
 
-export const getUsernameAndPassword = async (): Promise<
-  AuthSession | false
-> => {
+// export const getUsernameAndPassword = async (): Promise<
+//   AuthSession | false
+// > => {
+//   const { getItem } = getTokenStorage();
+//   const auth = await getItem({ storage: STORAGE_TYPE.AES });
+//   if (!auth) {
+//     return false;
+//   }
+
+//   return { password: auth.password, username: auth.username };
+// };
+
+export const getSession = async (): Promise<JwtSession | false> => {
   const { getItem } = getTokenStorage();
   const auth = await getItem({ storage: STORAGE_TYPE.AES });
   if (!auth) {
     return false;
   }
 
-  return { password: auth.password, username: auth.username };
+  return { jwt: auth.username, refreshToken: auth.password };
 };
 
 const getTokenStorage = () => {
@@ -62,15 +77,11 @@ const getTokenStorage = () => {
 };
 
 export const setSession = async ({
-  username,
-  password,
-}: AuthSession): Promise<boolean> => {
-  const current = await getUsernameAndPassword();
-  if (
-    current &&
-    current.username === username &&
-    current.password === password
-  ) {
+  jwt,
+  refreshToken,
+}: JwtSession): Promise<boolean> => {
+  const current = await getSession();
+  if (current && current.jwt === jwt && current.refreshToken === refreshToken) {
     return false;
   }
 
@@ -80,7 +91,10 @@ export const setSession = async ({
   }
 
   const { setItem } = storage;
-  setItem({ storage: STORAGE_TYPE.AES }, { username, password });
+  setItem(
+    { username: jwt, password: refreshToken },
+    { storage: STORAGE_TYPE.AES },
+  );
   return true;
 };
 
@@ -91,6 +105,5 @@ export const removeSession = () => {
   }
 
   const { removeItem } = storage;
-
-  removeItem({});
+  removeItem();
 };

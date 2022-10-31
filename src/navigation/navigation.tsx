@@ -27,8 +27,8 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export function Navigation() {
   const {
     isAppInitLoading,
-    auth: { username },
-  } = useAppSelector(state => state.general);
+    auth: { jwt },
+  } = useAppSelector(state => state.user);
   if (isAppInitLoading) {
     return <LoadingScreen />;
   }
@@ -39,7 +39,7 @@ export function Navigation() {
         screenOptions={{
           headerShown: false,
         }}>
-        {!username ? (
+        {!jwt ? (
           <Stack.Group>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Registration" component={UserRegistration} />

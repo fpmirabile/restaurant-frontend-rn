@@ -9,4 +9,7 @@ export const styles = StyleSheet.create({
     marginTop: 16,
   },
   buttonContainer: {},
+  serverError: {
+    marginVertical: 8,
+  },
 });
