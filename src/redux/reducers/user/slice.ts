@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getUsernameAndPassword, setSession } from '../../../api/session';
+import {
+  getUsernameAndPassword,
+  removeSession,
+  setSession,
+} from '../../../api/session';
 
 const initialLoading = createAsyncThunk(
   'user/loadApp',
@@ -13,17 +17,19 @@ const initialLoading = createAsyncThunk(
   },
 );
 
+const initialState = {
+  isAppInitLoading: true,
+  auth: {
+    username: '',
+    password: '',
+    jwt: '',
+    refresh: '',
+  },
+};
+
 const userAppSlice = createSlice({
   name: 'user',
-  initialState: {
-    isAppInitLoading: true,
-    auth: {
-      username: '',
-      password: '',
-      jwt: '',
-      refresh: '',
-    },
-  },
+  initialState,
   reducers: {
     login: (
       state,
@@ -33,6 +39,13 @@ const userAppSlice = createSlice({
       setSession({ username, password });
       state.auth.username = action.payload.username;
       state.auth.password = action.payload.password;
+    },
+    logOut: state => {
+      console.log('entro');
+      removeSession();
+      state.auth = {
+        ...initialState.auth,
+      };
     },
   },
   extraReducers(builder) {
