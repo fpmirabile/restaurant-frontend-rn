@@ -21,7 +21,7 @@ const COLORS = {
   black: '#000000DE',
   background: '#FAFAFA',
   darkPink: '#FB0067',
-
+  grey:'DCDCDC',
   shadow: '#FEBDD8',
 };
 

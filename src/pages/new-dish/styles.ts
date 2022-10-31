@@ -4,23 +4,46 @@ import { COLORS } from '../../constants';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    padding:16,
+    // alignItems: 'center',
   },
-  image: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+
   text: {
     paddingTop: 8,
     alignItems: 'center',
   },
   title: {
     flex: 1,
-    marginTop: 32,
-    alignItems: 'center',
-    width: 328,
+    marginTop: 8,
+    textAlign: 'left',
+
   },
+  subtilte:{
+    textAlign: 'left',
+    marginTop:24,
+    marginBottom:8,
+
+  },
+  input: {
+    marginVertical: 8,
+  },
+  checkbox:{
+    alignContent: 'space-around',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
+  addPictureContainer: {
+    flex: 1,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: COLORS.black,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 18,
+    paddingBottom: 14,
+    marginBottom: 8,
+  },
+  
   whiteBoxContainer: {
     flex: 3,
   },
@@ -54,5 +77,12 @@ export const styles = StyleSheet.create({
   cancelCta: {
     alignItems: 'center',
     marginTop: 16,
+  },
+  containerView: {
+    backgroundColor: COLORS.background,
+    flex: 1,
+  },
+  formContainer: {
+    marginVertical: 7,
   },
 });

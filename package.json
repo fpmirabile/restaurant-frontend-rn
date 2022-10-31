@@ -16,6 +16,7 @@
     ]
   },
   "dependencies": {
+    "@react-native-community/checkbox": "^0.5.12",
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/native-stack": "^6.9.1",
     "@reduxjs/toolkit": "^1.8.6",

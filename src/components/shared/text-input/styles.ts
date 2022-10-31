@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
   },
   input: {
     borderRadius: 3.5,
-    borderColor: COLORS.black,
+    borderColor: COLORS.grey,
     borderWidth: 1,
     fontWeight: '400',
     fontSize: 16,

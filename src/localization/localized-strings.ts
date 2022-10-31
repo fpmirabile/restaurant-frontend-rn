@@ -63,6 +63,16 @@ export const localizedStrings = new LocalizedStrings({
         previous: 'Anterior',
         next: 'Siguiente',
       },
+      newDish:{
+        title:'Creación nuevo plato/item',
+        category:'Categoria',
+        dishInformation:'Información de plato/item',
+        categories:'Categorias',
+        dishName:'Nombre de plato/item',
+        sellPrice:'Precio de venta',
+        dishImages:'Imagenes del plato/item',
+        
+      }
     },
   },
 });
