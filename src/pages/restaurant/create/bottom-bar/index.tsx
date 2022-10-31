@@ -16,16 +16,16 @@ export function BottomBar({ shouldShowBack, onBack, onContinue }: PropTypes) {
   return (
     <View style={styles.bottomButtonsContainer}>
       <View style={styles.ctaContainer}>
-        {shouldShowBack && (
-          <>
-            <LeftChevron />
-            <TouchableText
-              onPress={onBack}
-              type="ctaText"
-              message={localizedStrings.restaurant.bottomBar.previous}
-            />
-          </>
-        )}
+        <LeftChevron />
+        <TouchableText
+          onPress={onBack}
+          type="ctaText"
+          message={
+            shouldShowBack
+              ? localizedStrings.restaurant.bottomBar.previous
+              : localizedStrings.restaurant.bottomBar.cancel
+          }
+        />
       </View>
       <View style={styles.ctaContainer}>
         <TouchableText

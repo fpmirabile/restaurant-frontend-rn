@@ -4,7 +4,6 @@ import { MorfandoRouterParams } from '../../navigation/navigation';
 import { Body, Body2, ColorfulButton, Input } from '../../components/shared';
 import { styles } from './styles';
 import { Shadow } from 'react-native-shadow-2';
-import { removeSession } from '../../api/session';
 import { ICONS } from '../../constants';
 import { localizedStrings } from '../../localization/localized-strings';
 const TestImage = require('../../assets/images/image.png');
@@ -106,7 +105,6 @@ export function Home({ navigation }: PropTypes) {
   const handleNewRestaurant = React.useCallback(() => {
     navigation.push('CreateRestaurant');
   }, [navigation]);
-  removeSession();
   return (
     <View style={styles.container}>
       <FlatList

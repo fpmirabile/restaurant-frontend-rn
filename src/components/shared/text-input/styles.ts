@@ -3,7 +3,7 @@ import { COLORS } from '../../../constants';
 
 export const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
+    flexDirection: 'column',
   },
   input: {
     borderRadius: 3.5,
@@ -17,13 +17,16 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     height: 46,
     fontFamily: 'OpenSans-Regular',
-    flex: 1,
+    width: '100%',
   },
   rightIcon: {
     right: 15,
-    alignSelf: 'center',
+    top: 10,
     position: 'absolute',
     resizeMode: 'stretch',
-    alignItems: 'center',
+  },
+  errorMessage: {
+    color: COLORS.darkPink,
+    marginTop: 6,
   },
 });

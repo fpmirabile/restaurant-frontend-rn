@@ -17,4 +17,7 @@ export const styles = StyleSheet.create({
     color: COLORS.darkPink,
     textAlign: 'left',
   },
+  serverError: {
+    marginVertical: 8,
+  },
 });

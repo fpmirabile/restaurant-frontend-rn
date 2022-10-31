@@ -15,11 +15,12 @@ export function CreateRestaurant({ navigation }: PropTypes) {
   const handleGoBack = React.useCallback(() => {
     const previousStep = step - 1;
     if (previousStep <= 0) {
+      navigation.goBack();
       return;
     }
 
     setStep(previousStep);
-  }, [step]);
+  }, [step, navigation]);
 
   const handleContinue = React.useCallback(() => {
     const nextStep = step + 1;

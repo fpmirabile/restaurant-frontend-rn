@@ -59,6 +59,7 @@ export const localizedStrings = new LocalizedStrings({
         secondaryButton: 'Continuar luego',
       },
       bottomBar: {
+        cancel: 'Cancelar',
         previous: 'Anterior',
         next: 'Siguiente',
       },

@@ -125,6 +125,7 @@ export function Profile({}: PropTypes) {
     ],
     [dispatch],
   );
+
   return (
     <View style={styles.container}>
       <SectionList
