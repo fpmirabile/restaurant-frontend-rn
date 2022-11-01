@@ -24,6 +24,7 @@ interface PropTypes {
   errorMessage?: string;
   hasError?: boolean;
   rightIcon?: ImageSourcePropType;
+  borderBottom?: boolean;
   containerStyles?: StyleProp<ViewStyle>;
   onBlur?: () => void;
   secureTextEntry?: boolean;
@@ -35,6 +36,7 @@ export function Input({
   errorMessage,
   hasError,
   value,
+  borderBottom,
   rightIcon,
   containerStyles = {},
   onBlur,
@@ -42,11 +44,12 @@ export function Input({
   onEndEditing,
   secureTextEntry,
 }: PropTypes) {
+
   return (
     <View style={[styles.container, containerStyles]}>
       <TextInput
         onChangeText={onChangeText}
-        style={styles.input}
+        style={borderBottom? styles.inputBorder : styles.input}
         placeholder={placeholder}
         value={value}
         onBlur={onBlur}
@@ -61,3 +64,4 @@ export function Input({
     </View>
   );
 }
+

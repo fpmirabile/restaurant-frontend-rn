@@ -5,9 +5,7 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding:16,
-    // alignItems: 'center',
   },
-
   text: {
     paddingTop: 8,
     alignItems: 'center',
@@ -43,46 +41,28 @@ export const styles = StyleSheet.create({
     paddingBottom: 14,
     marginBottom: 8,
   },
-  
-  whiteBoxContainer: {
-    flex: 3,
-  },
-  whiteBox: {
-    backgroundColor: COLORS.white,
-    borderRadius: 4,
-    marginHorizontal: 24,
-    minHeight: 278,
-    minWidth: 312,
-    maxHeight: 410,
-    flexDirection: 'column',
-  },
-  elevation: {
-    elevation: 20,
-    shadowColor: COLORS.shadow,
-  },
-  emailInput: {
-    marginTop: 16,
-    marginBottom: 9,
-  },
-  selectedLoginContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    marginVertical: 16,
-    marginHorizontal: 16,
-  },
-  button: {
-    flex: 1,
-    width: 280,
-  },
-  cancelCta: {
-    alignItems: 'center',
-    marginTop: 16,
-  },
+
   containerView: {
     backgroundColor: COLORS.background,
     flex: 1,
   },
-  formContainer: {
-    marginVertical: 7,
+  addPictureBody: {
+    marginTop: 5,
+  },
+  addIngredient:{
+    marginTop:16,
+    marginBottom:24,
+  },
+  createNewDishContainer: {
+    backgroundColor: COLORS.white,
+    paddingVertical: 18,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
+  newDishButton: {
+    width: 156,
+    height:48
   },
 });

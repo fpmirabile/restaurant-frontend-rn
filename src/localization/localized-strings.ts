@@ -71,7 +71,11 @@ export const localizedStrings = new LocalizedStrings({
         dishName:'Nombre de plato/item',
         sellPrice:'Precio de venta',
         dishImages:'Imagenes del plato/item',
-        
+        dishIngredients: 'Ingredientes (opcional)',
+        ingredient: 'Indique el ingrediente',
+        addIngredient: '+ Agregar ingrediente',
+        finish: 'Finalizar',
+        cancel: 'Cancelar',
       }
     },
   },
