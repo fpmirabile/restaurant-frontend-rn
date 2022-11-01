@@ -42,7 +42,7 @@ export const localizedStrings = new LocalizedStrings({
         openHoursTitle: 'Horario de apertura',
         fromHour: 'Desde',
         toHour: 'Hasta',
-        openedDaysTitle: 'Días de apertura',
+        openedDaysTitle: 'Días y horarios de apertura',
         kindOfFoodAndRange: 'Tipo de comida y rango',
         kindOfFood: 'Tipo de comida',
         priceRange: 'Rango de precio',

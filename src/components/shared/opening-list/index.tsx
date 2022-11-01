@@ -19,12 +19,12 @@ export function OpeningList({ darkPinkColor }: PropTypes) {
     <View>
       {darkPinkColor ? (
         <Headline6 style={styles.captionTitle} darkPinkColor>
-          {localizedStrings.restaurant.create.openingTitle}
+          {localizedStrings.restaurant.create.openedDaysTitle}
           {darkPinkColor}
         </Headline6>
       ) : (
         <Headline6 style={styles.captionTitle}>
-          {localizedStrings.restaurant.create.openingTitle}
+          {localizedStrings.restaurant.create.openedDaysTitle}
         </Headline6>
       )}
       <View style={styles.openDaysContainer}>
