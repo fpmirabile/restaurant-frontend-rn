@@ -65,4 +65,15 @@ export const styles = StyleSheet.create({
     width: 156,
     height:48
   },
+  containerIngredient:{
+    flexDirection: 'row',
+  },
+  containerInput:{
+    flex:8
+  },
+  containerIcon:{
+    flex:1,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+  }
 });

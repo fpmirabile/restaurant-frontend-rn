@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { Input, TouchableText, Checkbox, PressableView, ColorfulButton, TransparentButton } from '../../components/shared';
 import { Caption, ScrollPage, Title, Headline5 } from '../../components/shared';
 import { Body, Headline6 } from '../../components/shared/morfando-text';
@@ -34,6 +34,8 @@ export function NewDish() {
   //   navigation.goBack();
   // };
   const AddImageIcon = ICONS.addImage;
+  const AddIcon = ICONS.add;
+  const RemoveIcon = ICONS.remove;
   const [step, setStep] = React.useState<number>(1);
   const steps = [];
 
@@ -46,13 +48,20 @@ export function NewDish() {
   {
     //Agrego un input
     inputs.push(
-      <View key={i}>
-        <Input
-        onChangeText={value => setInputValue(i, value)}
-        value={refInputs.current[i]}
-        placeholder={localizedStrings.restaurant.newDish.ingredient}
-        borderBottom = {true}
-        />
+      <View key={i} style={styles.containerIngredient}>
+        <View style={styles.containerInput}>
+          <Input
+          onChangeText={value => setInputValue(i, value)}
+          value={refInputs.current[i]}
+          placeholder={localizedStrings.restaurant.newDish.ingredient}
+          borderBottom = {true}
+          />
+        </View>
+        <View style={styles.containerIcon}>
+          <Pressable onPress={()=>removeInput(i)}>
+              {<RemoveIcon/>}
+          </Pressable>
+        </View>
       </View>
     )
   }
@@ -96,12 +105,19 @@ export function NewDish() {
       <View style={styles.subtilte}>
         <Headline6>{localizedStrings.restaurant.newDish.category}</Headline6>
       </View>
-      <View>
-        <Input
-              containerStyles={styles.input}
-              value={categories}
-              placeholder={localizedStrings.restaurant.newDish.categories}
-            />
+      <View style={styles.containerIngredient}>
+        <View style={styles.containerInput}>
+          <Input
+                containerStyles={styles.input}
+                value={categories}
+                placeholder={localizedStrings.restaurant.newDish.categories}
+              />
+        </View>
+        <View style={styles.containerIcon}>
+          <Pressable>
+                {<AddIcon/>}
+          </Pressable>
+        </View>
       </View>
       <View style={styles.subtilte}>
         <Headline6>{localizedStrings.restaurant.newDish.dishInformation}</Headline6>
