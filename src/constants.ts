@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import RestaurantIcon from './assets/images/icons/restaurant-icon.svg';
 import FilterIcon from './assets/images/icons/filter-icon.svg';
 import BurgerIcon from './assets/images/icons/burger-icon.svg';
@@ -10,6 +11,8 @@ import GoogleIcon from './assets/images/icons/google-icon.svg';
 import LeftChevronIcon from './assets/images/icons/chevron-left-icon.svg';
 import RightChevronIcon from './assets/images/icons/chevron-right-icon.svg';
 import AddImageIcon from './assets/images/icons/add-image-icon.svg';
+import RemoveImageIcon from './assets/images/icons/remove-image-icon.svg';
+import NotFilledLikeIcon from './assets/images/icons/not-filled-like-icon.svg';
 
 const COLORS = {
   blueSecondary: '#211D42',
@@ -23,18 +26,20 @@ const COLORS = {
 };
 
 const ICONS = {
-  restaurant: RestaurantIcon,
-  filter: FilterIcon,
-  burgerMenu: BurgerIcon,
-  edit: EditIcon,
-  like: LikeIcon,
-  info2: Info2Icon,
-  signOut: SignOutIcon,
-  trash: TrashIcon,
-  google: GoogleIcon,
-  leftChevron: LeftChevronIcon,
-  rightChevron: RightChevronIcon,
-  addImage: AddImageIcon,
+  restaurant: memo(RestaurantIcon),
+  filter: memo(FilterIcon),
+  burgerMenu: memo(BurgerIcon),
+  edit: memo(EditIcon),
+  like: memo(LikeIcon),
+  info2: memo(Info2Icon),
+  signOut: memo(SignOutIcon),
+  trash: memo(TrashIcon),
+  google: memo(GoogleIcon),
+  leftChevron: memo(LeftChevronIcon),
+  rightChevron: memo(RightChevronIcon),
+  addImage: memo(AddImageIcon),
+  removeImage: memo(RemoveImageIcon),
+  likeNoBackground: memo(NotFilledLikeIcon),
 };
 
 export { COLORS, ICONS };

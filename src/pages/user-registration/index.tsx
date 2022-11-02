@@ -80,6 +80,10 @@ export function UserRegistration({ navigation }: RouterProps) {
 
       setFormValues(copyForm);
     } else {
+      if (isLoading) {
+        return;
+      }
+
       dispatch(actions.userActions.registerOwner(form));
     }
   };

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { View } from 'react-native';
 import {
-  Body,
   Caption,
   Headline6,
+  ImagePicker,
   Input,
   PressableView,
 } from '../../../../components/shared';
@@ -34,12 +34,7 @@ export function CreateRestaurantStepTwo({}: PropTypes) {
       <Headline6 style={styles.captionTitle}>
         {localizedStrings.restaurant.create.restaurantPictures}
       </Headline6>
-      <PressableView containerStyles={styles.addPictureContainer}>
-        <AddImageIcon />
-        <Body style={styles.addPictureBody}>
-          {localizedStrings.restaurant.create.addPictures}
-        </Body>
-      </PressableView>
+      <ImagePicker maxAmountOfImages={5} />
       <Caption>
         {localizedStrings.restaurant.create.picturesCaption(0, 5)}
       </Caption>

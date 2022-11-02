@@ -64,6 +64,14 @@ function LoginWithCredentialsComponent({
     }
   };
 
+  const handleLogin = () => {
+    if (isLoading) {
+      return;
+    }
+
+    onLogin();
+  };
+
   return (
     <View style={styles.container}>
       <Body>
@@ -103,7 +111,7 @@ function LoginWithCredentialsComponent({
       <ColorfulButton
         isLoading={isLoading}
         title={localizedStrings.login.login}
-        onPress={onLogin}
+        onPress={handleLogin}
       />
     </View>
   );
