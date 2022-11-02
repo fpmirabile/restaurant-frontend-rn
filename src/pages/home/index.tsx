@@ -107,13 +107,15 @@ export function Home({ navigation }: PropTypes) {
 
   const renderItemComponent = React.useCallback(
     (props: ListRenderItemInfo<Restaurant>) => {
-      return <RestaurantItem {...props} />;
+      const Item = React.memo(RestaurantItem);
+      return <Item {...props} />;
     },
     [],
   );
 
   const separatorComponent = React.useCallback(() => {
-    return <View style={styles.listSeparator} />;
+    const Separator = React.memo(() => <View style={styles.listSeparator} />);
+    return <Separator />;
   }, []);
 
   const handleNewRestaurant = React.useCallback(() => {
