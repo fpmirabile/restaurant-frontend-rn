@@ -10,6 +10,7 @@ import GoogleIcon from './assets/images/icons/google-icon.svg';
 import LeftChevronIcon from './assets/images/icons/chevron-left-icon.svg';
 import RightChevronIcon from './assets/images/icons/chevron-right-icon.svg';
 import AddImageIcon from './assets/images/icons/add-image-icon.svg';
+import RemoveImageIcon from './assets/images/icons/remove-image-icon.svg';
 
 const COLORS = {
   blueSecondary: '#211D42',
@@ -35,6 +36,7 @@ const ICONS = {
   leftChevron: LeftChevronIcon,
   rightChevron: RightChevronIcon,
   addImage: AddImageIcon,
+  removeImage: RemoveImageIcon,
 };
 
 export { COLORS, ICONS };
