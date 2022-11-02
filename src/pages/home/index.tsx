@@ -112,6 +112,10 @@ export function Home({ navigation }: PropTypes) {
     [],
   );
 
+  const separatorComponent = React.useCallback(() => {
+    return <View style={styles.listSeparator} />;
+  }, []);
+
   const handleNewRestaurant = React.useCallback(() => {
     navigation.push('CreateRestaurant');
   }, [navigation]);
@@ -136,9 +140,7 @@ export function Home({ navigation }: PropTypes) {
           data={restaurants}
           renderItem={renderItemComponent}
           contentContainerStyle={styles.listBodyContainer}
-          ItemSeparatorComponent={() => {
-            return <View style={styles.listSeparator} />;
-          }}
+          ItemSeparatorComponent={separatorComponent}
         />
       )}
       {isAdmin && (
