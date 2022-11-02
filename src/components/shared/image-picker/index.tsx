@@ -66,6 +66,11 @@ export function ImagePicker({ maxAmountOfImages }: PropTypes) {
     );
   });
 
+  const renderSeparatorItem = React.useCallback(() => {
+    const Separator = React.memo(() => <View style={styles.separator} />);
+    return <Separator />;
+  }, []);
+
   return (
     <View>
       <FlatList
@@ -84,7 +89,7 @@ export function ImagePicker({ maxAmountOfImages }: PropTypes) {
           },
           [AddNewImageComponent, ImageComponent],
         )}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        ItemSeparatorComponent={renderSeparatorItem}
       />
     </View>
   );

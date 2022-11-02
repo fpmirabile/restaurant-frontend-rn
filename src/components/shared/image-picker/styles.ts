@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     height: 200,
   },
   addPictureTouchableContainer: {
-    width: 250,
+    width: '100%',
   },
   addPictureContainer: {
     flex: 1,
