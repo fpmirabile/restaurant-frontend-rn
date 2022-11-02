@@ -2,52 +2,21 @@ import * as React from 'react';
 import { View } from 'react-native';
 import {
   Caption,
-  CTAText,
   Headline6,
   ImagePicker,
   Input,
   PressableView,
 } from '../../../../components/shared';
+import { OpeningList } from '../../../../components/shared/opening-list';
+import { ICONS } from '../../../../constants';
 import { localizedStrings } from '../../../../localization/localized-strings';
 import { styles } from './styles';
 
 interface PropTypes {}
-const weekDays = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
+const AddImageIcon = ICONS.addImage;
 export function CreateRestaurantStepTwo({}: PropTypes) {
   return (
     <View>
-      <Headline6 style={styles.captionTitle}>
-        {localizedStrings.restaurant.create.openHoursTitle}
-      </Headline6>
-      <View style={styles.timeContainer}>
-        <Input
-          containerStyles={styles.timeInput}
-          placeholder={localizedStrings.restaurant.create.fromHour}
-          value=""
-        />
-        <Input
-          containerStyles={styles.timeInput}
-          placeholder={localizedStrings.restaurant.create.toHour}
-          value=""
-        />
-      </View>
-      <Headline6 style={styles.captionTitle}>
-        {localizedStrings.restaurant.create.openedDaysTitle}
-      </Headline6>
-      <View style={styles.openDaysContainer}>
-        {weekDays.map(day => (
-          <PressableView
-            key={day}
-            containerStyles={[
-              styles.dayContainer,
-              day === 'J' && styles.dayContainerSelected,
-            ]}>
-            <CTAText style={[day === 'J' && styles.openDaySelected]}>
-              {day}
-            </CTAText>
-          </PressableView>
-        ))}
-      </View>
       <Headline6 style={styles.captionTitle}>
         {localizedStrings.restaurant.create.kindOfFoodAndRange}
       </Headline6>
@@ -61,6 +30,7 @@ export function CreateRestaurantStepTwo({}: PropTypes) {
         placeholder={localizedStrings.restaurant.create.priceRange}
         value=""
       />
+      <OpeningList />
       <Headline6 style={styles.captionTitle}>
         {localizedStrings.restaurant.create.restaurantPictures}
       </Headline6>
