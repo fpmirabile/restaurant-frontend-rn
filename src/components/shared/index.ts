@@ -14,3 +14,4 @@ export {
 export { ScrollPage } from './scroll-page';
 export { ImageButton } from './image-button';
 export { PressableView } from './pressable-view';
+export { ImagePicker } from './image-picker';

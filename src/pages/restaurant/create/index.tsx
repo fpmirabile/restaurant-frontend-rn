@@ -35,7 +35,9 @@ export function CreateRestaurant({ navigation }: PropTypes) {
   const StepComponent = !!steps[step - 1] && steps[step - 1];
   return (
     <View style={styles.containerView}>
-      <ScrollPage internalContainerStyles={styles.container}>
+      <ScrollPage
+        nestedScrollEnabled
+        internalContainerStyles={styles.container}>
         <View>
           <Title darkPinkColor>{localizedStrings.restaurant.title}</Title>
           <Caption darkPinkColor>
