@@ -6,12 +6,16 @@ import { styles } from './styles';
 import { Shadow } from 'react-native-shadow-2';
 import { ICONS } from '../../constants';
 import { localizedStrings } from '../../localization/localized-strings';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
+import { actions } from '../../redux';
+import { Restaurant } from '../../api/restaurant.api';
 const TestImage = require('../../assets/images/image.png');
 
 interface PropTypes extends MorfandoRouterParams<'Home'> {}
 
 const RestaurantItem = React.memo(
-  ({ index }: ListRenderItemInfo<any>): JSX.Element => {
+  ({ index, item }: ListRenderItemInfo<Restaurant>): JSX.Element => {
+    const LikeIcon = ICONS.likeNoBackground;
     // const favorite = index % 2 === 0;
     const disabled = index === 1;
     return (
@@ -20,48 +24,38 @@ const RestaurantItem = React.memo(
         distance={2}
         startColor={'rgba(0, 0, 0, 0.20)'}
         endColor={'rgba(0, 0, 0, 0.03)'}
+        containerStyle={{ flex: 1 }}
         offset={[0, 1]}>
         {disabled && (
           <View style={styles.backdrop}>
             <View style={styles.backdropInnerContainer}>
-              <Body center fontType="bold" style={{ color: 'white' }}>
+              <Body center fontType="bold" style={styles.temporaryCloseFont}>
                 Cerrado temporalmente
               </Body>
             </View>
           </View>
         )}
-        <View
-          style={{
-            paddingHorizontal: 16,
-            marginVertical: 14,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
-          <View style={{ justifyContent: 'center' }}>
+        <View style={styles.restaurantContainer}>
+          <View style={styles.restaurantTopPosition}>
             <Body fontType="bold" darkPinkColor>
-              Paja Rota #{index}
+              {item.name}
             </Body>
             <Body>Parrilla</Body>
           </View>
-          <View style={{ justifyContent: 'center' }}>
-            {/* <Image
-              source={
-                favorite
-                  ?
-                  : require('../../../assets/images/icons/not-fill-like.png')
-              }
-            /> */}
+          <View style={styles.restaurantTopPosition}>
+            <LikeIcon />
           </View>
         </View>
         <View>
-          <Image style={{ width: '100%' }} source={TestImage} />
+          <Image style={styles.restaurantBackgroundImage} source={TestImage} />
         </View>
-        <View style={{ paddingHorizontal: 16, marginVertical: 16 }}>
-          <Body2>
+        <View style={styles.restaurantInfoContainer}>
+          <Body2 style={styles.addressSize}>
             <Body fontType="bold" darkPinkColor>
               Direccion
             </Body>{' '}
-            José M. Estrada 134, Haedo, Provincia de Buenos Aires - 2km
+            {item.address}
+            {/* José M. Estrada 134, Haedo, Provincia de Buenos Aires - 2km */}
           </Body2>
           <Body2>
             <Body fontType="bold" darkPinkColor>
@@ -82,7 +76,7 @@ const RestaurantItem = React.memo(
 );
 
 const header = () => {
-  const RestaurantIcon = React.memo(ICONS.restaurant);
+  const RestaurantIcon = ICONS.restaurant;
 
   return (
     <View style={styles.listHeaderContainer}>
@@ -102,37 +96,60 @@ const header = () => {
 };
 
 export function Home({ navigation }: PropTypes) {
+  const {
+    user: { auth: isAdmin },
+    restaurantTemp: {
+      restaurants,
+      home: { loading, error },
+    },
+  } = useAppSelector(state => state);
+  const dispatch = useAppDispatch();
+
+  const renderItemComponent = React.useCallback(
+    (props: ListRenderItemInfo<Restaurant>) => {
+      return <RestaurantItem {...props} />;
+    },
+    [],
+  );
+
   const handleNewRestaurant = React.useCallback(() => {
     navigation.push('CreateRestaurant');
   }, [navigation]);
+
+  React.useLayoutEffect(() => {
+    dispatch(actions.restaurantTemp.getRestaurants());
+  }, [dispatch]);
+
   return (
     <View style={styles.container}>
-      <FlatList
-        ListHeaderComponent={header}
-        data={[{}, {}, {}]}
-        renderItem={React.useCallback((props: ListRenderItemInfo<any>) => {
-          return <RestaurantItem {...props} />;
-        }, [])}
-        contentContainerStyle={{
-          padding: 16,
-        }}
-        ItemSeparatorComponent={() => {
-          return (
-            <View
-              style={{
-                marginVertical: 8,
-              }}
-            />
-          );
-        }}
-      />
-      <View style={styles.createNewRestaurantContainer}>
-        <ColorfulButton
-          buttonContainerStyle={styles.newRestaurantButton}
-          onPress={handleNewRestaurant}
-          title={localizedStrings.home.createNewRestaurant}
+      {error && <View />}
+      {loading && (
+        <Image
+          style={styles.loadingIcon}
+          resizeMode="contain"
+          source={require('../../assets/images/loading/loading.gif')}
         />
-      </View>
+      )}
+      {!loading && (
+        <FlatList
+          ListHeaderComponent={header}
+          data={restaurants}
+          renderItem={renderItemComponent}
+          contentContainerStyle={styles.listBodyContainer}
+          ItemSeparatorComponent={() => {
+            return <View style={styles.listSeparator} />;
+          }}
+        />
+      )}
+      {isAdmin && (
+        <View style={styles.createNewRestaurantContainer}>
+          <ColorfulButton
+            buttonContainerStyle={styles.newRestaurantButton}
+            onPress={handleNewRestaurant}
+            title={localizedStrings.home.createNewRestaurant}
+          />
+        </View>
+      )}
     </View>
   );
 }
