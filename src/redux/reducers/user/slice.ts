@@ -53,7 +53,6 @@ type LoginPayload = {
 const loginWithCredentials = createAsyncThunk(
   'user/loginCredentials',
   async ({ username, password }: LoginPayload, { rejectWithValue }) => {
-    console.log('login');
     try {
       const loginTokens = await UserAPI.loginCredentials({
         username: username.trim(),
@@ -71,6 +70,7 @@ const initialState = {
   auth: {
     jwt: '',
     refresh: '',
+    isAdmin: false,
   },
   registration: {
     loading: false,
@@ -132,6 +132,7 @@ const userAppSlice = createSlice({
       const [jwt, refresh] = action.payload;
       state.auth.jwt = jwt;
       state.auth.refresh = refresh;
+      state.auth.isAdmin = true;
       setSession({ jwt, refreshToken: refresh });
     });
     builder.addCase(loginWithCredentials.rejected, (state, action) => {
