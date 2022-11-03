@@ -33,7 +33,7 @@ export const localizedStrings = new LocalizedStrings({
         restaurantName: 'Nombre del restaurante',
         street: 'Calle',
         streetNumber: 'Número',
-        neighboard: 'Barrio',
+        neighborhood: 'Barrio',
         town: 'Localidad',
         state: 'Provincia',
         geolocalization: 'Geolocalizacion',

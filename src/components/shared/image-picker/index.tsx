@@ -10,13 +10,21 @@ import { ListRenderItemInfo } from 'react-native';
 import { ImageButton } from '../image-button';
 
 interface PropTypes {
+  onImageAdded?: (images: string[]) => void;
   maxAmountOfImages: number;
+  previousImages?: string[];
 }
 
-export function ImagePicker({ maxAmountOfImages }: PropTypes) {
+export function ImagePicker({
+  maxAmountOfImages,
+  onImageAdded,
+  previousImages,
+}: PropTypes) {
   const AddImageIcon = ICONS.addImage;
   const removeImageIcon = ICONS.removeImage;
-  const [assets, setAssets] = React.useState<string[]>([]);
+  const [assets, setAssets] = React.useState<string[]>(
+    previousImages && previousImages.length > 0 ? previousImages : [],
+  );
 
   const handlePressedMe = async () => {
     await launchImageLibrary(
@@ -32,6 +40,9 @@ export function ImagePicker({ maxAmountOfImages }: PropTypes) {
               result.push(asset.uri);
             }
           });
+          if (onImageAdded) {
+            onImageAdded(result);
+          }
           setAssets(result);
         }
       },

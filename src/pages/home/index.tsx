@@ -98,7 +98,7 @@ const header = () => {
 export function Home({ navigation }: PropTypes) {
   const {
     user: { auth: isAdmin },
-    restaurantTemp: {
+    restaurant: {
       restaurants,
       home: { loading, error },
     },
@@ -123,7 +123,7 @@ export function Home({ navigation }: PropTypes) {
   }, [navigation]);
 
   React.useLayoutEffect(() => {
-    dispatch(actions.restaurantTemp.getRestaurants());
+    dispatch(actions.restaurants.getRestaurants());
   }, [dispatch]);
 
   return (

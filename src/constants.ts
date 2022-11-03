@@ -13,6 +13,7 @@ import RightChevronIcon from './assets/images/icons/chevron-right-icon.svg';
 import AddImageIcon from './assets/images/icons/add-image-icon.svg';
 import RemoveImageIcon from './assets/images/icons/remove-image-icon.svg';
 import NotFilledLikeIcon from './assets/images/icons/not-filled-like-icon.svg';
+import CloseIcon from './assets/images/icons/close-icon.svg';
 
 const COLORS = {
   blueSecondary: '#211D42',
@@ -40,6 +41,7 @@ const ICONS = {
   addImage: memo(AddImageIcon),
   removeImage: memo(RemoveImageIcon),
   likeNoBackground: memo(NotFilledLikeIcon),
+  closeIcon: memo(CloseIcon),
 };
 
 export { COLORS, ICONS };

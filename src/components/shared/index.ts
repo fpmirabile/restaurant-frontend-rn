@@ -1,6 +1,6 @@
 export { ColorfulButton, TransparentButton } from './button';
 export { TouchableText } from './touchable-text';
-export { Input } from './text-input';
+export { Input, PressableInput } from './text-input';
 export {
   Title,
   Body,

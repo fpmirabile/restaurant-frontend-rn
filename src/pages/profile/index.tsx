@@ -43,6 +43,7 @@ interface ItemProps {
     icon: React.FC<SvgProps>;
   }[];
 }
+
 const Item = React.memo(({ buttons }: ItemProps) => {
   return (
     <View>

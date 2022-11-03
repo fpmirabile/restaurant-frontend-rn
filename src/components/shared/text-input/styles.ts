@@ -29,4 +29,8 @@ export const styles = StyleSheet.create({
     color: COLORS.darkPink,
     marginTop: 6,
   },
+  touchableInput: {
+    flex: 1,
+    flexDirection: 'row',
+  },
 });

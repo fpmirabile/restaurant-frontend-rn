@@ -18,13 +18,13 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flex: 1,
-    paddingHorizontal: 15,
+    marginHorizontal: 15,
   },
   hourContainer: {
     justifyContent: 'center',
     alignItems: 'flex-end',
     flex: 1,
-    paddingRight: 15,
+    marginRight: 15,
   },
   dayIconContainer: {
     backgroundColor: COLORS.white,
