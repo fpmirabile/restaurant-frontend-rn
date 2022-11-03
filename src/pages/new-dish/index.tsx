@@ -1,24 +1,20 @@
 import * as React from 'react';
 import { Pressable, View } from 'react-native';
 import { Input, TouchableText, Checkbox, PressableView, ColorfulButton, TransparentButton } from '../../components/shared';
-import { Caption, ScrollPage, Title, Headline5 } from '../../components/shared';
+import { Caption, ScrollPage, Headline5 } from '../../components/shared';
 import { Body, Headline6 } from '../../components/shared/morfando-text';
-
+import SelectList from 'react-native-dropdown-select-list';
 import { MorfandoRouterParams } from '../../navigation/navigation';
 import { styles } from './styles';
 import { localizedStrings } from '../../localization/localized-strings';
 import { ICONS } from '../../constants';
-import { Value } from 'sass';
-import { style } from '../../components/shared/image-button/style';
 
-type InputType = 'email' | 'nya' | 'password';
 // interface RouterProps extends MorfandoRouterParams<'Registration'> {}
 
 // export function NewDish({ navigation }: RouterProps) {
 export function NewDish() {
 
   // Hooks
-  const [categories] = React.useState<string>('');
   const [dishName] = React.useState<string>('');
   const [dishCategory] = React.useState<string>('');
   const [ingredient] = React.useState<string>('');
@@ -36,14 +32,11 @@ export function NewDish() {
   const AddImageIcon = ICONS.addImage;
   const AddIcon = ICONS.add;
   const RemoveIcon = ICONS.remove;
-  const [step, setStep] = React.useState<number>(1);
-  const steps = [];
-
-
-
 
   // Array de elementos JSX que se va a usar para los inputs
   const inputs: JSX.Element[] = []
+  // Esto lo tengo que cambiar por un render item. lo que tendria que hacer para agregar un
+  //  elemento nuevo es mandarle un objeto con los atributos de cada renderitem
   for (let i = 0; i < numInputs; i++)
   {
     //Agrego un input
@@ -84,17 +77,10 @@ export function NewDish() {
     refInputs.current.splice(i,1)[0];
     setNumInputs(value=> value -1);
   }
-  const handleInputOnChange = (input: InputType) => (text: string) => {
-    // if (input === 'email') {
-    //   setUserEmail(text);
-    //   return;
-    // } else {
-    //   if ((input = 'nya')) {
-    //     setNameAndSurname(text);
-    //   }
-    // }
-    // setPassword(text);
-  };
+
+//Drop down
+  const [selected, setSelected] = React.useState("");
+  const data = [{key:'1',value:'Pastas'},{key:'2',value:'Postres'}];
 
   return (
     <View style={styles.containerView}>
@@ -107,11 +93,13 @@ export function NewDish() {
       </View>
       <View style={styles.containerIngredient}>
         <View style={styles.containerInput}>
-          <Input
-                containerStyles={styles.input}
-                value={categories}
-                placeholder={localizedStrings.restaurant.newDish.categories}
-              />
+              <SelectList 
+              placeholder={localizedStrings.restaurant.newDish.category}
+              setSelected={setSelected} 
+              data={data} 
+              search={false}
+              boxStyles={styles.dropDownBorder}
+              dropdownStyles ={styles.dropdownStyles}/>
         </View>
         <View style={styles.containerIcon}>
           <Pressable>

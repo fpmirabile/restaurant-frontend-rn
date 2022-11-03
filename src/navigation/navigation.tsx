@@ -42,9 +42,8 @@ export function Navigation() {
         }}>
         {!jwt ? (
           <Stack.Group>
-            <Stack.Screen name="NewDish" component={NewDish} />
-            {/* <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="Registration" component={UserRegistration} /> */}
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Registration" component={UserRegistration} />
           </Stack.Group>
         ) : (
           <Stack.Group>
@@ -82,6 +81,10 @@ export function Navigation() {
             <Stack.Screen
               name="FinishedRestaurantCreation"
               component={RestaurantCreated}
+            />
+
+            <Stack.Screen name="NewDish"
+            component={NewDish}
             />
           </Stack.Group>
         )}
