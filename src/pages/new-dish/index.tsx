@@ -1,18 +1,19 @@
 import * as React from 'react';
 import { Pressable, View } from 'react-native';
-import { Input, TouchableText, Checkbox, PressableView, ColorfulButton, TransparentButton } from '../../components/shared';
-import { Caption, ScrollPage, Headline5 } from '../../components/shared';
-import { Body, Headline6 } from '../../components/shared/morfando-text';
+import { Input, TouchableText, Checkbox, ColorfulButton, TransparentButton } from '../../components/shared';
+import { Caption, ScrollPage, Headline5,ImagePicker } from '../../components/shared';
+import {Headline6 } from '../../components/shared/morfando-text';
 import SelectList from 'react-native-dropdown-select-list';
 import { MorfandoRouterParams } from '../../navigation/navigation';
 import { styles } from './styles';
 import { localizedStrings } from '../../localization/localized-strings';
 import { ICONS } from '../../constants';
 
-// interface RouterProps extends MorfandoRouterParams<'Registration'> {}
+interface RouterProps extends MorfandoRouterParams<'NewDish'> {}
 
-// export function NewDish({ navigation }: RouterProps) {
-export function NewDish() {
+export function NewDish({ navigation }: RouterProps) {
+  const backToRestaurant = React.useCallback(() => {navigation.navigate('CreateRestaurant')}, [navigation]);
+  const backToHome = React.useCallback(() => {navigation.navigate('Home')}, [navigation]);
 
   // Hooks
   const [dishName] = React.useState<string>('');
@@ -129,13 +130,8 @@ export function NewDish() {
       <View style={styles.subtilte}>
         <Headline6>{localizedStrings.restaurant.newDish.dishImages}</Headline6>
       </View>
-      <PressableView containerStyles={styles.addPictureContainer}>
-        <AddImageIcon />
-        <Body style={styles.addPictureBody}>
-          {localizedStrings.restaurant.create.addPictures}
-        </Body>
-      </PressableView>
-      <Caption>{localizedStrings.restaurant.create.picturesCaption(0, 5)}</Caption>
+        <ImagePicker maxAmountOfImages={5}/>
+        <Caption>{localizedStrings.restaurant.create.picturesCaption(0, 5)}</Caption>
       <View style={styles.subtilte}>
         <Headline6>{localizedStrings.restaurant.newDish.dishIngredients}</Headline6>
       </View>
@@ -153,10 +149,12 @@ export function NewDish() {
         <ColorfulButton
           buttonContainerStyle={styles.newDishButton}
           title={localizedStrings.restaurant.newDish.finish}
+          onPress={backToHome}
         />
         <TransparentButton
           buttonContainerStyle={styles.newDishButton}
           title={localizedStrings.restaurant.newDish.cancel}
+          onPress={backToRestaurant}
         />
       </View>
     </ScrollPage>
