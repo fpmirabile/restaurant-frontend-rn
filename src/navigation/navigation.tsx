@@ -40,7 +40,7 @@ export function Navigation() {
         screenOptions={{
           headerShown: false,
         }}>
-        {jwt ? (
+        {!jwt ? (
           <Stack.Group>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Registration" component={UserRegistration} />
