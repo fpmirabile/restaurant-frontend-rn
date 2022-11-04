@@ -6,5 +6,5 @@ const actions = {
   restaurants: restaurantSlice.actions,
 };
 
-export { store } from './store';
+export { persistedStore, realStore } from './store';
 export { actions };

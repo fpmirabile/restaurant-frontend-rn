@@ -54,11 +54,23 @@ const loginWithCredentials = createAsyncThunk(
   'user/loginCredentials',
   async ({ username, password }: LoginPayload, { rejectWithValue }) => {
     try {
-      const loginTokens = await UserAPI.loginCredentials({
+      const { token, refreshToken } = await UserAPI.loginCredentials({
         username: username.trim(),
         password,
       });
-      return [loginTokens.token, loginTokens.refreshToken];
+
+      await setSession({
+        jwt: token,
+        refreshToken,
+      });
+
+      const userData = await UserAPI.me();
+
+      return {
+        ...userData,
+        token,
+        refreshToken,
+      };
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -70,6 +82,11 @@ const initialState = {
   auth: {
     jwt: '',
     refresh: '',
+  },
+  user: {
+    id: '',
+    name: '',
+    email: '',
     isAdmin: false,
   },
   registration: {
@@ -129,11 +146,16 @@ const userAppSlice = createSlice({
       state.login.credentialsError = '';
     });
     builder.addCase(loginWithCredentials.fulfilled, (state, action) => {
-      const [jwt, refresh] = action.payload;
-      state.auth.jwt = jwt;
-      state.auth.refresh = refresh;
-      state.auth.isAdmin = true;
-      setSession({ jwt, refreshToken: refresh });
+      const { email, id, name, refreshToken, token } = action.payload;
+      state.login.loading = false;
+      state.auth.refresh = refreshToken;
+      state.auth.jwt = token;
+      state.user = {
+        id,
+        email,
+        name,
+        isAdmin: true,
+      };
     });
     builder.addCase(loginWithCredentials.rejected, (state, action) => {
       state.login.loading = false;
