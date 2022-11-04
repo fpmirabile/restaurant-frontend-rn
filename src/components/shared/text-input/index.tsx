@@ -9,6 +9,8 @@ import {
   NativeSyntheticEvent,
   TextInputChangeEventData,
   TextInputEndEditingEventData,
+  TouchableOpacity,
+  KeyboardTypeOptions,
 } from 'react-native';
 import { Caption } from '../morfando-text';
 import { styles } from './styles';
@@ -27,6 +29,9 @@ interface PropTypes {
   containerStyles?: StyleProp<ViewStyle>;
   onBlur?: () => void;
   secureTextEntry?: boolean;
+  disabled?: boolean;
+  keyboardType?: KeyboardTypeOptions;
+  borderBottom?: boolean;
 }
 
 export function Input({
@@ -35,29 +40,52 @@ export function Input({
   errorMessage,
   hasError,
   value,
+  borderBottom,
   rightIcon,
   containerStyles = {},
   onBlur,
   onChange,
   onEndEditing,
   secureTextEntry,
+  disabled,
+  keyboardType,
 }: PropTypes) {
   return (
     <View style={[styles.container, containerStyles]}>
       <TextInput
+        keyboardType={keyboardType}
         onChangeText={onChangeText}
-        style={styles.input}
+        style={borderBottom? styles.inputBorder : styles.input}
         placeholder={placeholder}
         value={value}
         onBlur={onBlur}
         onChange={onChange}
         onEndEditing={onEndEditing}
         secureTextEntry={secureTextEntry}
+        editable={!disabled}
       />
       {rightIcon && <Image style={styles.rightIcon} source={rightIcon} />}
       {!!errorMessage && hasError && (
         <Caption style={styles.errorMessage}>{errorMessage}</Caption>
       )}
     </View>
+  );
+}
+
+interface PressableProps extends PropTypes {
+  onPress: () => void;
+  touchableStyles?: StyleProp<ViewStyle>;
+}
+export function PressableInput({
+  onPress,
+  touchableStyles,
+  ...props
+}: PressableProps) {
+  return (
+    <TouchableOpacity
+      style={[styles.touchableInput, touchableStyles]}
+      onPress={onPress}>
+      <Input {...props} disabled />
+    </TouchableOpacity>
   );
 }

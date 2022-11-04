@@ -20,12 +20,13 @@ interface PropTypes {
 }
 
 type TouchableType =
-  | 'title'
-  | 'body'
-  | 'caption'
-  | 'body2DarkPink'
-  | 'captionDarkPink'
-  | 'ctaText';
+| 'title'
+| 'body'
+| 'bodyDarkPink'
+| 'caption'
+| 'body2DarkPink'
+| 'captionDarkPink'
+| 'ctaText';
 
 export function TouchableText({
   message,
@@ -52,6 +53,11 @@ export function TouchableText({
           <Body2 style={textStyles} darkPinkColor fontType="bold">
             {message}
           </Body2>
+        )}
+        {type === 'bodyDarkPink' && (
+          <Body style={textStyles} darkPinkColor fontType="bold">
+            {message}
+          </Body>
         )}
         {type === 'caption' && <Caption style={textStyles}>{message}</Caption>}
         {type === 'ctaText' && <CTAText style={textStyles}>{message}</CTAText>}

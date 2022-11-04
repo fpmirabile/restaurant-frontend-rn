@@ -1,4 +1,10 @@
-import { authenticatedPost } from './config/calls';
+import { authenticatedGet, authenticatedPost } from './config/calls';
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+}
 
 type RegisterParams = {
   email: string;
@@ -20,6 +26,10 @@ const registerNewOwner = async ({
   });
 };
 
+const me = async (): Promise<User> => {
+  return authenticatedGet('/me');
+};
+
 type LoginCredentialsRequest = {
   username: string;
   password: string;
@@ -36,6 +46,7 @@ const loginCredentials = async ({
 };
 
 export const UserAPI = {
-  registerNewOwner,
   loginCredentials,
+  me,
+  registerNewOwner,
 };

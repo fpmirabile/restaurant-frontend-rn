@@ -1,79 +1,73 @@
 import * as React from 'react';
 import { View } from 'react-native';
 import {
-  Body,
   Caption,
-  CTAText,
   Headline6,
+  ImagePicker,
   Input,
-  PressableView,
 } from '../../../../components/shared';
-import { ICONS } from '../../../../constants';
+import { OpeningList } from '../../../../components/shared/opening-list';
 import { localizedStrings } from '../../../../localization/localized-strings';
+import { actions } from '../../../../redux';
+import { StepTwoFields } from '../../../../redux/reducers/restaurant/slice';
+import { useAppDispatch, useAppSelector } from '../../../../redux/store';
 import { styles } from './styles';
 
 interface PropTypes {}
-const AddImageIcon = ICONS.addImage;
-const weekDays = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
+
 export function CreateRestaurantStepTwo({}: PropTypes) {
+  const dispatch = useAppDispatch();
+  const { images, priceRange, times, typeOfFood } = useAppSelector(
+    state => state.restaurant.create.stepTwo,
+  );
+
+  const handleChangeValue = React.useCallback(
+    (field: keyof StepTwoFields) => (value: any) => {
+      console.log('test', value, value[field]);
+      dispatch(
+        actions.restaurants.onUpdateStepTwo({
+          images,
+          times,
+          typeOfFood,
+          priceRange,
+          [field]: value,
+        }),
+      );
+    },
+    [dispatch, images, priceRange, typeOfFood, times],
+  );
+
   return (
     <View>
-      <Headline6 style={styles.captionTitle}>
-        {localizedStrings.restaurant.create.openHoursTitle}
-      </Headline6>
-      <View style={styles.timeContainer}>
-        <Input
-          containerStyles={styles.timeInput}
-          placeholder={localizedStrings.restaurant.create.fromHour}
-          value=""
-        />
-        <Input
-          containerStyles={styles.timeInput}
-          placeholder={localizedStrings.restaurant.create.toHour}
-          value=""
-        />
-      </View>
-      <Headline6 style={styles.captionTitle}>
-        {localizedStrings.restaurant.create.openedDaysTitle}
-      </Headline6>
-      <View style={styles.openDaysContainer}>
-        {weekDays.map(day => (
-          <PressableView
-            key={day}
-            containerStyles={[
-              styles.dayContainer,
-              day === 'J' && styles.dayContainerSelected,
-            ]}>
-            <CTAText style={[day === 'J' && styles.openDaySelected]}>
-              {day}
-            </CTAText>
-          </PressableView>
-        ))}
-      </View>
       <Headline6 style={styles.captionTitle}>
         {localizedStrings.restaurant.create.kindOfFoodAndRange}
       </Headline6>
       <Input
+        onChangeText={handleChangeValue('typeOfFood')}
         containerStyles={styles.foodTypeInput}
         placeholder={localizedStrings.restaurant.create.kindOfFood}
-        value=""
+        value={typeOfFood}
       />
       <Input
+        onChangeText={handleChangeValue('priceRange')}
         containerStyles={styles.priceRangeInput}
         placeholder={localizedStrings.restaurant.create.priceRange}
-        value=""
+        value={priceRange}
+      />
+      <OpeningList
+        previousDates={times}
+        onOpenDaysChanged={handleChangeValue('times')}
       />
       <Headline6 style={styles.captionTitle}>
         {localizedStrings.restaurant.create.restaurantPictures}
       </Headline6>
-      <PressableView containerStyles={styles.addPictureContainer}>
-        <AddImageIcon />
-        <Body style={styles.addPictureBody}>
-          {localizedStrings.restaurant.create.addPictures}
-        </Body>
-      </PressableView>
+      <ImagePicker
+        onImageAdded={handleChangeValue('images')}
+        maxAmountOfImages={5}
+        previousImages={images}
+      />
       <Caption>
-        {localizedStrings.restaurant.create.picturesCaption(0, 5)}
+        {localizedStrings.restaurant.create.picturesCaption(images.length, 5)}
       </Caption>
     </View>
   );

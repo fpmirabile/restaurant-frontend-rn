@@ -10,6 +10,7 @@ import {
   UserRegistration,
   Profile,
   SuccessRegistration,
+  NewDish
 } from '../pages';
 import { HomeNavHeader, ProfileNavHeader } from '../headers';
 import { useAppSelector } from '../redux/store';
@@ -27,6 +28,7 @@ type RootStackParamList = {
   CreateRestaurant: undefined;
   FinishedRestaurantCreation: undefined;
   SuccessRegistration: undefined;
+  NewDish: undefined;
   // Feed: { sort: 'latest' | 'top' } | undefined;
 };
 
@@ -92,6 +94,11 @@ export function Navigation() {
               name="FinishedRestaurantCreation"
               component={RestaurantCreated}
             />
+
+            <Stack.Screen name="NewDish"
+            component={NewDish}
+            />
+            
           </Stack.Group>
         )}
       </Stack.Navigator>

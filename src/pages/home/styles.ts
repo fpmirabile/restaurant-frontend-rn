@@ -5,13 +5,22 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.background,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  loadingIcon: {
+    flex: 1,
   },
   listHeaderContainer: {
     justifyContent: 'center',
     alignItems: 'flex-start',
+  },
+  listBodyContainer: {
+    padding: 16,
+  },
+  listSeparator: {
+    marginVertical: 8,
   },
   inputContainer: {
     marginBottom: 16,
@@ -29,6 +38,9 @@ export const styles = StyleSheet.create({
   shadowElement: {
     borderRadius: 4,
     backgroundColor: COLORS.white,
+  },
+  restaurantItemShadowContainer: {
+    flex: 1,
   },
   backdrop: {
     position: 'absolute',
@@ -53,5 +65,27 @@ export const styles = StyleSheet.create({
   },
   newRestaurantButton: {
     minWidth: '100%',
+  },
+  restaurantContainer: {
+    paddingHorizontal: 16,
+    marginVertical: 14,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  restaurantTopPosition: {
+    justifyContent: 'center',
+  },
+  restaurantBackgroundImage: {
+    width: '100%',
+  },
+  restaurantInfoContainer: {
+    paddingHorizontal: 16,
+    marginVertical: 16,
+  },
+  temporaryCloseFont: {
+    color: 'white',
+  },
+  addressSize: {
+    minWidth: 300,
   },
 });

@@ -3,3 +3,4 @@ export { Home } from './home';
 export { UserRegistration } from './user-registration';
 export { Profile } from './profile';
 export { SuccessRegistration } from './success-registration';
+export { NewDish} from './new-dish';
