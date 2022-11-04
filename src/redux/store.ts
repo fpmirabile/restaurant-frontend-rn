@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistStore, persistReducer } from 'redux-persist';
 import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
 import { restaurantSlice } from './reducers/restaurant/slice';
-import { userSlice } from './reducers/user/slice';
+import { userSlice, UserState } from './reducers/user/slice';
 
 const persistConfiguration = {
   key: 'root',
@@ -13,9 +13,13 @@ const persistConfiguration = {
 
 export const realStore = configureStore({
   reducer: {
-    user: persistReducer(persistConfiguration, userSlice.reducer),
+    user: persistReducer<UserState, any>(
+      persistConfiguration,
+      userSlice.reducer,
+    ),
     restaurant: restaurantSlice.reducer,
   },
+  middleware: getDefaultMiddleware => getDefaultMiddleware(),
 });
 
 export const persistedStore = persistStore(realStore);

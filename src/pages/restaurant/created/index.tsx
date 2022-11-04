@@ -6,17 +6,21 @@ import {
   Title,
   TransparentButton,
 } from '../../../components/shared';
-import ChefImage from '../../../assets/images/chef.svg';
 import { MorfandoRouterParams } from '../../../navigation/navigation';
 import { styles } from './styles';
 import { localizedStrings } from '../../../localization/localized-strings';
 import { useAppSelector } from '../../../redux/store';
+import { ICONS } from '../../../constants';
 
 interface PropTypes
   extends MorfandoRouterParams<'FinishedRestaurantCreation'> {}
 export function RestaurantCreated({ navigation }: PropTypes) {
+  const Chef = ICONS.chef;
   const { loading } = useAppSelector(state => state.restaurant.create);
-  const handleGoToMenu = React.useCallback(() => {navigation.navigate('NewDish')}, [navigation]);
+
+  const handleContinueWithMenu = React.useCallback(() => {
+    navigation.navigate('NewDish');
+  }, [navigation]);
   const handleContinueLater = React.useCallback(() => {
     navigation.navigate('Home');
   }, [navigation]);
@@ -36,13 +40,13 @@ export function RestaurantCreated({ navigation }: PropTypes) {
           <Caption>{localizedStrings.restaurant.created.subtitle}</Caption>
           <View style={styles.bottomContainer}>
             <View style={styles.imageContainer}>
-              <ChefImage />
+              <Chef />
             </View>
             <View>
               <ColorfulButton
                 buttonContainerStyle={styles.colorfulButton}
                 title={localizedStrings.restaurant.created.primaryButton}
-                onPress={handleGoToMenu}
+                onPress={handleContinueWithMenu}
               />
               <TransparentButton
                 title={localizedStrings.restaurant.created.secondaryButton}

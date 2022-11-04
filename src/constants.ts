@@ -16,6 +16,7 @@ import NotFilledLikeIcon from './assets/images/icons/not-filled-like-icon.svg';
 import CloseIcon from './assets/images/icons/close-icon.svg';
 import RemoveIcon from './assets/images/icons/remove-icon.svg';
 import AddIcon from './assets/images/icons/add-icon.svg';
+import ChefImage from './assets/images/chef.svg';
 
 const COLORS = {
   blueSecondary: '#211D42',
@@ -24,7 +25,7 @@ const COLORS = {
   black: '#000000DE',
   background: '#FAFAFA',
   darkPink: '#FB0067',
-  grey:'#DCDCDC',
+  grey: '#DCDCDC',
   shadow: '#FEBDD8',
 };
 
@@ -46,6 +47,7 @@ const ICONS = {
   closeIcon: memo(CloseIcon),
   removeIcon: memo(RemoveIcon),
   addicon: memo(AddIcon),
+  chef: memo(ChefImage),
 };
 
 export { COLORS, ICONS };

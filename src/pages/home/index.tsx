@@ -14,11 +14,9 @@ const TestImage = require('../../assets/images/image.png');
 interface PropTypes extends MorfandoRouterParams<'Home'> {}
 
 const RestaurantItem = React.memo(
-  ({ index, item }: ListRenderItemInfo<Restaurant>): JSX.Element => {
+  ({ item }: ListRenderItemInfo<Restaurant>): JSX.Element => {
     const { isAdmin } = useAppSelector(state => state.user.user);
     const LikeIcon = ICONS.likeNoBackground;
-    // const favorite = index % 2 === 0;
-    const disabled = index === 1;
     return (
       <Shadow
         style={styles.shadowElement}
@@ -27,7 +25,7 @@ const RestaurantItem = React.memo(
         endColor={'rgba(0, 0, 0, 0.03)'}
         containerStyle={styles.restaurantItemShadowContainer}
         offset={[0, 1]}>
-        {disabled && (
+        {item.isClosed && (
           <View style={styles.backdrop}>
             <View style={styles.backdropInnerContainer}>
               <Body center fontType="bold" style={styles.temporaryCloseFont}>

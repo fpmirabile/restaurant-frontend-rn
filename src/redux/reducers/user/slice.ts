@@ -77,6 +77,29 @@ const loginWithCredentials = createAsyncThunk(
   },
 );
 
+export type UserState = {
+  isAppInitLoading: boolean;
+  auth: {
+    jwt: string;
+    refresh: string;
+  };
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    isAdmin: boolean;
+  };
+  registration: {
+    loading: boolean;
+    error: string;
+  };
+  login: {
+    loading: boolean;
+    ssoError: string;
+    credentialsError: string;
+  };
+};
+
 const initialState = {
   isAppInitLoading: true,
   auth: {

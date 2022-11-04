@@ -54,3 +54,14 @@ export function isValidPassword(password: string): boolean {
     password.toUpperCase() !== password
   );
 }
+
+export const notEmpty = (value: string): boolean => {
+  return !!value && value.length > 0;
+};
+
+export const atLeastOneSelected = (
+  value: { key: string; value: string } | undefined,
+): boolean => {
+  const numberKey = Number(value?.key);
+  return !!value && !isNaN(numberKey) && numberKey > 0;
+};

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { View } from 'react-native';
-import { CTAText, Headline6, ImageButton } from '..';
 import { ICONS } from '../../../constants';
 import { localizedStrings } from '../../../localization/localized-strings';
+import { ImageButton } from '../image-button';
+import { CTAText, Headline6 } from '../morfando-text';
 import { EditModal } from './edit-modal';
 import { styles } from './styles';
 
