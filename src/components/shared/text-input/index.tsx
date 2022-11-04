@@ -31,6 +31,7 @@ interface PropTypes {
   secureTextEntry?: boolean;
   disabled?: boolean;
   keyboardType?: KeyboardTypeOptions;
+  borderBottom?: boolean;
 }
 
 export function Input({
@@ -39,6 +40,7 @@ export function Input({
   errorMessage,
   hasError,
   value,
+  borderBottom,
   rightIcon,
   containerStyles = {},
   onBlur,
@@ -53,7 +55,7 @@ export function Input({
       <TextInput
         keyboardType={keyboardType}
         onChangeText={onChangeText}
-        style={styles.input}
+        style={borderBottom? styles.inputBorder : styles.input}
         placeholder={placeholder}
         value={value}
         onBlur={onBlur}

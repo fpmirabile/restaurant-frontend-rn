@@ -16,6 +16,7 @@
     ]
   },
   "dependencies": {
+    "@react-native-community/checkbox": "^0.5.13",
     "@react-native-community/datetimepicker": "^6.5.3",
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/native-stack": "^6.9.1",
@@ -23,6 +24,7 @@
     "react": "18.1.0",
     "react-native": "0.70.4",
     "react-native-config": "^1.4.6",
+    "react-native-dropdown-select-list": "^1.0.23",
     "react-native-image-picker": "^4.10.0",
     "react-native-keychain": "^8.1.1",
     "react-native-localization": "^2.3.1",

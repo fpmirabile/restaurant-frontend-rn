@@ -45,6 +45,7 @@ const ICONS = {
   likeNoBackground: memo(NotFilledLikeIcon),
   closeIcon: memo(CloseIcon),
   removeIcon: memo(RemoveIcon),
+  addicon: memo(AddIcon),
 };
 
 export { COLORS, ICONS };

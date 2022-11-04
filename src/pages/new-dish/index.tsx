@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Pressable, View } from 'react-native';
-import { Input, TouchableText, Checkbox, ColorfulButton, TransparentButton } from '../../components/shared';
+import { Input, TouchableText, Checkbox, ColorfulButton, TransparentButton, ImageButton } from '../../components/shared';
 import { Caption, ScrollPage, Headline5,ImagePicker } from '../../components/shared';
 import {Headline6 } from '../../components/shared/morfando-text';
 import SelectList from 'react-native-dropdown-select-list';
@@ -27,12 +27,6 @@ export function NewDish({ navigation }: RouterProps) {
 // El texto que voy escribiendo en el text input
    const refInputs = React.useRef<string[]>([textValue]);
 
-  // const goToMain = () => {
-  //   navigation.goBack();
-  // };
-  const AddImageIcon = ICONS.addImage;
-  const AddIcon = ICONS.add;
-  const RemoveIcon = ICONS.remove;
 
   // Array de elementos JSX que se va a usar para los inputs
   const inputs: JSX.Element[] = []
@@ -52,9 +46,7 @@ export function NewDish({ navigation }: RouterProps) {
           />
         </View>
         <View style={styles.containerIcon}>
-          <Pressable onPress={()=>removeInput(i)}>
-              {<RemoveIcon/>}
-          </Pressable>
+          <ImageButton  onPress={()=>removeInput(i)} imageSvg={ICONS.removeIcon} />
         </View>
       </View>
     )
@@ -103,9 +95,8 @@ export function NewDish({ navigation }: RouterProps) {
               dropdownStyles ={styles.dropdownStyles}/>
         </View>
         <View style={styles.containerIcon}>
-          <Pressable>
-                {<AddIcon/>}
-          </Pressable>
+          {/* Me falta poner la accion en click */}
+          <ImageButton  imageSvg={ICONS.addicon} />
         </View>
       </View>
       <View style={styles.subtilte}>
