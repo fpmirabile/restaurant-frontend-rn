@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { Pressable, View } from 'react-native';
-import { Input, TouchableText, Checkbox, ColorfulButton, TransparentButton, ImageButton } from '../../components/shared';
-import { Caption, ScrollPage, Headline5,ImagePicker } from '../../components/shared';
+import { View } from 'react-native';
+import { Input, TouchableText, Checkbox, ColorfulButton, TransparentButton, ImageButton, CustomModal, Caption, ScrollPage, Headline5,ImagePicker } from '../../components/shared';
 import {Headline6 } from '../../components/shared/morfando-text';
 import SelectList from 'react-native-dropdown-select-list';
 import { MorfandoRouterParams } from '../../navigation/navigation';
@@ -94,6 +93,17 @@ export function NewDish({ navigation }: RouterProps) {
               boxStyles={styles.dropDownBorder}
               dropdownStyles ={styles.dropdownStyles}/>
         </View>
+        <CustomModal 
+        isVisible={true}
+        modalTitle={'Hola Gatin'}
+        // modalSubtitle={'Cantidad de estrellas'}
+        // description={'un gusto saludarlo caballero, como usted se encuentra'}
+        textPrimaryButton={localizedStrings.restaurant.newDish.create}
+        textSecondaryButton={localizedStrings.restaurant.newDish.cancel}
+        input={true}
+
+        />
+          
         <View style={styles.containerIcon}>
           {/* Me falta poner la accion en click */}
           <ImageButton  imageSvg={ICONS.addicon} />
