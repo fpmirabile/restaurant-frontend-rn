@@ -16,7 +16,7 @@ interface PropTypes
   extends MorfandoRouterParams<'FinishedRestaurantCreation'> {}
 export function RestaurantCreated({ navigation }: PropTypes) {
   const { loading } = useAppSelector(state => state.restaurant.create);
-  const handleGoToMenu = React.useCallback(() => {}, []);
+  const handleGoToMenu = React.useCallback(() => {navigation.navigate('NewDish')}, [navigation]);
   const handleContinueLater = React.useCallback(() => {
     navigation.navigate('Home');
   }, [navigation]);
