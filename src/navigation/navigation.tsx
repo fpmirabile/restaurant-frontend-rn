@@ -4,7 +4,14 @@ import {
   createNativeStackNavigator,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
-import { Login, Home, UserRegistration, Profile, NewDish } from '../pages';
+import {
+  Login,
+  Home,
+  UserRegistration,
+  Profile,
+  SuccessRegistration,
+  NewDish
+} from '../pages';
 import { HomeNavHeader, ProfileNavHeader } from '../headers';
 import { useAppSelector } from '../redux/store';
 import { LoadingScreen } from '../components/loading-screen';
@@ -20,8 +27,8 @@ type RootStackParamList = {
   Profile: undefined;
   CreateRestaurant: undefined;
   FinishedRestaurantCreation: undefined;
+  SuccessRegistration: undefined;
   NewDish: undefined;
-
   // Feed: { sort: 'latest' | 'top' } | undefined;
 };
 
@@ -45,6 +52,10 @@ export function Navigation() {
           <Stack.Group>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Registration" component={UserRegistration} />
+            <Stack.Screen
+              name="SuccessRegistration"
+              component={SuccessRegistration}
+            />
           </Stack.Group>
         ) : (
           <Stack.Group>
