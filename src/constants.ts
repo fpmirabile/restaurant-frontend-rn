@@ -16,6 +16,7 @@ import NotFilledLikeIcon from './assets/images/icons/not-filled-like-icon.svg';
 import CloseIcon from './assets/images/icons/close-icon.svg';
 import RemoveIcon from './assets/images/icons/remove-icon.svg';
 import AddIcon from './assets/images/icons/add-icon.svg';
+import StarIcon from './assets/images/icons/star-icon.svg';
 
 const COLORS = {
   blueSecondary: '#211D42',
@@ -46,6 +47,7 @@ const ICONS = {
   closeIcon: memo(CloseIcon),
   removeIcon: memo(RemoveIcon),
   addicon: memo(AddIcon),
+  starIcon: memo(StarIcon),
 };
 
 export { COLORS, ICONS };

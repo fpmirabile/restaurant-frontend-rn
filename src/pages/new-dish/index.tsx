@@ -18,6 +18,7 @@ export function NewDish({ navigation }: RouterProps) {
   const [dishName] = React.useState<string>('');
   const [dishCategory] = React.useState<string>('');
   const [ingredient] = React.useState<string>('');
+  const [isModalVisible, setModalVisible] = React.useState<boolean>(false);
 
   // this will be attached with each input onChangeText
   const [textValue, setTextValue] = React.useState(''); 
@@ -58,6 +59,7 @@ export function NewDish({ navigation }: RouterProps) {
     setTextValue(value)
   }
 
+  // SETEO DE HOOKS Y CAMPOS
   const addInput = ()=>{
     //Agrego un nuevo elemento en el array de refInputs
     refInputs.current.push('');
@@ -69,6 +71,13 @@ export function NewDish({ navigation }: RouterProps) {
     refInputs.current.splice(i,1)[0];
     setNumInputs(value=> value -1);
   }
+
+  const showModal = ()=>{
+    setModalVisible(true);
+  }
+  const handleCloseEditModal = React.useCallback(() => {
+    setModalVisible(false);
+  }, [setModalVisible]);
 
 //Drop down
   const [selected, setSelected] = React.useState("");
@@ -92,21 +101,24 @@ export function NewDish({ navigation }: RouterProps) {
               search={false}
               boxStyles={styles.dropDownBorder}
               dropdownStyles ={styles.dropdownStyles}/>
-        </View>
-        <CustomModal 
-        isVisible={true}
-        modalTitle={'Hola Gatin'}
-        // modalSubtitle={'Cantidad de estrellas'}
-        // description={'un gusto saludarlo caballero, como usted se encuentra'}
-        textPrimaryButton={localizedStrings.restaurant.newDish.create}
-        textSecondaryButton={localizedStrings.restaurant.newDish.cancel}
-        input={true}
-
-        />
-          
+        </View>          
         <View style={styles.containerIcon}>
           {/* Me falta poner la accion en click */}
-          <ImageButton  imageSvg={ICONS.addicon} />
+          <ImageButton  
+          imageSvg={ICONS.addicon}
+          onPress={showModal} 
+          />
+
+        <CustomModal 
+          isVisible={isModalVisible}
+          onClose={handleCloseEditModal}
+          modalTitle={'¿Desea eliminar su cuenta?'}
+          modalSubtitle={'Cantidad de estrellas'}
+          //bodyText={'Si elimina su cuenta automáticamente se eliminaran todos sus restaurantes.'}
+          textPrimaryButton={localizedStrings.restaurant.newDish.create}
+          textSecondaryButton={localizedStrings.restaurant.newDish.cancel}
+          input={false}
+          />
         </View>
       </View>
       <View style={styles.subtilte}>

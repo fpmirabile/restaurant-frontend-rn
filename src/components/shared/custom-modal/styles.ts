@@ -29,17 +29,6 @@ export const styles = StyleSheet.create({
     height: 14,
     marginLeft: 15,
   },
-
-  firstDatePicker: {
-    marginRight: 8,
-  },
-  secondDatePicker: {
-    marginRight: 15,
-  },
-  datePickerClose: {},
-  addRow: {
-    marginBottom: 24,
-  },
   buttonsContainer: {
     width: '100%',
   },
@@ -56,5 +45,18 @@ export const styles = StyleSheet.create({
   spaceForText:{
     marginTop:16,
     marginBottom:24,
+  },
+  subTitle:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+  },
+  spaceForStars:{
+    alignItems:'flex-start',
+    paddingBottom:16,
+  },
+  longText:{
+    lineHeight: 44,
   }
 });
