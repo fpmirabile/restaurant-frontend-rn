@@ -76,6 +76,7 @@ export const localizedStrings = new LocalizedStrings({
         addIngredient: '+ Agregar ingrediente',
         finish: 'Finalizar',
         cancel: 'Cancelar',
+        create:'Crear',
       },
     },
   },
