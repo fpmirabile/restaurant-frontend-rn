@@ -67,15 +67,7 @@ export function Login({ navigation }: PropTypes) {
   };
 
   const onSSOLogin = () => {
-    dispatch(
-      actions.userActions.loginWithCredentials({
-        username: 'sarasa',
-        password: 'sarasa',
-      }),
-    );
-
-    // TODO: Validation + Endpoint awaiting + checking responses
-    // navigation.push("Home");
+    dispatch(actions.userActions.googleSignIn());
   };
 
   const handleUserCredentialsChanged = (field: Partial<LoginForm>) => {

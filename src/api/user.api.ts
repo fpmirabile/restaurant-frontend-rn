@@ -45,8 +45,23 @@ const loginCredentials = async ({
   return authenticatedPost('/login', { email: username, password });
 };
 
+const loginSso = async ({
+  idToken,
+  email,
+}: {
+  idToken: string;
+  email: string;
+}) => {
+  return authenticatedPost('/login/sso', {
+    idToken,
+    email,
+    provider: 'google',
+  });
+};
+
 export const UserAPI = {
   loginCredentials,
+  loginSso,
   me,
   registerNewOwner,
 };
