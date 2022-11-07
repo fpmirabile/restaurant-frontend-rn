@@ -4,6 +4,10 @@ import {
   removeSession,
   setSession,
 } from '../../../api/config/session';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 import { RegistrationForm } from '../../../pages/user-registration';
 import { UserAPI } from '../../../api/user.api';
 
@@ -73,6 +77,38 @@ const loginWithCredentials = createAsyncThunk(
       };
     } catch (error) {
       return rejectWithValue(error);
+    }
+  },
+);
+
+const googleSignIn = createAsyncThunk(
+  'user/googleSignIn',
+  async (_, { rejectWithValue }) => {
+    try {
+      const hasPlayServices = await GoogleSignin.hasPlayServices();
+      console.log(hasPlayServices);
+      if (!hasPlayServices) {
+        throw { error: statusCodes.PLAY_SERVICES_NOT_AVAILABLE };
+      }
+
+      const {
+        idToken,
+        user: { email },
+      } = await GoogleSignin.signIn();
+      if (idToken) {
+        const { token, refreshToken } = await UserAPI.loginSso({
+          idToken,
+          email,
+        });
+
+        await setSession({
+          jwt: token,
+          refreshToken,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      rejectWithValue(error);
     }
   },
 );
@@ -185,6 +221,31 @@ const userAppSlice = createSlice({
       state.login.credentialsError =
         (action.payload as ErrorType).message || 'Ocurrio un error insperado';
     });
+    builder.addCase(googleSignIn.pending, state => {
+      state.login.loading = true;
+    });
+    builder.addCase(googleSignIn.fulfilled, state => {
+      state.login = {
+        ...initialState.login,
+      };
+    });
+    builder.addCase(googleSignIn.rejected, (state, action) => {
+      const error = action.payload as { code: string };
+      state.login.loading = false;
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        state.login.ssoError =
+          'La autentificacion de Google ha sido cancelada.';
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        state.login.ssoError =
+          'La autentificacion de Google se encuentra en progreso.';
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        state.login.ssoError = 'Usted no tiene de Google Play Services.';
+      } else {
+        state.login.ssoError =
+          'Un error desconocido ha ocurrido con la autentificacion de Google';
+        console.log(error);
+      }
+    });
   },
 });
 
@@ -196,6 +257,7 @@ export const userSlice = {
     initialLoading,
     registerOwner,
     loginWithCredentials,
+    googleSignIn,
   },
   reducer,
 };
