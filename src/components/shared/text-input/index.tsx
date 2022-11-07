@@ -32,6 +32,7 @@ interface PropTypes {
   disabled?: boolean;
   keyboardType?: KeyboardTypeOptions;
   borderBottom?: boolean;
+  onValidateText?: (text: string) => boolean;
 }
 
 export function Input({
@@ -49,23 +50,38 @@ export function Input({
   secureTextEntry,
   disabled,
   keyboardType,
+  onValidateText,
 }: PropTypes) {
+  const [isValid, setIsValid] = React.useState<boolean>(true);
+  const handleEndEditing = React.useCallback(
+    (e: NativeSyntheticEvent<TextInputEndEditingEventData>) => {
+      if (onEndEditing) {
+        onEndEditing(e);
+      }
+
+      if (onValidateText) {
+        setIsValid(onValidateText(e.nativeEvent.text));
+      }
+    },
+    [onEndEditing, setIsValid, onValidateText],
+  );
+
   return (
     <View style={[styles.container, containerStyles]}>
       <TextInput
         keyboardType={keyboardType}
         onChangeText={onChangeText}
-        style={borderBottom? styles.inputBorder : styles.input}
+        style={borderBottom ? styles.inputBorder : styles.input}
         placeholder={placeholder}
         value={value}
         onBlur={onBlur}
         onChange={onChange}
-        onEndEditing={onEndEditing}
+        onEndEditing={handleEndEditing}
         secureTextEntry={secureTextEntry}
         editable={!disabled}
       />
       {rightIcon && <Image style={styles.rightIcon} source={rightIcon} />}
-      {!!errorMessage && hasError && (
+      {!!errorMessage && (hasError || !isValid) && (
         <Caption style={styles.errorMessage}>{errorMessage}</Caption>
       )}
     </View>

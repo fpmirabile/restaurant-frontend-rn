@@ -39,6 +39,9 @@ export const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: COLORS.white,
   },
+  restaurantItemShadowContainer: {
+    flex: 1,
+  },
   backdrop: {
     position: 'absolute',
     left: 0,

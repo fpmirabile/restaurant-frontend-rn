@@ -1,4 +1,8 @@
-import { restaurantSlice } from './reducers/restaurant/slice';
+import {
+  restaurantSlice,
+  StepOneFields,
+  StepTwoFields,
+} from './reducers/restaurant/slice';
 import { userSlice } from './reducers/user/slice';
 
 const actions = {
@@ -6,5 +10,6 @@ const actions = {
   restaurants: restaurantSlice.actions,
 };
 
-export { store } from './store';
+export { persistedStore, realStore } from './store';
 export { actions };
+export { type StepOneFields, type StepTwoFields };

@@ -1,56 +1,47 @@
 import * as React from 'react';
 import { View } from 'react-native';
 import MapView from 'react-native-maps';
-import { Caption, Headline6, Input } from '../../../../components/shared';
+import {
+  Caption,
+  Headline6,
+  Input,
+  Dropdown,
+} from '../../../../components/shared';
 import { localizedStrings } from '../../../../localization/localized-strings';
-import { actions } from '../../../../redux';
-import { StepOneFields } from '../../../../redux/reducers/restaurant/slice';
+import { actions, StepOneFields } from '../../../../redux';
 import { useAppDispatch, useAppSelector } from '../../../../redux/store';
+import { atLeastOneSelected, notEmpty } from '../../../../util/validation';
 import { styles } from './styles';
 
 interface PropTypes {}
-
 export function CreateRestaurantStepOne({}: PropTypes) {
-  const {
-    lat,
-    lon,
-    locality,
-    name,
-    neighborhood,
-    state,
-    street,
-    streetNumber,
-  } = useAppSelector(rState => rState.restaurant.create.stepOne);
+  const stepOne = useAppSelector(rState => rState.restaurant.create.stepOne);
   const dispatch = useAppDispatch();
+
+  const localities = [
+    { key: '1', value: 'Quilmes' },
+    { key: '2', value: 'Berazategui' },
+  ];
+  const states = [{ key: '1', value: 'Buenos Aires' }];
+  const selectedState = states.find(state => state.value === stepOne.state);
+  const selectedLocality = localities.find(
+    locality => locality.value === stepOne.locality,
+  );
 
   const handleChangeValue = React.useCallback(
     (field: keyof StepOneFields) => (value: any) => {
-      console.log('test', value, value[field]);
       dispatch(
         actions.restaurants.onUpdateStepOne({
-          lat,
-          lon,
-          locality,
-          name,
-          neighborhood,
-          state,
-          street,
-          streetNumber,
+          ...stepOne,
+          // REMOVE
+          lat: '12345',
+          lon: '12345',
+          // END REMOVE
           [field]: value,
         }),
       );
     },
-    [
-      dispatch,
-      lat,
-      lon,
-      locality,
-      neighborhood,
-      state,
-      street,
-      streetNumber,
-      name,
-    ],
+    [dispatch, stepOne],
   );
 
   return (
@@ -60,42 +51,56 @@ export function CreateRestaurantStepOne({}: PropTypes) {
         <Input
           onChangeText={handleChangeValue('name')}
           containerStyles={styles.input}
-          value={name}
+          value={stepOne.name}
+          onValidateText={notEmpty}
+          errorMessage="Debe ingresar un nombre"
           placeholder={localizedStrings.restaurant.create.restaurantName}
         />
         <View style={styles.doubleInputContainer}>
           <Input
             onChangeText={handleChangeValue('street')}
+            onValidateText={notEmpty}
             containerStyles={[styles.input, styles.smallInput]}
-            value={street}
+            value={stepOne.street}
+            errorMessage="Debe ingresar una calle"
             placeholder={localizedStrings.restaurant.create.street}
           />
           <View style={styles.separator} />
           <Input
             keyboardType="numeric"
+            onValidateText={notEmpty}
             onChangeText={handleChangeValue('streetNumber')}
+            errorMessage="Debe ingresar un numero de domicilio"
             containerStyles={[styles.input, styles.smallInput]}
-            value={streetNumber}
+            value={stepOne.streetNumber}
             placeholder={localizedStrings.restaurant.create.streetNumber}
           />
         </View>
         <Input
           onChangeText={handleChangeValue('neighborhood')}
           containerStyles={styles.input}
-          value={neighborhood}
+          onValidateText={notEmpty}
+          errorMessage="Debe ingresar un barrio"
+          value={stepOne.neighborhood}
           placeholder={localizedStrings.restaurant.create.neighborhood}
         />
-        <Input
-          onChangeText={handleChangeValue('locality')}
+        <Dropdown
+          onValueChanged={handleChangeValue('state')}
           containerStyles={styles.input}
-          value={locality}
-          placeholder={localizedStrings.restaurant.create.town}
-        />
-        <Input
-          onChangeText={handleChangeValue('state')}
-          containerStyles={styles.input}
-          value={state}
+          errorMessage="Debe ingresar una provincia"
+          defaultPair={selectedState}
+          onValidateValue={atLeastOneSelected}
+          data={states}
           placeholder={localizedStrings.restaurant.create.state}
+        />
+        <Dropdown
+          onValueChanged={handleChangeValue('locality')}
+          errorMessage="Debe ingresar una localidad"
+          containerStyles={styles.input}
+          defaultPair={selectedLocality}
+          onValidateValue={atLeastOneSelected}
+          data={localities}
+          placeholder={localizedStrings.restaurant.create.town}
         />
       </View>
       <View style={styles.mapTitleContainer}>

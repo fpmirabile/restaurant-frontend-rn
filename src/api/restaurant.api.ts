@@ -15,6 +15,7 @@ export type Restaurant = {
   lon: string;
   ownerId: number;
   address: string;
+  isClosed: boolean;
 };
 
 type RestaurantCreate = {

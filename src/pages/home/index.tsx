@@ -14,23 +14,22 @@ const TestImage = require('../../assets/images/image.png');
 interface PropTypes extends MorfandoRouterParams<'Home'> {}
 
 const RestaurantItem = React.memo(
-  ({ index, item }: ListRenderItemInfo<Restaurant>): JSX.Element => {
+  ({ item }: ListRenderItemInfo<Restaurant>): JSX.Element => {
+    const { isAdmin } = useAppSelector(state => state.user.user);
     const LikeIcon = ICONS.likeNoBackground;
-    // const favorite = index % 2 === 0;
-    const disabled = index === 1;
     return (
       <Shadow
         style={styles.shadowElement}
         distance={2}
         startColor={'rgba(0, 0, 0, 0.20)'}
         endColor={'rgba(0, 0, 0, 0.03)'}
-        containerStyle={{ flex: 1 }}
+        containerStyle={styles.restaurantItemShadowContainer}
         offset={[0, 1]}>
-        {disabled && (
+        {item.isClosed && (
           <View style={styles.backdrop}>
             <View style={styles.backdropInnerContainer}>
               <Body center fontType="bold" style={styles.temporaryCloseFont}>
-                Cerrado temporalmente
+                {isAdmin ? 'Cerrado' : 'Cerrado temporalmente'}
               </Body>
             </View>
           </View>
@@ -42,9 +41,11 @@ const RestaurantItem = React.memo(
             </Body>
             <Body>Parrilla</Body>
           </View>
-          <View style={styles.restaurantTopPosition}>
-            <LikeIcon />
-          </View>
+          {!isAdmin && (
+            <View style={styles.restaurantTopPosition}>
+              <LikeIcon />
+            </View>
+          )}
         </View>
         <View>
           <Image style={styles.restaurantBackgroundImage} source={TestImage} />
@@ -75,25 +76,32 @@ const RestaurantItem = React.memo(
   },
 );
 
-const header = () => {
+const header = React.memo(() => {
+  const {
+    user: { isAdmin },
+  } = useAppSelector(state => state.user);
   const RestaurantIcon = ICONS.restaurant;
 
   return (
     <View style={styles.listHeaderContainer}>
-      <View style={styles.inputContainer}>
-        <Input
-          rightIcon={require('../../assets/images/icons/search.png')}
-          value=""
-          placeholder="Buscar restaurantes / tipo de comida"
-        />
-      </View>
+      {!isAdmin && (
+        <View style={styles.inputContainer}>
+          <Input
+            rightIcon={require('../../assets/images/icons/search.png')}
+            value=""
+            placeholder="Buscar restaurantes / tipo de comida"
+          />
+        </View>
+      )}
       <View style={styles.titleContainer}>
         <View style={styles.restaurantIcon}>{<RestaurantIcon />}</View>
-        <Body fontType="bold">Restaurantes cerca tuyo</Body>
+        <Body fontType="bold">
+          {isAdmin ? 'Mis restaurantes' : 'Restaurantes cerca tuyo'}
+        </Body>
       </View>
     </View>
   );
-};
+});
 
 export function Home({ navigation }: PropTypes) {
   const {

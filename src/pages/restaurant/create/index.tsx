@@ -4,7 +4,7 @@ import { Caption, ScrollPage, Title } from '../../../components/shared';
 import { localizedStrings } from '../../../localization/localized-strings';
 import { MorfandoRouterParams } from '../../../navigation/navigation';
 import { actions } from '../../../redux';
-import { useAppDispatch } from '../../../redux/store';
+import { useAppDispatch, useAppSelector } from '../../../redux/store';
 import { BottomBar } from './bottom-bar';
 import { CreateRestaurantStepOne } from './step-1';
 import { CreateRestaurantStepTwo } from './step-2';
@@ -14,6 +14,7 @@ const steps = [CreateRestaurantStepOne, CreateRestaurantStepTwo];
 interface PropTypes extends MorfandoRouterParams<'CreateRestaurant'> {}
 export function CreateRestaurant({ navigation }: PropTypes) {
   const dispatch = useAppDispatch();
+  const { stepOne, stepTwo } = useAppSelector(state => state.restaurant.create);
   const [step, setStep] = React.useState<number>(1);
   const handleGoBack = React.useCallback(() => {
     const previousStep = step - 1;
@@ -29,13 +30,20 @@ export function CreateRestaurant({ navigation }: PropTypes) {
   const handleContinue = React.useCallback(() => {
     const nextStep = step + 1;
     if (nextStep > steps.length) {
+      if (Object.values(stepTwo).some(value => !value)) {
+        return;
+      }
       dispatch(actions.restaurants.createRestaurant());
       navigation.push('FinishedRestaurantCreation');
       return;
     }
 
+    if (Object.values(stepOne).some(value => !value)) {
+      console.log(Object.values(stepOne));
+      return;
+    }
     setStep(nextStep);
-  }, [step, navigation, dispatch]);
+  }, [step, navigation, dispatch, stepOne, stepTwo]);
 
   const StepComponent = !!steps[step - 1] && steps[step - 1];
   return (

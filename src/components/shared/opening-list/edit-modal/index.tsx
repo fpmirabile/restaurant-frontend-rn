@@ -38,9 +38,9 @@ export function EditModal({
   isOpened,
 }: PropTypes) {
   const [times, setTimes] = React.useState<TimeInput[]>(
-    formData || defaultValue,
+    !formData || formData.length === 0 ? defaultValue : formData,
   );
-  const [isOpen, setIsOpen] = React.useState<boolean>(isOpened || false);
+  const [isOpen, setIsOpen] = React.useState<boolean>(isOpened || true);
   const invalidTimes = times.some(time => time.to < time.from);
   const isValidSave =
     !times.some(time => !time.to || !time.from) && !invalidTimes;
