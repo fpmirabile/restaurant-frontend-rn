@@ -2,6 +2,10 @@ import { StyleSheet } from 'react-native';
 import { COLORS } from '../../../constants';
 
 export const styles = StyleSheet.create({
+  container: {
+    backgroundColor: COLORS.background,
+    flex: 1,
+  },
   captionTitle: {
     marginBottom: 16,
   },
@@ -11,7 +15,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   hoursContainer: {
-    flex: 1,
+    //flex: 1,
   },
   twoHoursContainer: {
     flexDirection: 'row',

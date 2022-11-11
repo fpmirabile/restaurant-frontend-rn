@@ -17,6 +17,8 @@ import CloseIcon from './assets/images/icons/close-icon.svg';
 import RemoveIcon from './assets/images/icons/remove-icon.svg';
 import AddIcon from './assets/images/icons/add-icon.svg';
 import ChefImage from './assets/images/chef.svg';
+import DownChevronIcon from './assets/images/icons/chevron-down-icon.svg';
+import UpChevronIcon from './assets/images/icons/chevron-up-icon.svg';
 
 const COLORS = {
   blueSecondary: '#211D42',
@@ -48,6 +50,8 @@ const ICONS = {
   removeIcon: memo(RemoveIcon),
   addicon: memo(AddIcon),
   chef: memo(ChefImage),
+  downChevron: memo(DownChevronIcon),
+  upChevron: memo(UpChevronIcon),
 };
 
 export { COLORS, ICONS };
