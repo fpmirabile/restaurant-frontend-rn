@@ -81,7 +81,7 @@ export function OpeningList({
 
   const selectedDay = openDays.find(day => day.day === selectDay);
   return (
-    <View>
+    <View style={styles.container}>
       <Headline6 darkPinkColor={darkPinkColor} style={styles.captionTitle}>
         {localizedStrings.restaurant.create.openedDaysTitle}
       </Headline6>

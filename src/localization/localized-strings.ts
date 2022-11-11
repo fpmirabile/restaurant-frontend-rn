@@ -58,6 +58,9 @@ export const localizedStrings = new LocalizedStrings({
         primaryButton: 'Continuar con el menu',
         secondaryButton: 'Continuar luego',
       },
+      view: {
+        createNewDish: 'Crear nuevo plato/item',
+      },
       bottomBar: {
         cancel: 'Cancelar',
         previous: 'Anterior',

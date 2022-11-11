@@ -19,6 +19,7 @@ import RemoveIcon from './assets/images/icons/remove-icon.svg';
 import AddIcon from './assets/images/icons/add-icon.svg';
 import StarIcon from './assets/images/icons/star-icon.svg';
 import ChefImage from './assets/images/chef.svg';
+import UpChevronIcon from './assets/images/icons/chevron-up-icon.svg';
 
 const COLORS = {
   blueSecondary: '#211D42',
@@ -43,7 +44,6 @@ const ICONS = {
   google: memo(GoogleIcon),
   leftChevron: memo(LeftChevronIcon),
   rightChevron: memo(RightChevronIcon),
-  downChevron: memo(DownChevronIcon),
   addImage: memo(AddImageIcon),
   removeImage: memo(RemoveImageIcon),
   likeNoBackground: memo(NotFilledLikeIcon),
@@ -52,6 +52,8 @@ const ICONS = {
   addicon: memo(AddIcon),
   starIcon: memo(StarIcon),
   chef: memo(ChefImage),
+  downChevron: memo(DownChevronIcon),
+  upChevron: memo(UpChevronIcon),
   
 };
 
