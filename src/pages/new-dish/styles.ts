@@ -20,7 +20,6 @@ export const styles = StyleSheet.create({
     textAlign: 'left',
     marginTop:24,
     marginBottom:8,
-
   },
   input: {
     marginVertical: 8,

@@ -78,6 +78,9 @@ export const localizedStrings = new LocalizedStrings({
         cancel: 'Cancelar',
         create:'Crear',
       },
+      clientView:{
+        location: '¿Como llegar?'
+      }
     },
   },
 });

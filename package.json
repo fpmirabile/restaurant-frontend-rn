@@ -77,5 +77,18 @@
   "lint-staged": {
     "*.{ts,tsx}": "prettier --write",
     "*.{js,jsx,ts,tsx}": "eslint --cache --fix"
-  }
+  },
+  "description": "This frontend has been done in `React-Native v0.7` for the 2nd semester of 2022. This app is about food delivery, the concept behind this is that **restaurant owners** can sign up and afterwards register their restaurant with different kind of menus. **Clients** users will be able to login through the Google SSO and request different menus from those restaurant and pay through the app.",
+  "main": ".eslintrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpmirabile/restaurant-frontend-rn.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fpmirabile/restaurant-frontend-rn/issues"
+  },
+  "homepage": "https://github.com/fpmirabile/restaurant-frontend-rn#readme"
 }

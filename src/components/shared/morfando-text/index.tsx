@@ -26,12 +26,12 @@ export const Headline5 = ({ style, center, ...props }: AppTextProps) => (
   />
 );
 
-export const Headline6 = ({ style, center, ...props }: AppTextProps) => (
-  <AppText
-    {...props}
-    style={[styles.headline6, center && styles.center, style]}
-  />
-);
+// export const Headline6 = ({ style, center, ...props }: AppTextProps) => (
+//   <AppText
+//     {...props}
+//     style={[styles.headline6, center && styles.center, style]}
+//   />
+// );
 
 export const CTAText = ({ style, center, ...props }: AppTextProps) => (
   <AppText
@@ -90,6 +90,7 @@ export const Body2 = ({
   );
 };
 
+
 export const Error = ({ style, center, ...props }: AppTextProps) => (
   <AppText {...props} style={[styles.error, center && styles.center, style]} />
 );
@@ -110,6 +111,31 @@ export const Caption = ({
       {...props}
       style={[
         styles.caption,
+        center && styles.center,
+        darkPinkColor && styles.darkPinkColor,
+        ...font,
+        style,
+      ]}
+    />
+  );
+};
+
+export const Headline6 = ({
+  style,
+  center,
+  darkPinkColor,
+  fontType,
+  ...props
+}: AppTextProps) => {
+  const font = [
+    fontType === 'regular' && styles.body,
+    fontType === 'bold' && styles.bold,
+  ];
+  return (
+    <AppText
+      {...props}
+      style={[
+        styles.headline6,
         center && styles.center,
         darkPinkColor && styles.darkPinkColor,
         ...font,
