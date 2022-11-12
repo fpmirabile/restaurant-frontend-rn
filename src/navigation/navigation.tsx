@@ -21,6 +21,7 @@ import {
   RestaurantCreated,
   ViewRestaurant,
 } from '../pages/restaurant';
+import { RestaurantClient } from '../pages/restaurant-details-client';
 
 export interface MorfandoRouterParams<A extends keyof RootStackParamList>
   extends NativeStackScreenProps<RootStackParamList, A> {}
@@ -62,12 +63,24 @@ export function Navigation() {
         }}>
         {!jwt ? (
           <Stack.Group>
-            <Stack.Screen name="Login" component={Login} />
+            
+            <Stack.Screen
+              name="RestaurantClient"
+              component={RestaurantClient}
+              options={{
+                animation: 'slide_from_left',
+                header: ({ navigation }) => (
+                  <ProfileNavHeader onPressBack={navigation.goBack} />
+                ),
+                headerShown: true,
+              }}
+            />
+            {/* <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Registration" component={UserRegistration} />
             <Stack.Screen
               name="SuccessRegistration"
               component={SuccessRegistration}
-            />
+            /> */}
           </Stack.Group>
         ) : (
           <Stack.Group>
