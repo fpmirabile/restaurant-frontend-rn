@@ -90,6 +90,67 @@ export function ViewRestaurant({ navigation }: PropTypes) {
     },
   ];
 
+  const categories = [
+    {
+      title: 'Promociones del día',
+      items: [
+        {
+          title: 'Flan',
+          imageSource: '../../../assets/images/temporal/flan-casero.png',
+          price: '640$',
+        },
+      ],
+    },
+    {
+      title: 'Carnes',
+      items: [
+        {
+          title: 'Churrasco',
+          imageSource: '../../../assets/images/temporal/flan-casero.png',
+          price: '800$',
+        },
+        {
+          title: 'Tira de asado',
+          imageSource: '../../../assets/images/temporal/flan-casero.png',
+          price: '960$',
+        },
+      ],
+    },
+    {
+      title: 'Bebidas',
+      items: [
+        {
+          title: 'Agua Mineral',
+          imageSource: '../../../assets/images/temporal/flan-casero.png',
+          price: '250$',
+        },
+      ],
+    },
+    {
+      title: 'Postres',
+      items: [
+        {
+          title: 'Flan',
+          imageSource: '../../../assets/images/temporal/flan-casero.png',
+          price: '640$',
+        },
+      ],
+    },
+  ];
+
+  // source={require('../../../assets/images/temporal/flan-casero.png')}
+
+  // type Category = {
+  //   title: string;
+  //   items: ItemCategory[];
+  // };
+
+  // export type ItemCategory = {
+  //   title: string;
+  //   imageSource: string;
+  //   price: string;
+  // };
+
   const day: OpenDays[] = [];
   days.map(d => day.push(d));
 
@@ -125,13 +186,17 @@ export function ViewRestaurant({ navigation }: PropTypes) {
       </View>
 
       <View style={styles.categoryContainer}>
-        <AccordionList
+        {categories.map((item, index) => {
+          return <AccordionList category={item} key={index} />;
+        })}
+
+        {/* <AccordionList
           title={'Promociones del día'}
           bodyText={'El mejor restaurant'}
         />
         <AccordionList title={'Carnes'} bodyText={'El mejor restaurant'} />
         <AccordionList title={'Bebidas'} bodyText={'El mejor restaurant'} />
-        <AccordionList title={'Postres'} bodyText={'El mejor restaurant'} />
+        <AccordionList title={'Postres'} bodyText={'El mejor restaurant'} /> */}
       </View>
 
       <View style={styles.createNewDishContainer}>

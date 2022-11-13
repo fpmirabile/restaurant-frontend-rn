@@ -16,13 +16,7 @@ interface PropTypes extends MorfandoRouterParams<'Home'> {}
 const RestaurantItem = React.memo(
   ({ item }: ListRenderItemInfo<Restaurant>): JSX.Element => {
     const { isAdmin } = useAppSelector(state => state.user.user);
-
     const LikeIcon = ICONS.likeNoBackground;
-
-    // const navigation = useNavigation();
-    // const handleViewRestaurant = React.useCallback(() => {
-    //   navigation.push('ViewRestaurant');
-    // }, [navigation]);
     return (
       <Shadow
         style={styles.shadowElement}
@@ -55,10 +49,6 @@ const RestaurantItem = React.memo(
         </View>
         <View>
           <Image style={styles.restaurantBackgroundImage} source={TestImage} />
-          {/* <ImageButton
-            imageSource={TestImage}
-            imageStyle={styles.restaurantBackgroundImage}
-          /> */}
         </View>
         <View style={styles.restaurantInfoContainer}>
           <Body2 style={styles.addressSize}>
@@ -137,8 +127,7 @@ export function Home({ navigation }: PropTypes) {
   }, []);
 
   const handleNewRestaurant = React.useCallback(() => {
-    // navigation.push('CreateRestaurant');
-    navigation.push('ViewRestaurant');
+    navigation.push('CreateRestaurant');
   }, [navigation]);
 
   React.useLayoutEffect(() => {
