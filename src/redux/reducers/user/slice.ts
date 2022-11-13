@@ -105,6 +105,9 @@ const googleSignIn = createAsyncThunk(
           jwt: token,
           refreshToken,
         });
+
+        const userData = await UserAPI.me();
+        return { ...userData, token, refreshToken };
       }
     } catch (error) {
       console.log(error);
@@ -165,8 +168,15 @@ const userAppSlice = createSlice({
   reducers: {
     logOut: state => {
       removeSession();
-      state.auth = {
-        ...initialState.auth,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      state = {
+        ...state,
+        auth: {
+          ...initialState.auth,
+        },
+        user: {
+          ...initialState.user,
+        },
       };
     },
   },
@@ -224,9 +234,23 @@ const userAppSlice = createSlice({
     builder.addCase(googleSignIn.pending, state => {
       state.login.loading = true;
     });
-    builder.addCase(googleSignIn.fulfilled, state => {
-      state.login = {
-        ...initialState.login,
+    builder.addCase(googleSignIn.fulfilled, (state, action) => {
+      const payload = action.payload;
+      state = {
+        ...state,
+        auth: {
+          jwt: payload?.token,
+          refresh: payload?.refreshToken,
+        },
+        login: {
+          ...initialState.login,
+        },
+        user: {
+          email: payload?.email || '',
+          name: payload?.name || '',
+          id: payload?.id || '',
+          isAdmin: false,
+        },
       };
     });
     builder.addCase(googleSignIn.rejected, (state, action) => {

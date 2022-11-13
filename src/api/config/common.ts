@@ -93,6 +93,21 @@ export const api = (
     });
 };
 
+export const externalApi = (url: string, args: RequestInit = {}) => {
+  return fetch(url, args)
+    .catch(r => {
+      throw r;
+    })
+    .then(checkStatus)
+    .then(formatResponse)
+    .catch(error => {
+      console.log(
+        `Hubo un problema con la petición Fetch a ${url}. Error: ${error}`,
+      );
+      throw error;
+    });
+};
+
 export const refreshToken = async () => {
   const token = await getSession();
   const options = {

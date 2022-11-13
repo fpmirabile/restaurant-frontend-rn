@@ -61,7 +61,7 @@ export function CreateRestaurantStepTwo({}: PropTypes) {
         defaultPair={selectedTypeOfFood}
         onValidateValue={atLeastOneSelected}
         data={typeOfFoods}
-        placeholder={localizedStrings.restaurant.create.town}
+        placeholder={localizedStrings.restaurant.create.kindOfFood}
       />
       <Dropdown
         onValueChanged={handleChangeValue('priceRange')}

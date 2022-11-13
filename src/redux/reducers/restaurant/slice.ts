@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { geolocationAPI } from '../../../api/geocoding.api';
 import { Restaurant, RestaurantAPI } from '../../../api/restaurant.api';
 
 type State = {
@@ -99,6 +100,50 @@ const createRestaurant = createAsyncThunk(
   },
 );
 
+const getLatAndLon = async (address: any, rejectWithValue: any) => {
+  try {
+    const { locality, neighborhood, state, street, streetNumber } = address;
+    const arrayAddress = [
+      street,
+      streetNumber,
+      neighborhood,
+      locality,
+      state,
+      'Argentina',
+    ];
+
+    const geoLocation = await geolocationAPI.getLatAndLon(
+      arrayAddress.filter(i => !!i).join(' '),
+    );
+
+    if (geoLocation.status === 'OK') {
+      const preferredResult =
+        geoLocation.results[0]?.geometry.location || undefined;
+      if (preferredResult) {
+        return {
+          latitude: preferredResult.lat,
+          longitude: preferredResult.lng,
+        };
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    rejectWithValue(error);
+  }
+};
+
+const handleStepOneSave = createAsyncThunk(
+  'restaurant/getLatitudeAndLongitude',
+  async (
+    payload: State['create']['stepOne'],
+    { rejectWithValue, dispatch },
+  ) => {
+    await dispatch(sliceActions.onUpdateStepOne(payload));
+    const getLocation = await getLatAndLon(payload, rejectWithValue);
+    return getLocation;
+  },
+);
+
 const restaurantAppSlice = createSlice({
   name: 'restaurant',
   initialState,
@@ -165,6 +210,16 @@ const restaurantAppSlice = createSlice({
           (action.payload as any).message || 'Ocurrio un error insperado';
       }
     });
+    builder.addCase(handleStepOneSave.fulfilled, (state, action) => {
+      state.create.stepOne = {
+        ...state.create.stepOne,
+        lat: action.payload?.latitude.toString() || '',
+        lon: action.payload?.longitude.toString() || '',
+      };
+    });
+    // builder.addCase(handleStepOneSave.rejected, state => {
+
+    // });
   },
 });
 
@@ -175,6 +230,7 @@ export const restaurantSlice = {
     ...sliceActions,
     getRestaurants,
     createRestaurant,
+    handleStepOneSave,
   },
   reducer,
 };
