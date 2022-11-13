@@ -44,6 +44,7 @@ const ICONS = {
   google: memo(GoogleIcon),
   leftChevron: memo(LeftChevronIcon),
   rightChevron: memo(RightChevronIcon),
+  downChevron: memo(DownChevronIcon),
   addImage: memo(AddImageIcon),
   removeImage: memo(RemoveImageIcon),
   likeNoBackground: memo(NotFilledLikeIcon),
