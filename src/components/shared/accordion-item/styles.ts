@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
   },
-  priceContainer: {
+  itemPrice: {
     color: COLORS.grey,
   },
 });
