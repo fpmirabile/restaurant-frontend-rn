@@ -4,6 +4,10 @@ import {
   removeSession,
   setSession,
 } from '../../../api/config/session';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 import { RegistrationForm } from '../../../pages/user-registration';
 import { UserAPI } from '../../../api/user.api';
 
@@ -77,6 +81,41 @@ const loginWithCredentials = createAsyncThunk(
   },
 );
 
+const googleSignIn = createAsyncThunk(
+  'user/googleSignIn',
+  async (_, { rejectWithValue }) => {
+    try {
+      const hasPlayServices = await GoogleSignin.hasPlayServices();
+      console.log(hasPlayServices);
+      if (!hasPlayServices) {
+        throw { error: statusCodes.PLAY_SERVICES_NOT_AVAILABLE };
+      }
+
+      const {
+        idToken,
+        user: { email },
+      } = await GoogleSignin.signIn();
+      if (idToken) {
+        const { token, refreshToken } = await UserAPI.loginSso({
+          idToken,
+          email,
+        });
+
+        await setSession({
+          jwt: token,
+          refreshToken,
+        });
+
+        const userData = await UserAPI.me();
+        return { ...userData, token, refreshToken };
+      }
+    } catch (error) {
+      console.log(error);
+      rejectWithValue(error);
+    }
+  },
+);
+
 export type UserState = {
   isAppInitLoading: boolean;
   auth: {
@@ -129,13 +168,18 @@ const userAppSlice = createSlice({
   reducers: {
     logOut: state => {
       removeSession();
+      console.log('log out ejecutado.');
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       state.auth = {
         ...initialState.auth,
+      };
+
+      state.user = {
+        ...initialState.user,
       };
     },
   },
   extraReducers(builder) {
-    // No need of rejected due to session.ts handling of the session.
     builder.addCase(initialLoading.fulfilled, (state, action) => {
       state.isAppInitLoading = false;
       if (!action.payload) {
@@ -185,6 +229,45 @@ const userAppSlice = createSlice({
       state.login.credentialsError =
         (action.payload as ErrorType).message || 'Ocurrio un error insperado';
     });
+    builder.addCase(googleSignIn.pending, state => {
+      state.login.loading = true;
+    });
+    builder.addCase(googleSignIn.fulfilled, (state, action) => {
+      const payload = action.payload;
+      state = {
+        ...state,
+        auth: {
+          jwt: payload?.token,
+          refresh: payload?.refreshToken,
+        },
+        login: {
+          ...initialState.login,
+        },
+        user: {
+          email: payload?.email || '',
+          name: payload?.name || '',
+          id: payload?.id || '',
+          isAdmin: false,
+        },
+      };
+    });
+    builder.addCase(googleSignIn.rejected, (state, action) => {
+      const error = action.payload as { code: string };
+      state.login.loading = false;
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        state.login.ssoError =
+          'La autentificacion de Google ha sido cancelada.';
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        state.login.ssoError =
+          'La autentificacion de Google se encuentra en progreso.';
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        state.login.ssoError = 'Usted no tiene de Google Play Services.';
+      } else {
+        state.login.ssoError =
+          'Un error desconocido ha ocurrido con la autentificacion de Google';
+        console.log(error);
+      }
+    });
   },
 });
 
@@ -196,6 +279,7 @@ export const userSlice = {
     initialLoading,
     registerOwner,
     loginWithCredentials,
+    googleSignIn,
   },
   reducer,
 };

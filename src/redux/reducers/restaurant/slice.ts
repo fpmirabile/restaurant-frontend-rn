@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { geolocationAPI } from '../../../api/geocoding.api';
 import { Restaurant, RestaurantAPI } from '../../../api/restaurant.api';
 
 type State = {
@@ -13,6 +14,7 @@ type State = {
     stepOne: StepOneFields;
     stepTwo: StepTwoFields;
   };
+  menu: CreateMenu;
 };
 
 type Days = 'L' | 'M' | 'X' | 'J' | 'V' | 'S' | 'D';
@@ -36,6 +38,17 @@ export type StepOneFields = {
   state: string;
   lat: string;
   lon: string;
+};
+
+export type CreateMenu = {
+  category: string;
+  name: string;
+  price: string;
+  vegan: boolean;
+  celiac: boolean;
+  images: string[];
+  ingredients: string[];
+  loading: boolean;
 };
 
 const initialState: State = {
@@ -63,6 +76,16 @@ const initialState: State = {
       times: [],
       images: [],
     },
+  },
+  menu: {
+    category: '',
+    celiac: false,
+    images: [],
+    ingredients: [],
+    name: '',
+    price: '',
+    vegan: false,
+    loading: false,
   },
 };
 
@@ -99,6 +122,72 @@ const createRestaurant = createAsyncThunk(
   },
 );
 
+const getLatAndLon = async (address: any, rejectWithValue: any) => {
+  try {
+    const { locality, neighborhood, state, street, streetNumber } = address;
+    const arrayAddress = [
+      street,
+      streetNumber,
+      neighborhood,
+      locality,
+      state,
+      'Argentina',
+    ];
+
+    const geoLocation = await geolocationAPI.getLatAndLon(
+      arrayAddress.filter(i => !!i).join(' '),
+    );
+
+    if (geoLocation.status === 'OK') {
+      const preferredResult =
+        geoLocation.results[0]?.geometry.location || undefined;
+      if (preferredResult) {
+        return {
+          latitude: preferredResult.lat,
+          longitude: preferredResult.lng,
+        };
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    rejectWithValue(error);
+  }
+};
+
+const handleStepOneSave = createAsyncThunk(
+  'restaurant/getLatitudeAndLongitude',
+  async (
+    payload: State['create']['stepOne'],
+    { rejectWithValue, dispatch },
+  ) => {
+    await dispatch(sliceActions.onUpdateStepOne(payload));
+    const getLocation = await getLatAndLon(payload, rejectWithValue);
+    return getLocation;
+  },
+);
+
+const saveMenu = createAsyncThunk(
+  'restaurants/saveMenu',
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const {
+        menu: { category, ...menu },
+      } = getState() as State;
+      const response = await RestaurantAPI.createMenu(category, {
+        ...menu,
+        suitableCeliac: menu.vegan,
+        suitableVegan: menu.celiac,
+        price: Number(menu.price),
+      });
+
+      return response;
+    } catch (error) {
+      console.log('create menu error', error);
+      rejectWithValue(error);
+    }
+  },
+);
+
 const restaurantAppSlice = createSlice({
   name: 'restaurant',
   initialState,
@@ -126,7 +215,12 @@ const restaurantAppSlice = createSlice({
         ...initialState.create,
       };
     },
-    test: () => {},
+    updateMenu: (state, action: PayloadAction<CreateMenu>) => {
+      state.menu = {
+        ...state.menu,
+        ...action.payload,
+      };
+    },
   },
   extraReducers(builder) {
     builder.addCase(getRestaurants.rejected, (state, action) => {
@@ -165,6 +259,29 @@ const restaurantAppSlice = createSlice({
           (action.payload as any).message || 'Ocurrio un error insperado';
       }
     });
+    builder.addCase(handleStepOneSave.fulfilled, (state, action) => {
+      state.create.stepOne = {
+        ...state.create.stepOne,
+        lat: action.payload?.latitude.toString() || '',
+        lon: action.payload?.longitude.toString() || '',
+      };
+    });
+    builder.addCase(saveMenu.pending, state => {
+      state.menu.loading = true;
+    });
+    builder.addCase(saveMenu.fulfilled, state => {
+      state.menu = {
+        ...initialState.menu,
+      };
+    });
+    builder.addCase(saveMenu.rejected, state => {
+      state.menu.loading = false;
+      console.log('create menu rejected');
+      // if (action.payload) {
+      //   state.create.error =
+      //     (action.payload as any).message || 'Ocurrio un error insperado';
+      // }
+    });
   },
 });
 
@@ -175,6 +292,8 @@ export const restaurantSlice = {
     ...sliceActions,
     getRestaurants,
     createRestaurant,
+    handleStepOneSave,
+    saveMenu,
   },
   reducer,
 };

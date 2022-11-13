@@ -2,6 +2,7 @@ export { ColorfulButton, TransparentButton } from './button';
 export { TouchableText } from './touchable-text';
 export { Input, PressableInput } from './text-input';
 export { Checkbox } from './checkbox';
+export { CustomModal } from './custom-modal';
 export {
   Title,
   Body,

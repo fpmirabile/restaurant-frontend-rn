@@ -6,7 +6,7 @@ import { restaurantSlice } from './reducers/restaurant/slice';
 import { userSlice, UserState } from './reducers/user/slice';
 
 const persistConfiguration = {
-  key: 'root',
+  key: 'user',
   storage: AsyncStorage,
   whitelist: ['user'],
 };

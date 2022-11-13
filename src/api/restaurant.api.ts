@@ -37,7 +37,21 @@ const createRestaurant = (restaurant: RestaurantCreate): Promise<void> => {
   return authenticatedPost('/restaurants', restaurant);
 };
 
+type MenuCreate = {
+  name: string;
+  price: number;
+  images: string[];
+  ingredients: string[];
+  suitableVegan: boolean;
+  suitableCeliac: boolean;
+};
+
+const createMenu = (category: string, menu: MenuCreate): Promise<any> => {
+  return authenticatedPost(`/restaurants/categories/${category}/meals`, menu);
+};
+
 export const RestaurantAPI = {
   getRestaurants,
   createRestaurant,
+  createMenu,
 };
