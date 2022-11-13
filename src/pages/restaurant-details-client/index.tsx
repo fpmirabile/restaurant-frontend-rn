@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Image, View } from 'react-native';
-import {ColorfulButton, ImageButton, CustomModal, ScrollPage, } from '../../components/shared';
+import {ColorfulButton, ImageButton, CustomModal, ScrollPage, UserComment, } from '../../components/shared';
 import {CTAText, Body, Body2, Headline6 } from '../../components/shared/morfando-text';
 import { ProfileNavHeader } from '../../headers/profile'
 import MapView from 'react-native-maps';
@@ -10,6 +10,7 @@ import { localizedStrings } from '../../localization/localized-strings';
 import { ICONS } from '../../constants';
 import { Shadow } from 'react-native-shadow-2';
 import { Rating } from 'react-native-ratings';
+import Accordion from 'react-native-accordion-wrapper';
 
 const TestImage = require('../../assets/images/image.png');
 
@@ -20,15 +21,41 @@ interface SectionHeaderProps {
 }
 const SectionHeader = ({ title }: SectionHeaderProps) => <CTAText>{title}</CTAText>;
 const LikeIcon = ICONS.likeNoBackground;
+const DownChevron = ICONS.rightChevron
 
 export function RestaurantClient({ navigation }: RouterProps) {
   const backToRestaurant = React.useCallback(() => {navigation.navigate('CreateRestaurant')}, [navigation]);
   const backToHome = React.useCallback(() => {navigation.navigate('Home')}, [navigation]);
 
   // Hooks
-  const [dishName] = React.useState<string>('');
-  const [dishCategory] = React.useState<string>('');
-  const [ingredient] = React.useState<string>('');
+  const userComments = [
+    {  user: 'Fernando',
+      comment:'Se come bien pero tampoco tan bien. Lo recomiendo por el precio',
+      stars:3,
+    },
+    {  user: 'Nicolas',
+      comment:'El mejor chorizo de zona oeste. Recomiendo este lugar',
+      stars:5,
+    },
+    {  user: 'Miguel',
+      comment:'Lugar para venir con familia, Octavio mi hijo amo el Flan.',
+      stars:4,
+    },
+    {  user: 'Agustina',
+      comment:'Hay mejores parrillas, no tenian molleja',
+      stars:1,
+    },
+  ]
+
+  // const userComment = userComments.map((data) => {
+  //   return(
+  //     <UserComment
+  //     user: {data.user}
+  //     comment:{data.comment}
+  //     stars:{data.stars}
+  //     />
+  //   )
+  // })
   const [isModalVisible, setModalVisible] = React.useState<boolean>(false);
 
 
@@ -111,6 +138,31 @@ export function RestaurantClient({ navigation }: RouterProps) {
         }}
         style={styles.map}
       />
+       <Accordion
+        shouldSelectOneItemAtATime
+        headerItemsStyle={styles.accordion}
+        headerTitleLabelStyle={styles.accordionTitle}
+        rightChevronIcon = {<DownChevron/>}
+        dataSource={[{
+            title: localizedStrings.restaurant.clientView.menu,
+            child: <View><Body>This is the child view</Body></View>
+        }, {
+            title: localizedStrings.restaurant.clientView.comments,
+            child: 
+            <View>
+              {
+                userComments.map((data)=>{
+                  return(
+                    <UserComment 
+                    user={data.user}
+                    comment={data.comment}
+                    stars={data.stars}  
+                    />
+                  )})
+              }
+            </View>
+        }]}
+        />
       </ScrollPage>
   </View>
 );

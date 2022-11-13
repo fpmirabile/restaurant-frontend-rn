@@ -10,6 +10,7 @@ import TrashIcon from './assets/images/icons/trash-icon.svg';
 import GoogleIcon from './assets/images/icons/google-icon.svg';
 import LeftChevronIcon from './assets/images/icons/chevron-left-icon.svg';
 import RightChevronIcon from './assets/images/icons/chevron-right-icon.svg';
+import DownChevronIcon from './assets/images/icons/DownChevronIcon.svg';
 import AddImageIcon from './assets/images/icons/add-image-icon.svg';
 import RemoveImageIcon from './assets/images/icons/remove-image-icon.svg';
 import NotFilledLikeIcon from './assets/images/icons/not-filled-like-icon.svg';
@@ -42,6 +43,7 @@ const ICONS = {
   google: memo(GoogleIcon),
   leftChevron: memo(LeftChevronIcon),
   rightChevron: memo(RightChevronIcon),
+  downChevron: memo(DownChevronIcon),
   addImage: memo(AddImageIcon),
   removeImage: memo(RemoveImageIcon),
   likeNoBackground: memo(NotFilledLikeIcon),
@@ -50,6 +52,7 @@ const ICONS = {
   addicon: memo(AddIcon),
   starIcon: memo(StarIcon),
   chef: memo(ChefImage),
+  
 };
 
 export { COLORS, ICONS };

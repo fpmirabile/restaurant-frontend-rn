@@ -92,4 +92,16 @@ export const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 8,
   },
+  accordion:{
+    backgroundColor: '#FAFAFA',
+    borderBottomColor: '#E9E9E9',
+    paddingLeft:16,
+    paddingRight:24,
+
+  },
+  accordionTitle:{
+    fontFamily: 'FredokaOne-Regular',
+    fontSize: 20,
+    color: COLORS.blueSecondary,
+  }
 });
