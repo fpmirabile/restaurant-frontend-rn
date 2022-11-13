@@ -33,11 +33,13 @@ export function CreateRestaurant({ navigation }: PropTypes) {
       if (Object.values(stepTwo).some(value => !value)) {
         return;
       }
+
       dispatch(actions.restaurants.createRestaurant());
       navigation.push('FinishedRestaurantCreation');
       return;
     }
 
+    console.log(Object.values(stepOne));
     if (Object.values(stepOne).some(value => !value)) {
       console.log(Object.values(stepOne));
       return;

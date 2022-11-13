@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import {
   Caption,
   Headline6,
@@ -13,8 +13,16 @@ import { useAppDispatch, useAppSelector } from '../../../../redux/store';
 import { atLeastOneSelected, notEmpty } from '../../../../util/validation';
 import { styles } from './styles';
 
+const initialPositionForMap = {
+  latitude: -34.603722,
+  longitude: -58.381592,
+  latitudeDelta: 0.0022,
+  longitudeDelta: 0.0022,
+};
+
 interface PropTypes {}
 export function CreateRestaurantStepOne({}: PropTypes) {
+  const map = React.createRef<MapView>();
   const stepOne = useAppSelector(rState => rState.restaurant.create.stepOne);
   const dispatch = useAppDispatch();
 
@@ -31,18 +39,23 @@ export function CreateRestaurantStepOne({}: PropTypes) {
   const handleChangeValue = React.useCallback(
     (field: keyof StepOneFields) => (value: any) => {
       dispatch(
-        actions.restaurants.onUpdateStepOne({
+        actions.restaurants.handleStepOneSave({
           ...stepOne,
-          // REMOVE
-          lat: '12345',
-          lon: '12345',
-          // END REMOVE
           [field]: value,
         }),
       );
     },
     [dispatch, stepOne],
   );
+
+  const currentLoc =
+    !stepOne.lat && !stepOne.lon
+      ? initialPositionForMap
+      : {
+          ...initialPositionForMap,
+          latitude: Number(stepOne.lat) || 0,
+          longitude: Number(stepOne.lon) || 0,
+        };
 
   return (
     <View>
@@ -112,14 +125,20 @@ export function CreateRestaurantStepOne({}: PropTypes) {
         </Caption>
       </View>
       <MapView
-        region={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.0121,
-        }}
         style={styles.map}
-      />
+        initialRegion={currentLoc}
+        ref={map}
+        region={currentLoc}>
+        {stepOne.lat && stepOne.lon && (
+          <Marker
+            coordinate={{
+              latitude: Number(stepOne.lat) || initialPositionForMap.latitude,
+              longitude: Number(stepOne.lon) || initialPositionForMap.longitude,
+            }}
+            title="Tu ubicacion"
+          />
+        )}
+      </MapView>
     </View>
   );
 }

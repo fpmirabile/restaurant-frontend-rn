@@ -18,6 +18,7 @@ const registerNewOwner = async ({
   password,
   repeatPassword,
 }: RegisterParams) => {
+  console.log('register', email, name, password, repeatPassword);
   return authenticatedPost('/register', {
     email,
     name,
