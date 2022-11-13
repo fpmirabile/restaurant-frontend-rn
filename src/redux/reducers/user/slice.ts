@@ -168,20 +168,18 @@ const userAppSlice = createSlice({
   reducers: {
     logOut: state => {
       removeSession();
+      console.log('log out ejecutado.');
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      state = {
-        ...state,
-        auth: {
-          ...initialState.auth,
-        },
-        user: {
-          ...initialState.user,
-        },
+      state.auth = {
+        ...initialState.auth,
+      };
+
+      state.user = {
+        ...initialState.user,
       };
     },
   },
   extraReducers(builder) {
-    // No need of rejected due to session.ts handling of the session.
     builder.addCase(initialLoading.fulfilled, (state, action) => {
       state.isAppInitLoading = false;
       if (!action.payload) {

@@ -7,11 +7,6 @@ import {
   STORAGE_TYPE,
 } from 'react-native-keychain';
 
-// interface AuthSession {
-//   username: string;
-//   password: string;
-// }
-
 interface JwtSession {
   jwt: string;
   refreshToken: string;
@@ -49,18 +44,6 @@ const STORAGE: TokenStorageMap = {
     removeItem: options => tryOrNull(() => resetGenericPassword(options)),
   },
 };
-
-// export const getUsernameAndPassword = async (): Promise<
-//   AuthSession | false
-// > => {
-//   const { getItem } = getTokenStorage();
-//   const auth = await getItem({ storage: STORAGE_TYPE.AES });
-//   if (!auth) {
-//     return false;
-//   }
-
-//   return { password: auth.password, username: auth.username };
-// };
 
 export const getSession = async (): Promise<JwtSession | false> => {
   const { getItem } = getTokenStorage();
@@ -105,5 +88,5 @@ export const removeSession = () => {
   }
 
   const { removeItem } = storage;
-  removeItem();
+  removeItem({ storage: STORAGE_TYPE.AES });
 };
