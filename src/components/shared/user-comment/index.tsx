@@ -36,10 +36,19 @@ profilePhoto,
   return (
     <View style={styles.commentStyle}>
       <View style={styles.profilePhoto}>
-        <Image
-        source={require('../../../assets/images/icons/test-image.jpg')}
-        style={styles.imageStyle}
-        />
+        {
+          profilePhoto==undefined ? (
+            <Image
+            source={require('../../../assets/images/icons/non-profile-img.png')}
+            style={styles.imageStyle}
+            />
+          ) : (
+            <Image
+            source={{uri:profilePhoto}}
+            style={styles.imageStyle}
+            />
+          )
+        }
       </View>
       <View style={styles.textStyle}>
         <Body darkPinkColor fontType='bold'>{user}</Body>

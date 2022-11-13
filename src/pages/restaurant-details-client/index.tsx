@@ -32,14 +32,17 @@ export function RestaurantClient({ navigation }: RouterProps) {
     {  user: 'Fernando',
       comment:'Se come bien pero tampoco tan bien. Lo recomiendo por el precio',
       stars:3,
+      image:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg=='
     },
     {  user: 'Nicolas',
       comment:'El mejor chorizo de zona oeste. Recomiendo este lugar',
       stars:5,
+
     },
     {  user: 'Miguel',
       comment:'Lugar para venir con familia, Octavio mi hijo amo el Flan.',
       stars:4,
+
     },
     {  user: 'Agustina',
       comment:'Hay mejores parrillas, no tenian molleja',
@@ -157,6 +160,7 @@ export function RestaurantClient({ navigation }: RouterProps) {
                     user={data.user}
                     comment={data.comment}
                     stars={data.stars}  
+                    profilePhoto={data.image}
                     />
                   )})
               }
