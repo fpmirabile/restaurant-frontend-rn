@@ -14,6 +14,7 @@ type State = {
     stepOne: StepOneFields;
     stepTwo: StepTwoFields;
   };
+  menu: CreateMenu;
 };
 
 type Days = 'L' | 'M' | 'X' | 'J' | 'V' | 'S' | 'D';
@@ -37,6 +38,17 @@ export type StepOneFields = {
   state: string;
   lat: string;
   lon: string;
+};
+
+export type CreateMenu = {
+  category: string;
+  name: string;
+  price: string;
+  vegan: boolean;
+  celiac: boolean;
+  images: string[];
+  ingredients: string[];
+  loading: boolean;
 };
 
 const initialState: State = {
@@ -64,6 +76,16 @@ const initialState: State = {
       times: [],
       images: [],
     },
+  },
+  menu: {
+    category: '',
+    celiac: false,
+    images: [],
+    ingredients: [],
+    name: '',
+    price: '',
+    vegan: false,
+    loading: false,
   },
 };
 
@@ -144,6 +166,28 @@ const handleStepOneSave = createAsyncThunk(
   },
 );
 
+const saveMenu = createAsyncThunk(
+  'restaurants/saveMenu',
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const {
+        menu: { category, ...menu },
+      } = getState() as State;
+      const response = await RestaurantAPI.createMenu(category, {
+        ...menu,
+        suitableCeliac: menu.vegan,
+        suitableVegan: menu.celiac,
+        price: Number(menu.price),
+      });
+
+      return response;
+    } catch (error) {
+      console.log('create menu error', error);
+      rejectWithValue(error);
+    }
+  },
+);
+
 const restaurantAppSlice = createSlice({
   name: 'restaurant',
   initialState,
@@ -171,7 +215,12 @@ const restaurantAppSlice = createSlice({
         ...initialState.create,
       };
     },
-    test: () => {},
+    updateMenu: (state, action: PayloadAction<CreateMenu>) => {
+      state.menu = {
+        ...state.menu,
+        ...action.payload,
+      };
+    },
   },
   extraReducers(builder) {
     builder.addCase(getRestaurants.rejected, (state, action) => {
@@ -217,9 +266,22 @@ const restaurantAppSlice = createSlice({
         lon: action.payload?.longitude.toString() || '',
       };
     });
-    // builder.addCase(handleStepOneSave.rejected, state => {
-
-    // });
+    builder.addCase(saveMenu.pending, state => {
+      state.menu.loading = true;
+    });
+    builder.addCase(saveMenu.fulfilled, state => {
+      state.menu = {
+        ...initialState.menu,
+      };
+    });
+    builder.addCase(saveMenu.rejected, state => {
+      state.menu.loading = false;
+      console.log('create menu rejected');
+      // if (action.payload) {
+      //   state.create.error =
+      //     (action.payload as any).message || 'Ocurrio un error insperado';
+      // }
+    });
   },
 });
 
@@ -231,6 +293,7 @@ export const restaurantSlice = {
     getRestaurants,
     createRestaurant,
     handleStepOneSave,
+    saveMenu,
   },
   reducer,
 };

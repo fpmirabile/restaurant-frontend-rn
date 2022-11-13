@@ -10,7 +10,7 @@ import {
   UserRegistration,
   Profile,
   SuccessRegistration,
-  NewDish
+  NewDish,
 } from '../pages';
 import { HomeNavHeader, ProfileNavHeader } from '../headers';
 import { useAppSelector } from '../redux/store';
@@ -94,11 +94,7 @@ export function Navigation() {
               name="FinishedRestaurantCreation"
               component={RestaurantCreated}
             />
-
-            <Stack.Screen name="NewDish"
-            component={NewDish}
-            />
-            
+            <Stack.Screen name="NewDish" component={NewDish} />
           </Stack.Group>
         )}
       </Stack.Navigator>
