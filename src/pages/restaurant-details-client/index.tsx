@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Image, View } from 'react-native';
-import {ColorfulButton, ImageButton, CustomModal, ScrollPage, UserComment, } from '../../components/shared';
+import {ColorfulButton, ImageButton, CustomModal, ScrollPage, UserComment, MenuItem, } from '../../components/shared';
 import {CTAText, Body, Body2, Headline6 } from '../../components/shared/morfando-text';
 import { ProfileNavHeader } from '../../headers/profile'
 import MapView from 'react-native-maps';
@@ -27,7 +27,7 @@ export function RestaurantClient({ navigation }: RouterProps) {
   const backToRestaurant = React.useCallback(() => {navigation.navigate('CreateRestaurant')}, [navigation]);
   const backToHome = React.useCallback(() => {navigation.navigate('Home')}, [navigation]);
 
-  // Hooks
+  // Mockeo data
   const userComments = [
     {  user: 'Fernando',
       comment:'Se come bien pero tampoco tan bien. Lo recomiendo por el precio',
@@ -50,19 +50,7 @@ export function RestaurantClient({ navigation }: RouterProps) {
     },
   ]
 
-  // const userComment = userComments.map((data) => {
-  //   return(
-  //     <UserComment
-  //     user: {data.user}
-  //     comment:{data.comment}
-  //     stars:{data.stars}
-  //     />
-  //   )
-  // })
   const [isModalVisible, setModalVisible] = React.useState<boolean>(false);
-
-
-
   const [rating,updateRating] = React.useState<number>(5);
 
   return (
@@ -119,7 +107,7 @@ export function RestaurantClient({ navigation }: RouterProps) {
                         startingValue={rating}
                         fractions={0}
                         ratingColor='#FFDF6B'
-                        // onFinishRating={actualizarEstrellas}
+                        readonly={true}
                       />
               </View>
               <View style={styles.commentStarsDetails}>
@@ -148,7 +136,23 @@ export function RestaurantClient({ navigation }: RouterProps) {
         rightChevronIcon = {<DownChevron/>}
         dataSource={[{
             title: localizedStrings.restaurant.clientView.menu,
-            child: <View><Body>This is the child view</Body></View>
+            child: 
+            <View>
+              <Accordion
+                shouldSelectOneItemAtATime
+                headerItemsStyle={styles.accordion}
+                headerTitleLabelStyle={styles.subAccordionTitle}
+                rightChevronIcon = {<DownChevron/>}
+                dataSource={[{
+                    title: 'Postres',
+                     child: 
+                     <View>
+                      <MenuItem
+                      dishName='Flan'
+                      price={400}/>
+                     </View>
+                }]}/>
+            </View>
         }, {
             title: localizedStrings.restaurant.clientView.comments,
             child: 

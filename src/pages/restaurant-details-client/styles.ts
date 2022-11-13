@@ -103,5 +103,11 @@ export const styles = StyleSheet.create({
     fontFamily: 'FredokaOne-Regular',
     fontSize: 20,
     color: COLORS.blueSecondary,
+  },
+  subAccordionTitle:{
+    fontFamily: 'FredokaOne-Regular',
+    fontSize: 20,
+    color: COLORS.blueSecondary,
+    marginLeft:16,
   }
 });

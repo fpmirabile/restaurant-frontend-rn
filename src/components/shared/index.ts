@@ -20,3 +20,4 @@ export { ImagePicker } from './image-picker';
 export { Dropdown } from './dropdown';
 export { OpeningList } from './opening-list';
 export { UserComment } from './user-comment'
+export { MenuItem } from './menu-item';
