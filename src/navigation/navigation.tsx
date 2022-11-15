@@ -52,24 +52,12 @@ export function Navigation() {
         }}>
         {!jwt ? (
           <Stack.Group>
-            
-            <Stack.Screen
-              name="RestaurantClient"
-              component={RestaurantClient}
-              options={{
-                animation: 'slide_from_left',
-                header: ({ navigation }) => (
-                  <ProfileNavHeader onPressBack={navigation.goBack} />
-                ),
-                headerShown: true,
-              }}
-            />
-            {/* <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Registration" component={UserRegistration} />
             <Stack.Screen
               name="SuccessRegistration"
               component={SuccessRegistration}
-            /> */}
+            />
           </Stack.Group>
         ) : (
           <Stack.Group>
@@ -112,7 +100,17 @@ export function Navigation() {
             <Stack.Screen name="NewDish"
             component={NewDish}
             />
-            
+            <Stack.Screen
+              name="RestaurantClient"
+              component={RestaurantClient}
+              options={{
+              animation: 'slide_from_left',
+              header: ({ navigation }) => (
+                <ProfileNavHeader onPressBack={navigation.goBack} />
+                ),
+                headerShown: true,
+              }}
+            />
           </Stack.Group>
         )}
       </Stack.Navigator>
