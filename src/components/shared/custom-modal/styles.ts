@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     flexDirection: 'column',
     padding: 16,
-    borderRadius:6,
+    borderRadius: 6,
   },
   parentView: {
     flexDirection: 'row',
@@ -42,21 +42,21 @@ export const styles = StyleSheet.create({
   spaceFromError: {
     marginTop: 8,
   },
-  spaceForText:{
-    marginTop:16,
-    marginBottom:24,
+  spaceForText: {
+    marginTop: 16,
+    marginBottom: 24,
   },
-  subTitle:{
+  subTitle: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 12,
   },
-  spaceForStars:{
-    alignItems:'flex-start',
-    paddingBottom:16,
+  spaceForStars: {
+    alignItems: 'flex-start',
+    paddingBottom: 16,
   },
-  longText:{
+  longText: {
     lineHeight: 44,
-  }
+  },
 });

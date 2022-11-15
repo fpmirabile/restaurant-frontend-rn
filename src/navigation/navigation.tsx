@@ -15,7 +15,11 @@ import {
 import { HomeNavHeader, ProfileNavHeader } from '../headers';
 import { useAppSelector } from '../redux/store';
 import { LoadingScreen } from '../components/loading-screen';
-import { CreateRestaurant, RestaurantCreated } from '../pages/restaurant';
+import {
+  CreateRestaurant,
+  RestaurantCreated,
+  ViewRestaurant,
+} from '../pages/restaurant';
 
 export interface MorfandoRouterParams<A extends keyof RootStackParamList>
   extends NativeStackScreenProps<RootStackParamList, A> {}
@@ -29,6 +33,7 @@ type RootStackParamList = {
   FinishedRestaurantCreation: undefined;
   SuccessRegistration: undefined;
   NewDish: undefined;
+  ViewRestaurant: undefined;
   // Feed: { sort: 'latest' | 'top' } | undefined;
 };
 
@@ -94,7 +99,20 @@ export function Navigation() {
               name="FinishedRestaurantCreation"
               component={RestaurantCreated}
             />
+
             <Stack.Screen name="NewDish" component={NewDish} />
+
+            <Stack.Screen
+              name="ViewRestaurant"
+              component={ViewRestaurant}
+              options={{
+                animation: 'slide_from_left',
+                header: ({ navigation }) => (
+                  <ProfileNavHeader onPressBack={navigation.goBack} />
+                ),
+                headerShown: true,
+              }}
+            />
           </Stack.Group>
         )}
       </Stack.Navigator>
