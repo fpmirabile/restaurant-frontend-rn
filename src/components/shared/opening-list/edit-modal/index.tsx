@@ -8,7 +8,7 @@ import {
 import { ColorfulButton, TransparentButton } from '../../button';
 import { Headline5, Body2 } from '../../morfando-text';
 import { PressableInput } from '../../text-input';
-import { TouchableText } from '../../touchable-text';
+// import { TouchableText } from '../../touchable-text';
 import { ICONS } from '../../../../constants';
 import { ImageButton } from '../../image-button';
 import { styles } from './styles';
@@ -63,19 +63,19 @@ export function EditModal({
     [setTimes, times],
   );
 
-  const handleAddTime = React.useCallback(() => {
-    if (times.length >= 2) {
-      return;
-    }
+  // const handleAddTime = React.useCallback(() => {
+  //   if (times.length >= 2) {
+  //     return;
+  //   }
 
-    setTimes([
-      ...times,
-      {
-        from: '',
-        to: '',
-      },
-    ]);
-  }, [times, setTimes]);
+  //   setTimes([
+  //     ...times,
+  //     {
+  //       from: '',
+  //       to: '',
+  //     },
+  //   ]);
+  // }, [times, setTimes]);
 
   const handleSwitchChange = React.useCallback(
     (newValue: boolean) => {
@@ -171,7 +171,7 @@ export function EditModal({
             })}
           </View>
         )}
-        {isOpen && (
+        {/* {isOpen && (
           <View style={[styles.parentView, styles.addRow]}>
             {times.length < 2 && (
               <TouchableText
@@ -181,7 +181,7 @@ export function EditModal({
               />
             )}
           </View>
-        )}
+        )} */}
         {invalidTimes && (
           <Body2 darkPinkColor>Los horarios ingresados no son correctos.</Body2>
         )}

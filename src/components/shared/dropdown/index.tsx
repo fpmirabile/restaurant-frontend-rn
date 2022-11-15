@@ -52,7 +52,7 @@ export function Dropdown({
         placeholder={placeholder}
         setSelected={setSelected}
         data={data}
-        search={searchable}
+        search={searchable || false}
         boxStyles={styles.dropDownBorder}
         dropdownStyles={styles.dropdownStyles}
       />

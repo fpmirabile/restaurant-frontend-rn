@@ -9,14 +9,17 @@ import { localizedStrings } from '../../localization/localized-strings';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { actions } from '../../redux';
 import { Restaurant } from '../../api/restaurant.api';
-const TestImage = require('../../assets/images/image.png');
+import { Rating } from '../../components/shared/rating';
+import { capitalize } from '../../util/strings';
+import NoAvailableImage from '../../assets/images/no-available-image.svg';
 
 interface PropTypes extends MorfandoRouterParams<'Home'> {}
 
 const RestaurantItem = React.memo(
   ({ item }: ListRenderItemInfo<Restaurant>): JSX.Element => {
     const { isAdmin } = useAppSelector(state => state.user.user);
-    const LikeIcon = ICONS.likeNoBackground;
+    const LikeIcon = item.favorite ? ICONS.like : ICONS.likeNoBackground;
+
     return (
       <Shadow
         style={styles.shadowElement}
@@ -48,28 +51,37 @@ const RestaurantItem = React.memo(
           )}
         </View>
         <View>
-          <Image style={styles.restaurantBackgroundImage} source={TestImage} />
+          {item.photos && item.photos.length ? (
+            <Image
+              style={styles.restaurantBackgroundImage}
+              source={{
+                uri: item.photos[0],
+              }}
+            />
+          ) : (
+            <NoAvailableImage />
+          )}
         </View>
         <View style={styles.restaurantInfoContainer}>
           <Body2 style={styles.addressSize}>
             <Body fontType="bold" darkPinkColor>
-              Direccion
+              Dirección
             </Body>{' '}
-            {item.address}
+            {capitalize(item.address)}
             {/* José M. Estrada 134, Haedo, Provincia de Buenos Aires - 2km */}
           </Body2>
           <Body2>
             <Body fontType="bold" darkPinkColor>
               Precio medio
             </Body>{' '}
-            ARS 3500$
+            $$$$
           </Body2>
-          <Body2>
-            <Body fontType="bold" darkPinkColor>
+          <View style={styles.starsContainer}>
+            <Body style={styles.starTitle} fontType="bold" darkPinkColor>
               Estrellas
-            </Body>{' '}
-            3.0
-          </Body2>
+            </Body>
+            <Rating starSize={16} currentValue={item.stars} />
+          </View>
         </View>
       </Shadow>
     );

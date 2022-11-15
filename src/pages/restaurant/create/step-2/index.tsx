@@ -19,8 +19,15 @@ export function CreateRestaurantStepTwo({}: PropTypes) {
   const { stepTwo } = useAppSelector(state => state.restaurant.create);
 
   const typeOfFoods = [
-    { key: '1', value: 'Carnes' },
-    { key: '2', value: 'Sushi' },
+    { key: '1', value: 'Parrilla' },
+    { key: '2', value: 'Asiática' },
+    { key: '3', value: 'Pastas' },
+    { key: '4', value: 'Hamburguesería' },
+    { key: '5', value: 'India' },
+    { key: '6', value: 'Árabe' },
+    { key: '7', value: 'China' },
+    { key: '8', value: 'Pizzería' },
+    { key: '9', value: 'Francesa' },
   ];
 
   const priceRanges = [
@@ -39,6 +46,7 @@ export function CreateRestaurantStepTwo({}: PropTypes) {
   );
   const handleChangeValue = React.useCallback(
     (field: keyof StepTwoFields) => (value: any) => {
+      console.log('field', field, 'value', JSON.stringify(value));
       dispatch(
         actions.restaurants.onUpdateStepTwo({
           ...stepTwo,

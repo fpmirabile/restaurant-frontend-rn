@@ -24,7 +24,7 @@ export const realStore = configureStore({
 
 export const persistedStore = persistStore(realStore);
 
-type RootState = ReturnType<typeof realStore.getState>;
+export type RootState = ReturnType<typeof realStore.getState>;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 export type AppDispatch = typeof realStore.dispatch;
 export const useAppDispatch: () => AppDispatch = useDispatch;
