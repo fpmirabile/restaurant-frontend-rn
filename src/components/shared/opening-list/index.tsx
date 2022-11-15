@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { View } from 'react-native';
+import { Days } from '../../../api/restaurant.api';
 import { ICONS } from '../../../constants';
 import { localizedStrings } from '../../../localization/localized-strings';
 import { ImageButton } from '../image-button';
@@ -18,7 +19,6 @@ export type TimeInput = {
   to: string;
 };
 
-type Days = 'L' | 'M' | 'X' | 'J' | 'V' | 'S' | 'D';
 type OpenDays = {
   day: Days;
   open: boolean;
@@ -70,9 +70,17 @@ export function OpeningList({
       return;
     }
 
+    console.log(
+      'current',
+      copyOfOpenDays[currentDayIndex].times,
+      'new',
+      JSON.stringify(timeInputs),
+      'day',
+      selectDay,
+    );
     copyOfOpenDays[currentDayIndex].open = isOpen;
     copyOfOpenDays[currentDayIndex].times = timeInputs;
-    setOpenDays([...copyOfOpenDays]);
+    setOpenDays(copyOfOpenDays);
     handleCloseEditModal();
     if (onOpenDaysChanged) {
       onOpenDaysChanged(copyOfOpenDays);

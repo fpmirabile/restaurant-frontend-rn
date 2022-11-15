@@ -6,6 +6,7 @@ import {
   ImageStyle,
 } from 'react-native';
 import { SvgProps } from 'react-native-svg';
+import NoAvailableImage from '../../../assets/images/no-available-image.svg';
 
 interface PropTypes {
   onPress?: () => void;
@@ -24,13 +25,10 @@ export function ImageButton({
     <TouchableOpacity onPress={onPress}>
       {ImageSVG ? (
         <ImageSVG style={imageStyle} />
+      ) : imageSource ? (
+        <Image style={imageStyle} source={imageSource} />
       ) : (
-        <Image
-          style={imageStyle}
-          source={
-            imageSource || require('../../../assets/images/not-found.png')
-          }
-        />
+        <NoAvailableImage />
       )}
     </TouchableOpacity>
   );

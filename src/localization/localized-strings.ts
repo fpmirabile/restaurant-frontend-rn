@@ -52,7 +52,14 @@ export const localizedStrings = new LocalizedStrings({
           `Fotos: ${addedAmount}/${totalAmount} - Elige primero la foto principal de la publicación.`,
       },
       created: {
-        title: '¡Tu restaurante ya está listo!',
+        title: (loading: boolean, error: string) =>
+          `${
+            !loading && !error
+              ? '¡Tu restaurante ya está listo!'
+              : !loading && error
+              ? 'Opps hubo un error.'
+              : 'Cargando'
+          }`,
         subtitle:
           'Felicitaciones, tu restaurante ya se encuentra creado y listo para comenzar a añadir los platos.',
         primaryButton: 'Continuar con el menu',

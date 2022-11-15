@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { geolocationAPI } from '../../../api/geocoding.api';
-import { Restaurant, RestaurantAPI } from '../../../api/restaurant.api';
+import { Days, Restaurant, RestaurantAPI } from '../../../api/restaurant.api';
+// import ImgToBase64 from 'react-native-image-base64-png';
 
 type State = {
   restaurants: Restaurant[];
@@ -17,7 +18,6 @@ type State = {
   menu: CreateMenu;
 };
 
-type Days = 'L' | 'M' | 'X' | 'J' | 'V' | 'S' | 'D';
 export type StepTwoFields = {
   typeOfFood: string;
   priceRange: string;
@@ -42,6 +42,7 @@ export type StepOneFields = {
 
 export type CreateMenu = {
   category: string;
+  categoryId: string;
   name: string;
   price: string;
   vegan: boolean;
@@ -79,6 +80,7 @@ const initialState: State = {
   },
   menu: {
     category: '',
+    categoryId: '',
     celiac: false,
     images: [],
     ingredients: [],
@@ -104,19 +106,48 @@ const getRestaurants = createAsyncThunk(
 
 const createRestaurant = createAsyncThunk(
   'restaurant/createRestaurant',
-  async (_, { rejectWithValue, getState }) => {
+  async (_, { rejectWithValue, getState, dispatch }) => {
     try {
-      const state = getState() as State;
-      await RestaurantAPI.createRestaurant({
-        ...state.create.stepOne,
-        ...state.create.stepTwo,
-        closeTime: '',
-        openDays: [],
-        openTime: '',
-      });
+      const state = getState() as any;
+      const restaurants = state.restaurant as State;
+      // const images = restaurants.create.stepTwo.images as string[];
+      // const base64Images = await Promise.all(
+      //   images.map(async value => {
+      //     const base64 = await ImgToBase64.getBase64String(value);
+      //     return base64;
+      //   }),
+      // );
 
-      return 'OK';
+      const newRestaurant = {
+        foodType: restaurants.create.stepTwo.typeOfFood,
+        priceRange: restaurants.create.stepTwo.priceRange,
+        street: restaurants.create.stepOne.street,
+        streetNumber: restaurants.create.stepOne.streetNumber,
+        place: restaurants.create.stepOne.neighborhood,
+        neighborhood: restaurants.create.stepOne.neighborhood,
+        locality: restaurants.create.stepOne.locality,
+        state: restaurants.create.stepOne.state,
+        name: restaurants.create.stepOne.name,
+        lat: Number(restaurants.create.stepOne.lat) || 0,
+        lon: Number(restaurants.create.stepOne.lon) || 0,
+        images: [],
+        openDays: restaurants.create.stepTwo.times.map((time: any) => {
+          return {
+            day: time.day,
+            openTime: time.times[0]?.from || '',
+            closeTime: time.times[0]?.to || '',
+            open: time.open,
+          };
+        }),
+      };
+
+      console.log(newRestaurant);
+      const response = await RestaurantAPI.createRestaurant(newRestaurant);
+      console.log('restaurant created: ', response);
+      dispatch(getRestaurants());
+      return response;
     } catch (err) {
+      console.log(err);
       rejectWithValue(err);
     }
   },
@@ -170,15 +201,28 @@ const saveMenu = createAsyncThunk(
   'restaurants/saveMenu',
   async (_, { getState, rejectWithValue }) => {
     try {
-      const {
-        menu: { category, ...menu },
-      } = getState() as State;
-      const response = await RestaurantAPI.createMenu(category, {
-        ...menu,
+      const rState = getState() as any;
+      const restaurants = rState.restaurant as State;
+      const menu = restaurants.menu;
+      const request = {
+        name: menu.name,
+        images: [],
+        ingredients: menu.ingredients,
         suitableCeliac: menu.vegan,
         suitableVegan: menu.celiac,
         price: Number(menu.price),
-      });
+      };
+      const response = await RestaurantAPI.createMenu(menu.categoryId, request);
+
+      console.log(
+        'categoryId',
+        menu.category,
+        menu.categoryId,
+        'request',
+        request,
+        'response: ',
+        response,
+      );
 
       return response;
     } catch (error) {

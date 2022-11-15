@@ -15,7 +15,7 @@ export function HomeNavHeader({ onHamburgerClick }: PropTypes) {
     user: { name, isAdmin },
   } = useAppSelector(state => state.user);
   return (
-    <View style={styles.headerContainer}>
+    <View style={[styles.headerContainer, isAdmin && styles.adminHeader]}>
       <View>
         <ImageButton onPress={onHamburgerClick} imageSvg={ICONS.burgerMenu} />
       </View>

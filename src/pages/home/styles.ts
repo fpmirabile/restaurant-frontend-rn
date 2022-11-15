@@ -88,4 +88,12 @@ export const styles = StyleSheet.create({
   addressSize: {
     minWidth: 300,
   },
+  starsContainer: {
+    alignItems: 'center',
+    marginTop: 8,
+    flexDirection: 'row',
+  },
+  starTitle: {
+    marginRight: 8,
+  },
 });

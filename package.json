@@ -28,6 +28,7 @@
     "react-native": "0.70.4",
     "react-native-config": "^1.4.6",
     "react-native-dropdown-select-list": "^1.0.23",
+    "react-native-image-base64-png": "^0.2.1",
     "react-native-image-picker": "^4.10.0",
     "react-native-keychain": "^8.1.1",
     "react-native-localization": "^2.3.1",

@@ -1,13 +1,14 @@
 import { authenticatedGet, authenticatedPost } from './config/calls';
 
-type Days =
-  | 'Lunes'
-  | 'Martes'
-  | 'Miercoles'
-  | 'Jueves'
-  | 'Viernes'
-  | 'Sabado'
-  | 'Domingo';
+export type Days = 'L' | 'M' | 'X' | 'J' | 'V' | 'S' | 'D';
+
+type OpenDays = {
+  day: Days;
+  openTime: string;
+  closeTime: string;
+  open: boolean;
+};
+
 export type Restaurant = {
   id: number;
   name: string;
@@ -16,25 +17,30 @@ export type Restaurant = {
   ownerId: number;
   address: string;
   isClosed: boolean;
+  stars: number;
+  favorite: boolean;
+  openDays?: OpenDays[];
+  photos: string[];
 };
 
 type RestaurantCreate = {
   street: string;
   streetNumber: string;
-  neighborhood: string;
+  place: string;
   locality: string;
   state: string;
-  openDays: Days[];
-  openTime: string;
-  closeTime: string;
-} & Pick<Restaurant, 'name' | 'lat' | 'lon'>;
+  openDays: OpenDays[];
+  images: string[];
+  lat: number;
+  lon: number;
+} & Pick<Restaurant, 'name'>;
 
 const getRestaurants = (): Promise<Restaurant[]> => {
   return authenticatedGet('/restaurants');
 };
 
-const createRestaurant = (restaurant: RestaurantCreate): Promise<void> => {
-  return authenticatedPost('/restaurants', restaurant);
+const createRestaurant = (restaurant: RestaurantCreate): Promise<any> => {
+  return authenticatedPost('/restaurant', restaurant);
 };
 
 type MenuCreate = {
@@ -47,7 +53,7 @@ type MenuCreate = {
 };
 
 const createMenu = (category: string, menu: MenuCreate): Promise<any> => {
-  return authenticatedPost(`/restaurants/categories/${category}/meals`, menu);
+  return authenticatedPost(`/restaurant/category/${category}/meal`, menu);
 };
 
 export const RestaurantAPI = {

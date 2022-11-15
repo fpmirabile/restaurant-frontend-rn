@@ -39,6 +39,17 @@ export function NewDish({ navigation }: RouterProps) {
     index: number;
   }>({ value: '', index: -1 });
 
+  const categories = [
+    { key: '1', value: 'Postres' },
+    { key: '2', value: 'Carnes' },
+    { key: '3', value: 'Pizza' },
+    { key: '4', value: 'Ensaladas' },
+  ];
+
+  const selectedCategory = categories.find(
+    locality => locality.value === createMenu.category,
+  );
+
   const backToRestaurant = React.useCallback(() => {
     navigation.navigate('CreateRestaurant');
   }, [navigation]);
@@ -53,9 +64,15 @@ export function NewDish({ navigation }: RouterProps) {
   }, [navigation, createMenu, dispatch]);
 
   const handleValueChanged = (field: keyof CreateMenu) => (value: any) => {
+    const catId =
+      field === 'category'
+        ? categories.find(cat => cat.value === value)?.key || ''
+        : createMenu.categoryId;
+
     dispatch(
       actions.restaurants.updateMenu({
         ...createMenu,
+        categoryId: catId,
         [field]: value,
       }),
     );
@@ -94,17 +111,6 @@ export function NewDish({ navigation }: RouterProps) {
     ingredients.push('');
     handleValueChanged('ingredients')(ingredients);
   };
-
-  const categories = [
-    { key: '1', value: 'Postres' },
-    { key: '2', value: 'Carnes' },
-    { key: '3', value: 'Pizza' },
-    { key: '4', value: 'Ensaladas' },
-  ];
-
-  const selectedCategory = categories.find(
-    locality => locality.value === createMenu.category,
-  );
 
   const showModal = () => {
     setModalVisible(true);

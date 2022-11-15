@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Image } from 'react-native';
+import { View } from 'react-native';
 import {
   Caption,
   ColorfulButton,
@@ -9,14 +9,16 @@ import {
 import { MorfandoRouterParams } from '../../../navigation/navigation';
 import { styles } from './styles';
 import { localizedStrings } from '../../../localization/localized-strings';
-import { useAppSelector } from '../../../redux/store';
+import { useAppDispatch, useAppSelector } from '../../../redux/store';
 import { ICONS } from '../../../constants';
+import { actions } from '../../../redux';
 
 interface PropTypes
   extends MorfandoRouterParams<'FinishedRestaurantCreation'> {}
 export function RestaurantCreated({ navigation }: PropTypes) {
+  const dispatch = useAppDispatch();
   const Chef = ICONS.chef;
-  const { loading } = useAppSelector(state => state.restaurant.create);
+  const { loading, error } = useAppSelector(state => state.restaurant.create);
 
   const handleContinueWithMenu = React.useCallback(() => {
     navigation.navigate('NewDish');
@@ -25,37 +27,38 @@ export function RestaurantCreated({ navigation }: PropTypes) {
     navigation.navigate('Home');
   }, [navigation]);
 
+  React.useEffect(() => {
+    if (!loading && !error) {
+      dispatch(actions.restaurants.getRestaurants());
+    }
+  }, [dispatch, loading, error]);
+
   return (
     <View style={styles.container}>
-      {loading && (
-        <Image
-          // style={styles.loadingIcon}
-          resizeMode="contain"
-          source={require('../../../assets/images/loading/loading.gif')}
-        />
+      <Title>{localizedStrings.restaurant.created.title(loading, error)}</Title>
+      {!loading && !error && (
+        <Caption>{localizedStrings.restaurant.created.subtitle}</Caption>
       )}
-      {!loading && (
-        <>
-          <Title>{localizedStrings.restaurant.created.title}</Title>
-          <Caption>{localizedStrings.restaurant.created.subtitle}</Caption>
-          <View style={styles.bottomContainer}>
-            <View style={styles.imageContainer}>
-              <Chef />
-            </View>
-            <View>
+      <View style={styles.bottomContainer}>
+        <View style={styles.imageContainer}>
+          <Chef />
+        </View>
+        {!loading && (
+          <View>
+            {!error && (
               <ColorfulButton
                 buttonContainerStyle={styles.colorfulButton}
                 title={localizedStrings.restaurant.created.primaryButton}
                 onPress={handleContinueWithMenu}
               />
-              <TransparentButton
-                title={localizedStrings.restaurant.created.secondaryButton}
-                onPress={handleContinueLater}
-              />
-            </View>
+            )}
+            <TransparentButton
+              title={localizedStrings.restaurant.created.secondaryButton}
+              onPress={handleContinueLater}
+            />
           </View>
-        </>
-      )}
+        )}
+      </View>
     </View>
   );
 }
