@@ -9,6 +9,11 @@ type State = {
     loading: boolean;
     error: string;
   };
+  view: {
+    loading: boolean;
+    error: string;
+    selectedRestaurant?: Restaurant;
+  };
   create: {
     loading: boolean;
     error: string;
@@ -57,6 +62,11 @@ const initialState: State = {
   home: {
     loading: false,
     error: '',
+  },
+  view: {
+    loading: false,
+    error: '',
+    selectedRestaurant: undefined,
   },
   create: {
     loading: false,
@@ -153,7 +163,10 @@ const createRestaurant = createAsyncThunk(
   },
 );
 
-const getLatAndLon = async (address: any, rejectWithValue: any) => {
+const getLatAndLon = async (
+  address: any,
+  rejectWithValue: any,
+): Promise<{ latitude: string; longitude: string } | undefined> => {
   try {
     const { locality, neighborhood, state, street, streetNumber } = address;
     const arrayAddress = [
@@ -227,6 +240,20 @@ const saveMenu = createAsyncThunk(
       return response;
     } catch (error) {
       console.log('create menu error', error);
+      rejectWithValue(error);
+    }
+  },
+);
+
+const selectRestaurant = createAsyncThunk(
+  'restaurants/selectRestaurant',
+  async (payload: number, { rejectWithValue }) => {
+    try {
+      const restaurant = await RestaurantAPI.getSingleRestaurant(payload);
+      console.log('response selectRestaurant: ', restaurant);
+      return restaurant;
+    } catch (error) {
+      console.log('selected restaurant rejected', error);
       rejectWithValue(error);
     }
   },
@@ -326,6 +353,20 @@ const restaurantAppSlice = createSlice({
       //     (action.payload as any).message || 'Ocurrio un error insperado';
       // }
     });
+    builder.addCase(selectRestaurant.pending, state => {
+      state.view.loading = true;
+    });
+    builder.addCase(selectRestaurant.fulfilled, (state, action) => {
+      state.view.loading = false;
+      state.view.selectedRestaurant = action.payload;
+    });
+    builder.addCase(selectRestaurant.rejected, (state, action) => {
+      state.view.loading = false;
+      const message = (action as any).message;
+      if (message) {
+        state.view.error = message;
+      }
+    });
   },
 });
 
@@ -338,6 +379,7 @@ export const restaurantSlice = {
     createRestaurant,
     handleStepOneSave,
     saveMenu,
+    selectRestaurant,
   },
   reducer,
 };

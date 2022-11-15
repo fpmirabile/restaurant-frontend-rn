@@ -2,7 +2,7 @@ import { authenticatedGet, authenticatedPost } from './config/calls';
 
 export type Days = 'L' | 'M' | 'X' | 'J' | 'V' | 'S' | 'D';
 
-type OpenDays = {
+export type OpenDays = {
   day: Days;
   openTime: string;
   closeTime: string;
@@ -39,6 +39,10 @@ const getRestaurants = (): Promise<Restaurant[]> => {
   return authenticatedGet('/restaurants');
 };
 
+const getSingleRestaurant = (id: number): Promise<Restaurant> => {
+  return authenticatedGet(`/restaurant/${id}`);
+};
+
 const createRestaurant = (restaurant: RestaurantCreate): Promise<any> => {
   return authenticatedPost('/restaurant', restaurant);
 };
@@ -58,6 +62,7 @@ const createMenu = (category: string, menu: MenuCreate): Promise<any> => {
 
 export const RestaurantAPI = {
   getRestaurants,
+  getSingleRestaurant,
   createRestaurant,
   createMenu,
 };
