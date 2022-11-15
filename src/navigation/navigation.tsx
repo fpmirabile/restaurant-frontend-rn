@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import {
   createNativeStackNavigator,
+  NativeStackNavigationProp,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
 import {
@@ -24,7 +25,12 @@ import {
 export interface MorfandoRouterParams<A extends keyof RootStackParamList>
   extends NativeStackScreenProps<RootStackParamList, A> {}
 
-type RootStackParamList = {
+type AppReactNavigation = NativeStackNavigationProp<RootStackParamList>;
+export function useAppNavigation() {
+  return useNavigation<AppReactNavigation>();
+}
+
+export type RootStackParamList = {
   Home: undefined;
   Login: undefined;
   Registration: undefined;

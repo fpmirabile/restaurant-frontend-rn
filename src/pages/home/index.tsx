@@ -1,7 +1,16 @@
 import * as React from 'react';
 import { View, FlatList, ListRenderItemInfo, Image } from 'react-native';
-import { MorfandoRouterParams } from '../../navigation/navigation';
-import { Body, Body2, ColorfulButton, Input } from '../../components/shared';
+import {
+  MorfandoRouterParams,
+  useAppNavigation,
+} from '../../navigation/navigation';
+import {
+  Body,
+  Body2,
+  ColorfulButton,
+  Input,
+  PressableView,
+} from '../../components/shared';
 import { styles } from './styles';
 import { Shadow } from 'react-native-shadow-2';
 import { ICONS } from '../../constants';
@@ -15,12 +24,20 @@ import NoAvailableImage from '../../assets/images/no-available-image.svg';
 
 interface PropTypes extends MorfandoRouterParams<'Home'> {}
 
-const RestaurantItem = React.memo(
-  ({ item }: ListRenderItemInfo<Restaurant>): JSX.Element => {
-    const { isAdmin } = useAppSelector(state => state.user.user);
-    const LikeIcon = item.favorite ? ICONS.like : ICONS.likeNoBackground;
+const RestaurantItem = ({
+  item,
+}: ListRenderItemInfo<Restaurant>): JSX.Element => {
+  const { isAdmin } = useAppSelector(state => state.user.user);
+  const LikeIcon = item.favorite ? ICONS.like : ICONS.likeNoBackground;
+  const navigation = useAppNavigation();
+  const dispatch = useAppDispatch();
+  const handleViewNavigation = React.useCallback(() => {
+    dispatch(actions.restaurants.selectRestaurant(item.id));
+    navigation.push('ViewRestaurant');
+  }, [navigation, dispatch, item]);
 
-    return (
+  return (
+    <PressableView onPress={handleViewNavigation}>
       <Shadow
         style={styles.shadowElement}
         distance={2}
@@ -84,9 +101,9 @@ const RestaurantItem = React.memo(
           </View>
         </View>
       </Shadow>
-    );
-  },
-);
+    </PressableView>
+  );
+};
 
 const header = React.memo(() => {
   const {

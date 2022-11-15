@@ -81,6 +81,7 @@ export function CreateRestaurantStepTwo({}: PropTypes) {
         defaultPair={selectedPriceRange}
       />
       <OpeningList
+        editable
         previousDates={stepTwo.times}
         onOpenDaysChanged={handleChangeValue('times')}
       />

@@ -12,6 +12,7 @@ interface PropTypes {
   darkPinkColor?: boolean;
   onOpenDaysChanged?: (data: OpenDays[]) => void;
   previousDates?: OpenDays[];
+  editable?: boolean;
 }
 
 export type TimeInput = {
@@ -43,6 +44,7 @@ export function OpeningList({
   darkPinkColor,
   onOpenDaysChanged,
   previousDates,
+  editable,
 }: PropTypes) {
   const [openDays, setOpenDays] = React.useState<OpenDays[]>(
     previousDates && previousDates.length > 0
@@ -131,10 +133,12 @@ export function OpeningList({
                 )}
               </View>
             </View>
-            <ImageButton
-              onPress={handleOpenEditModal(days.day)}
-              imageSvg={ICONS.edit}
-            />
+            {editable && (
+              <ImageButton
+                onPress={handleOpenEditModal(days.day)}
+                imageSvg={ICONS.edit}
+              />
+            )}
           </View>
         ))}
       </View>

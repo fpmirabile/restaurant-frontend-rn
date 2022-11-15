@@ -15,11 +15,10 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   hoursContainer: {
-    //flex: 1,
+    flex: 1,
   },
   twoHoursContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     flex: 1,
     marginHorizontal: 15,
