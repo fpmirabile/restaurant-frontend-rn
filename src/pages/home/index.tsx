@@ -31,7 +31,7 @@ const RestaurantItem = ({
   const dispatch = useAppDispatch();
   const handleViewNavigation = React.useCallback(() => {
     dispatch(actions.restaurants.selectRestaurant(item.id));
-    navigation.push('ViewRestaurant');
+    navigation.push(isAdmin? 'ViewRestaurant' : 'RestaurantClient');
   }, [navigation, dispatch, item]);
 
   return (

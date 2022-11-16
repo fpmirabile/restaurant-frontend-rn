@@ -10,7 +10,7 @@ interface PropTypes {
 export function ProfileNavHeader({ onPressBack }: PropTypes) {
   return (
     <View style={styles.headerContainer}>
-      <TouchableText message="< Volver" onPress={onPressBack} type="title" />
+      <TouchableText message="< Volver" onPress={onPressBack} type="ctaText" />
     </View>
   );
 }
