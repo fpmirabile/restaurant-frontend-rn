@@ -31,6 +31,7 @@ export function Dropdown({
 }: PropTypes) {
   const [isValid, setIsValid] = React.useState<boolean>(true);
   const [selected, setSelected] = React.useState('');
+  const fullList = [{ key: '-1', value: '--Seleccione--' }, ...data];
 
   React.useEffect(() => {
     const key = selected;
@@ -48,7 +49,7 @@ export function Dropdown({
   return (
     <View style={[styles.container, containerStyles]}>
       <SelectList
-        defaultOption={defaultPair || data[0]}
+        defaultOption={defaultPair || fullList[0]}
         placeholder={placeholder}
         setSelected={setSelected}
         data={data}
