@@ -55,7 +55,8 @@ export function Navigation() {
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
-          headerStyle: { backgroundColor: 'transparent' },
+          headerTransparent: true,
+          headerShadowVisible: false,
         }}>
         {!jwt ? (
           <Stack.Group>
@@ -81,6 +82,7 @@ export function Navigation() {
                 },
                 headerShown: true,
                 headerStyle: { backgroundColor: COLORS.background },
+                headerTransparent: true,
               }}
               component={Home}
               name="Home"

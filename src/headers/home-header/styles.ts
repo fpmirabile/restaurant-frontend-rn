@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { COLORS } from '../../constants';
 
 export const styles = StyleSheet.create({
   headerContainer: {
@@ -9,6 +10,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 16,
     marginVertical: 16,
+    backgroundColor: COLORS.background,
   },
   adminHeader: {
     justifyContent: 'flex-start',
