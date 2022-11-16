@@ -4,7 +4,7 @@ import { SvgProps } from 'react-native-svg';
 import { ICONS } from '../../constants';
 import { localizedStrings } from '../../localization/localized-strings';
 import {
-  Body,
+  CTAText,
   TransparentButton,
   Caption,
   ImageButton,
@@ -66,7 +66,7 @@ const Item = React.memo(({ buttons }: ItemProps) => {
 interface SectionHeaderProps {
   title: string;
 }
-const SectionHeader = ({ title }: SectionHeaderProps) => <Body>{title}</Body>;
+const SectionHeader = ({ title }: SectionHeaderProps) => <CTAText>{title}</CTAText>;
 
 interface PropTypes {}
 export function Profile({}: PropTypes) {
@@ -111,10 +111,7 @@ export function Profile({}: PropTypes) {
             buttons: [
               {
                 buttonTitle: localizedStrings.profile.signOut,
-                buttonAction: () => {
-                  dispatch(actions.restaurants.clean());
-                  dispatch(actions.userActions.logOut());
-                },
+                buttonAction: () => dispatch(actions.userActions.logOut()),
                 icon: ICONS.signOut,
               },
               {

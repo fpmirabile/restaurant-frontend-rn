@@ -11,6 +11,7 @@ import {
   Profile,
   SuccessRegistration,
   NewDish,
+  RestaurantClient
 } from '../pages';
 import { HomeNavHeader, ProfileNavHeader } from '../headers';
 import { useAppSelector } from '../redux/store';
@@ -35,6 +36,7 @@ export type RootStackParamList = {
   SuccessRegistration: undefined;
   NewDish: undefined;
   ViewRestaurant: undefined;
+  RestaurantClient: undefined;
   // Feed: { sort: 'latest' | 'top' } | undefined;
 };
 
@@ -111,6 +113,17 @@ export function Navigation() {
                 animation: 'slide_from_left',
                 header: ({ navigation }) => (
                   <ProfileNavHeader onPressBack={navigation.goBack} />
+                ),
+                headerShown: true,
+              }}
+            />
+              <Stack.Screen
+              name="RestaurantClient"
+              component={RestaurantClient}
+              options={{
+              animation: 'slide_from_left',
+              header: ({ navigation }) => (
+                <ProfileNavHeader onPressBack={navigation.goBack} />
                 ),
                 headerShown: true,
               }}
