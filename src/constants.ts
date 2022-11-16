@@ -53,7 +53,7 @@ const ICONS = {
   addicon: memo(AddIcon),
   starIcon: memo(StarIcon),
   chef: memo(ChefImage),
-  downChevron: memo(DownChevronIcon),
+
   upChevron: memo(UpChevronIcon),
   
 };
