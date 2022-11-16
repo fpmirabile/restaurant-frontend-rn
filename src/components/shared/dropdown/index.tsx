@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StyleProp, View, ViewStyle } from 'react-native';
-import SelectList from 'react-native-dropdown-select-list';
+import { SelectList } from 'react-native-dropdown-select-list';
 import { Caption } from '../morfando-text';
 import { styles } from './styles';
 
@@ -48,13 +48,15 @@ export function Dropdown({
   return (
     <View style={[styles.container, containerStyles]}>
       <SelectList
-        defaultOption={defaultPair}
+        defaultOption={defaultPair || data[0]}
         placeholder={placeholder}
         setSelected={setSelected}
         data={data}
         search={searchable || false}
         boxStyles={styles.dropDownBorder}
         dropdownStyles={styles.dropdownStyles}
+        dropdownTextStyles={styles.dropdownTextStyles as any}
+        inputStyles={styles.dropdownTextStyles as any}
       />
       {!isValid && (
         <Caption style={styles.errorMessage}>{errorMessage}</Caption>

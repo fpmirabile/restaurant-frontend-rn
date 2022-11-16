@@ -39,6 +39,13 @@ const getRestaurants = (): Promise<Restaurant[]> => {
   return authenticatedGet('/restaurants');
 };
 
+const getRestaurantsNearMe = (
+  lat: number,
+  lon: number,
+): Promise<Restaurant[]> => {
+  return authenticatedGet(`/restaurants/near/${lat}/${lon}`);
+};
+
 const getSingleRestaurant = (id: number): Promise<Restaurant> => {
   return authenticatedGet(`/restaurant/${id}`);
 };
@@ -62,6 +69,7 @@ const createMenu = (category: string, menu: MenuCreate): Promise<any> => {
 
 export const RestaurantAPI = {
   getRestaurants,
+  getRestaurantsNearMe,
   getSingleRestaurant,
   createRestaurant,
   createMenu,

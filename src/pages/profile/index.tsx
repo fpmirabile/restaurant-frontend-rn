@@ -111,7 +111,10 @@ export function Profile({}: PropTypes) {
             buttons: [
               {
                 buttonTitle: localizedStrings.profile.signOut,
-                buttonAction: () => dispatch(actions.userActions.logOut()),
+                buttonAction: () => {
+                  dispatch(actions.restaurants.clean());
+                  dispatch(actions.userActions.logOut());
+                },
                 icon: ICONS.signOut,
               },
               {

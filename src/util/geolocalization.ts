@@ -6,12 +6,12 @@ type PermissionRequest = {
   onNotAccepted?: () => void;
   onError?: () => void;
 };
-export const requestPermission = async ({
+export const tryRequestGeoPermissions = async ({
   permission,
   onError,
   onNotAccepted,
   onOk,
-}: PermissionRequest) => {
+}: PermissionRequest): Promise<boolean> => {
   try {
     const granted = await PermissionsAndroid.request(permission, {
       title: 'Acceder a gps',
@@ -22,12 +22,15 @@ export const requestPermission = async ({
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
       console.log('OK');
       !!onOk && onOk();
+      return true;
     } else {
       console.log('NO');
       !!onNotAccepted && onNotAccepted();
+      return false;
     }
   } catch (error) {
     console.log(error);
     !!onError && onError();
+    return false;
   }
 };

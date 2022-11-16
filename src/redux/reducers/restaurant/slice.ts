@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { geolocationAPI } from '../../../api/geocoding.api';
 import { Days, Restaurant, RestaurantAPI } from '../../../api/restaurant.api';
+import { tryRequestGeoPermissions } from '../../../util/geolocalization';
+import Geolocation from '@react-native-community/geolocation';
 // import ImgToBase64 from 'react-native-image-base64-png';
 
 type State = {
@@ -100,6 +102,72 @@ const initialState: State = {
     loading: false,
   },
 };
+
+const getCurrentPosition = createAsyncThunk('currentPosition', async () => {
+  return new Promise<{ latitude: number; longitude: number }>(
+    (resolve, reject) => {
+      Geolocation.setRNConfiguration({
+        authorizationLevel: 'auto',
+        locationProvider: 'android',
+        skipPermissionRequests: false,
+      });
+      Geolocation.requestAuthorization();
+      Geolocation.getCurrentPosition(
+        values => {
+          console.log('values', values);
+          resolve({
+            latitude: values.coords.latitude,
+            longitude: values.coords.longitude,
+          });
+        },
+        error => {
+          console.log('current position error', error);
+          reject({
+            latitude: 0,
+            longitude: 0,
+          });
+        },
+        {
+          enableHighAccuracy: true,
+          maximumAge: 1,
+          timeout: 10000,
+        },
+      );
+    },
+  );
+});
+
+const getNearRestaurants = createAsyncThunk(
+  'restaurant/getNearRestaurants',
+  async (_, { rejectWithValue, dispatch }) => {
+    try {
+      const localization = await tryRequestGeoPermissions({
+        permission: 'android.permission.ACCESS_FINE_LOCATION',
+      });
+
+      if (localization) {
+        const loc = await dispatch(getCurrentPosition());
+        console.log('localization', localization);
+        const { latitude, longitude } = loc.payload as {
+          latitude: number;
+          longitude: number;
+        };
+
+        const restaurants = await RestaurantAPI.getRestaurantsNearMe(
+          latitude,
+          longitude,
+        );
+        console.log('near me restaurants', restaurants);
+        return restaurants;
+      }
+
+      return [];
+    } catch (error) {
+      console.log('get near restaurants', error);
+      rejectWithValue(error);
+    }
+  },
+);
 
 const getRestaurants = createAsyncThunk(
   'restaurant/getRestaurants',
@@ -263,6 +331,12 @@ const restaurantAppSlice = createSlice({
   name: 'restaurant',
   initialState,
   reducers: {
+    clean: state => {
+      state.restaurants = [];
+      state.view = {
+        ...initialState.view,
+      };
+    },
     onUpdateStepOne: (
       state,
       action: PayloadAction<State['create']['stepOne']>,
@@ -358,6 +432,7 @@ const restaurantAppSlice = createSlice({
     });
     builder.addCase(selectRestaurant.fulfilled, (state, action) => {
       state.view.loading = false;
+      state.view.error = '';
       state.view.selectedRestaurant = action.payload;
     });
     builder.addCase(selectRestaurant.rejected, (state, action) => {
@@ -365,6 +440,21 @@ const restaurantAppSlice = createSlice({
       const message = (action as any).message;
       if (message) {
         state.view.error = message;
+      }
+    });
+    builder.addCase(getNearRestaurants.pending, state => {
+      state.home.loading = true;
+    });
+    builder.addCase(getNearRestaurants.fulfilled, (state, action) => {
+      state.home.loading = false;
+      state.home.error = '';
+      state.restaurants = action.payload || [];
+    });
+    builder.addCase(getNearRestaurants.rejected, (state, action) => {
+      state.home.loading = false;
+      const message = (action.payload as any).message;
+      if (message) {
+        state.home.error = message;
       }
     });
   },
@@ -380,6 +470,7 @@ export const restaurantSlice = {
     handleStepOneSave,
     saveMenu,
     selectRestaurant,
+    getNearRestaurants,
   },
   reducer,
 };

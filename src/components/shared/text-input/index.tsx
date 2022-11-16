@@ -12,11 +12,13 @@ import {
   TouchableOpacity,
   KeyboardTypeOptions,
 } from 'react-native';
+import { COLORS } from '../../../constants';
 import { Caption } from '../morfando-text';
 import { styles } from './styles';
 
 interface PropTypes {
   placeholder?: string;
+  placeholderColor?: string;
   onChangeText?: (text: string) => void;
   onChange?: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void;
   onEndEditing?: (
@@ -37,6 +39,7 @@ interface PropTypes {
 
 export function Input({
   placeholder,
+  placeholderColor = COLORS.placeholder,
   onChangeText,
   errorMessage,
   hasError,
@@ -79,6 +82,7 @@ export function Input({
         onEndEditing={handleEndEditing}
         secureTextEntry={secureTextEntry}
         editable={!disabled}
+        placeholderTextColor={placeholderColor}
       />
       {rightIcon && <Image style={styles.rightIcon} source={rightIcon} />}
       {!!errorMessage && (hasError || !isValid) && (

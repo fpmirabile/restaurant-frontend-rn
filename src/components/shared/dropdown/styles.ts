@@ -27,4 +27,7 @@ export const styles = StyleSheet.create({
     color: COLORS.darkPink,
     marginTop: 6,
   },
+  dropdownTextStyles: {
+    color: COLORS.black,
+  },
 });

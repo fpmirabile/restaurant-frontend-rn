@@ -95,18 +95,22 @@ const googleSignIn = createAsyncThunk(
         idToken,
         user: { email },
       } = await GoogleSignin.signIn();
+      console.log(idToken, email);
       if (idToken) {
         const { token, refreshToken } = await UserAPI.loginSso({
           idToken,
           email,
         });
+        console.log(token, refreshToken);
 
-        await setSession({
+        const saved = await setSession({
           jwt: token,
           refreshToken,
         });
 
+        console.log('saved', saved);
         const userData = await UserAPI.me();
+        console.log(userData);
         return { ...userData, token, refreshToken };
       }
     } catch (error) {
@@ -169,7 +173,6 @@ const userAppSlice = createSlice({
     logOut: state => {
       removeSession();
       console.log('log out ejecutado.');
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       state.auth = {
         ...initialState.auth,
       };
@@ -234,21 +237,19 @@ const userAppSlice = createSlice({
     });
     builder.addCase(googleSignIn.fulfilled, (state, action) => {
       const payload = action.payload;
-      state = {
-        ...state,
-        auth: {
-          jwt: payload?.token,
-          refresh: payload?.refreshToken,
-        },
-        login: {
-          ...initialState.login,
-        },
-        user: {
-          email: payload?.email || '',
-          name: payload?.name || '',
-          id: payload?.id || '',
-          isAdmin: false,
-        },
+      console.log(payload);
+      state.auth = {
+        jwt: payload?.token,
+        refresh: payload?.refreshToken,
+      };
+      state.user = {
+        email: payload?.email || '',
+        name: payload?.name || '',
+        id: payload?.id || '',
+        isAdmin: false,
+      };
+      state.login = {
+        ...initialState.login,
       };
     });
     builder.addCase(googleSignIn.rejected, (state, action) => {

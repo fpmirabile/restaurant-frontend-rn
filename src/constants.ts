@@ -30,6 +30,7 @@ const COLORS = {
   darkPink: '#FB0067',
   grey: '#DCDCDC',
   shadow: '#FEBDD8',
+  placeholder: '#B6B6B6',
 };
 
 const ICONS = {
@@ -49,7 +50,7 @@ const ICONS = {
   likeNoBackground: memo(NotFilledLikeIcon),
   closeIcon: memo(CloseIcon),
   removeIcon: memo(RemoveIcon),
-  addicon: memo(AddIcon),
+  addIcon: memo(AddIcon),
   starIcon: memo(StarIcon),
   chef: memo(ChefImage),
   downChevron: memo(DownChevronIcon),

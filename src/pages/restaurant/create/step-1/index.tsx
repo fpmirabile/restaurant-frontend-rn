@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import {
-  Caption,
+  // Caption,
   Headline6,
   Input,
   Dropdown,
@@ -120,15 +120,19 @@ export function CreateRestaurantStepOne({}: PropTypes) {
         <Headline6 style={styles.mapTitle}>
           {localizedStrings.restaurant.create.geolocalization}
         </Headline6>
-        <Caption>
+        {/* <Caption>
           {localizedStrings.restaurant.create.localizationSubtitle}
-        </Caption>
+        </Caption> */}
       </View>
       <MapView
         style={styles.map}
         initialRegion={currentLoc}
         ref={map}
-        region={currentLoc}>
+        region={currentLoc}
+        zoomEnabled={false}
+        pitchEnabled={false}
+        scrollEnabled={false}
+        zoomTapEnabled={false}>
         {stepOne.lat && stepOne.lon && (
           <Marker
             coordinate={{

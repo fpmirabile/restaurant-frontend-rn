@@ -1,9 +1,6 @@
 import * as React from 'react';
 import { View, FlatList, ListRenderItemInfo, Image } from 'react-native';
-import {
-  MorfandoRouterParams,
-  useAppNavigation,
-} from '../../navigation/navigation';
+import { MorfandoRouterParams } from '../../navigation/navigation';
 import {
   Body,
   Body2,
@@ -11,7 +8,6 @@ import {
   Input,
   PressableView,
 } from '../../components/shared';
-import { styles } from './styles';
 import { Shadow } from 'react-native-shadow-2';
 import { ICONS } from '../../constants';
 import { localizedStrings } from '../../localization/localized-strings';
@@ -21,6 +17,8 @@ import { Restaurant } from '../../api/restaurant.api';
 import { Rating } from '../../components/shared/rating';
 import { capitalize } from '../../util/strings';
 import NoAvailableImage from '../../assets/images/no-available-image.svg';
+import { useAppNavigation } from '../../hook/navigation';
+import { styles } from './styles';
 
 interface PropTypes extends MorfandoRouterParams<'Home'> {}
 
@@ -160,8 +158,12 @@ export function Home({ navigation }: PropTypes) {
   }, [navigation]);
 
   React.useLayoutEffect(() => {
-    dispatch(actions.restaurants.getRestaurants());
-  }, [dispatch]);
+    if (isAdmin) {
+      dispatch(actions.restaurants.getNearRestaurants());
+    } else {
+      dispatch(actions.restaurants.getRestaurants());
+    }
+  }, [dispatch, isAdmin]);
 
   return (
     <View style={styles.container}>

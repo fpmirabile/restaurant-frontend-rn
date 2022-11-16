@@ -143,7 +143,7 @@ export function NewDish({ navigation }: RouterProps) {
             />
           </View>
           <View style={styles.containerIcon}>
-            <ImageButton imageSvg={ICONS.addicon} onPress={showModal} />
+            <ImageButton imageSvg={ICONS.addIcon} onPress={showModal} />
             <CustomModal
               isVisible={isModalVisible}
               onClose={handleCloseEditModal}

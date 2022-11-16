@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import {
   createNativeStackNavigator,
-  NativeStackNavigationProp,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
 import {
@@ -21,14 +20,10 @@ import {
   RestaurantCreated,
   ViewRestaurant,
 } from '../pages/restaurant';
+import { COLORS } from '../constants';
 
 export interface MorfandoRouterParams<A extends keyof RootStackParamList>
   extends NativeStackScreenProps<RootStackParamList, A> {}
-
-type AppReactNavigation = NativeStackNavigationProp<RootStackParamList>;
-export function useAppNavigation() {
-  return useNavigation<AppReactNavigation>();
-}
 
 export type RootStackParamList = {
   Home: undefined;
@@ -95,6 +90,7 @@ export function Navigation() {
                   <ProfileNavHeader onPressBack={navigation.goBack} />
                 ),
                 headerShown: true,
+                headerStyle: { backgroundColor: COLORS.background },
               }}
             />
             <Stack.Screen

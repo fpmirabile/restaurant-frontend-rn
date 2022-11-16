@@ -13,9 +13,9 @@ import {
 import { COLORS, ICONS } from '../../../constants';
 import { AccordionList } from '../../../components/shared/accordion-list';
 import { localizedStrings } from '../../../localization/localized-strings';
-import { useAppNavigation } from '../../../navigation/navigation';
-import { styles } from './styles';
 import { useAppSelector } from '../../../redux/store';
+import { useAppNavigation } from '../../../hook/navigation';
+import { styles } from './styles';
 
 interface PropTypes {}
 
