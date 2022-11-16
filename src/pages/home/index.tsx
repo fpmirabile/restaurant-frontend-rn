@@ -5,11 +5,12 @@ import {
   Body,
   Body2,
   ColorfulButton,
+  Headline6,
   Input,
   PressableView,
 } from '../../components/shared';
 import { Shadow } from 'react-native-shadow-2';
-import { ICONS } from '../../constants';
+import { ICONS, IMAGES } from '../../constants';
 import { localizedStrings } from '../../localization/localized-strings';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { actions } from '../../redux';
@@ -31,8 +32,8 @@ const RestaurantItem = ({
   const dispatch = useAppDispatch();
   const handleViewNavigation = React.useCallback(() => {
     dispatch(actions.restaurants.selectRestaurant(item.id));
-    navigation.push(isAdmin? 'ViewRestaurant' : 'RestaurantClient');
-  }, [navigation, dispatch, item]);
+    navigation.push(isAdmin ? 'ViewRestaurant' : 'RestaurantClient');
+  }, [navigation, dispatch, item, isAdmin]);
 
   return (
     <PressableView onPress={handleViewNavigation}>
@@ -57,12 +58,12 @@ const RestaurantItem = ({
             <Body fontType="bold" darkPinkColor>
               {item.name}
             </Body>
-            <Body>Parrilla</Body>
+            <Body>{item.foodType}</Body>
           </View>
           {!isAdmin && (
-            <View style={styles.restaurantTopPosition}>
+            <PressableView containerStyles={styles.restaurantTopPosition}>
               <LikeIcon />
-            </View>
+            </PressableView>
           )}
         </View>
         <View>
@@ -89,7 +90,7 @@ const RestaurantItem = ({
             <Body fontType="bold" darkPinkColor>
               Precio medio
             </Body>{' '}
-            $$$$
+            {item.priceRange}
           </Body2>
           <View style={styles.starsContainer}>
             <Body style={styles.starTitle} fontType="bold" darkPinkColor>
@@ -105,17 +106,29 @@ const RestaurantItem = ({
 
 const header = React.memo(() => {
   const {
-    user: { isAdmin },
-  } = useAppSelector(state => state.user);
+    user: {
+      user: { isAdmin },
+    },
+    restaurant: { filterText },
+  } = useAppSelector(state => state);
+  const dispatch = useAppDispatch();
   const RestaurantIcon = ICONS.restaurant;
+
+  const handleInputEditing = React.useCallback(
+    (text: string) => {
+      dispatch(actions.restaurants.filter(text));
+    },
+    [dispatch],
+  );
 
   return (
     <View style={styles.listHeaderContainer}>
       {!isAdmin && (
         <View style={styles.inputContainer}>
           <Input
+            onChangeText={handleInputEditing}
             rightIcon={require('../../assets/images/icons/search.png')}
-            value=""
+            value={filterText}
             placeholder="Buscar restaurantes / tipo de comida"
           />
         </View>
@@ -130,11 +143,29 @@ const header = React.memo(() => {
   );
 });
 
+const listEmpty = React.memo(() => {
+  const SadBurger = IMAGES.sadBurger;
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View>
+        <Headline6 darkPinkColor>
+          Parece no haber restaurants cerca tuyo.
+        </Headline6>
+      </View>
+      <View>
+        <SadBurger />
+      </View>
+    </View>
+  );
+});
+
 export function Home({ navigation }: PropTypes) {
   const {
-    user: { auth: isAdmin },
+    user: {
+      user: { isAdmin },
+    },
     restaurant: {
-      restaurants,
+      listRestaurants: restaurants,
       home: { loading, error },
     },
   } = useAppSelector(state => state);
@@ -158,7 +189,7 @@ export function Home({ navigation }: PropTypes) {
   }, [navigation]);
 
   React.useLayoutEffect(() => {
-    if (isAdmin) {
+    if (!isAdmin) {
       dispatch(actions.restaurants.getNearRestaurants());
     } else {
       dispatch(actions.restaurants.getRestaurants());
@@ -182,6 +213,7 @@ export function Home({ navigation }: PropTypes) {
           renderItem={renderItemComponent}
           contentContainerStyle={styles.listBodyContainer}
           ItemSeparatorComponent={separatorComponent}
+          ListEmptyComponent={listEmpty}
         />
       )}
       {isAdmin && (

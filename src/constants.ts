@@ -20,6 +20,7 @@ import StarIcon from './assets/images/icons/star-icon.svg';
 import ChefImage from './assets/images/chef.svg';
 import DownChevronIcon from './assets/images/icons/chevron-down-icon.svg';
 import UpChevronIcon from './assets/images/icons/chevron-up-icon.svg';
+import SadBurgerImage from './assets/images/sad-burger.svg';
 
 const COLORS = {
   blueSecondary: '#211D42',
@@ -57,4 +58,8 @@ const ICONS = {
   upChevron: memo(UpChevronIcon),
 };
 
-export { COLORS, ICONS };
+const IMAGES = {
+  sadBurger: memo(SadBurgerImage),
+};
+
+export { COLORS, ICONS, IMAGES };

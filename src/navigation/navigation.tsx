@@ -11,7 +11,7 @@ import {
   Profile,
   SuccessRegistration,
   NewDish,
-  RestaurantClient
+  RestaurantClient,
 } from '../pages';
 import { HomeNavHeader, ProfileNavHeader } from '../headers';
 import { useAppSelector } from '../redux/store';
@@ -110,20 +110,18 @@ export function Navigation() {
               name="ViewRestaurant"
               component={ViewRestaurant}
               options={{
-                animation: 'slide_from_left',
                 header: ({ navigation }) => (
                   <ProfileNavHeader onPressBack={navigation.goBack} />
                 ),
                 headerShown: true,
               }}
             />
-              <Stack.Screen
+            <Stack.Screen
               name="RestaurantClient"
               component={RestaurantClient}
               options={{
-              animation: 'slide_from_left',
-              header: ({ navigation }) => (
-                <ProfileNavHeader onPressBack={navigation.goBack} />
+                header: ({ navigation }) => (
+                  <ProfileNavHeader onPressBack={navigation.goBack} />
                 ),
                 headerShown: true,
               }}

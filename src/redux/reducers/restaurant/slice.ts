@@ -7,6 +7,8 @@ import Geolocation from '@react-native-community/geolocation';
 
 type State = {
   restaurants: Restaurant[];
+  listRestaurants: Restaurant[];
+  filterText: string;
   home: {
     loading: boolean;
     error: string;
@@ -61,6 +63,8 @@ export type CreateMenu = {
 
 const initialState: State = {
   restaurants: [],
+  listRestaurants: [],
+  filterText: '',
   home: {
     loading: false,
     error: '',
@@ -331,8 +335,22 @@ const restaurantAppSlice = createSlice({
   name: 'restaurant',
   initialState,
   reducers: {
+    filter: (state, action: PayloadAction<string>) => {
+      const filterText = action.payload;
+      state.filterText = filterText;
+      if (!filterText) {
+        state.listRestaurants = [...state.restaurants];
+        return;
+      }
+
+      state.listRestaurants = state.listRestaurants.filter(restaurant =>
+        restaurant.name.toLowerCase().includes(filterText.toLowerCase()),
+      );
+    },
     clean: state => {
       state.restaurants = [];
+      state.listRestaurants = [];
+      state.filterText = '';
       state.view = {
         ...initialState.view,
       };
@@ -371,6 +389,7 @@ const restaurantAppSlice = createSlice({
     builder.addCase(getRestaurants.rejected, (state, action) => {
       console.log('get restaurants rejected', action);
       state.home.loading = false;
+      state.filterText = '';
       if (action.payload) {
         state.home.error =
           (action.payload as any).message || 'Ocurrio un error insperado';
@@ -385,6 +404,8 @@ const restaurantAppSlice = createSlice({
       console.log('get restaurants fullfilled');
       state.home.loading = false;
       state.restaurants = action.payload || [];
+      state.listRestaurants = [...action.payload] || [];
+      state.filterText = '';
     });
     builder.addCase(createRestaurant.pending, state => {
       state.create.loading = true;
@@ -449,9 +470,12 @@ const restaurantAppSlice = createSlice({
       state.home.loading = false;
       state.home.error = '';
       state.restaurants = action.payload || [];
+      state.listRestaurants = [...(action.payload || [])];
+      state.filterText = '';
     });
     builder.addCase(getNearRestaurants.rejected, (state, action) => {
       state.home.loading = false;
+      state.filterText = '';
       const message = (action.payload as any).message;
       if (message) {
         state.home.error = message;

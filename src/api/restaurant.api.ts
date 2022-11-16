@@ -21,6 +21,8 @@ export type Restaurant = {
   favorite: boolean;
   openDays?: OpenDays[];
   photos: string[];
+  foodType: string;
+  priceRange: string;
 };
 
 type RestaurantCreate = {
