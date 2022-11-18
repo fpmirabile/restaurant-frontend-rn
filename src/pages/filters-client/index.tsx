@@ -1,23 +1,12 @@
 import * as React from 'react';
+import { View } from 'react-native';
 import {
-  NativeSyntheticEvent,
-  TextInputEndEditingEventData,
-  View,
-} from 'react-native';
-import {
-  Input,
-  TouchableText,
-  Checkbox,
   ColorfulButton,
-  TransparentButton,
-  ImageButton,
-  CustomModal,
-  Caption,
   ScrollPage,
   Headline5,
-  ImagePicker,
   Headline6,
   Dropdown,
+  ImageButton,
 } from '../../components/shared';
 import { MorfandoRouterParams } from '../../navigation/navigation';
 import { localizedStrings } from '../../localization/localized-strings';
@@ -27,31 +16,47 @@ import { styles } from './styles';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { CreateMenu } from '../../redux/reducers/restaurant/slice';
 import { actions } from '../../redux';
+import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
-interface RouterProps extends MorfandoRouterParams<'NewDish'> {}
+interface RouterProps extends MorfandoRouterParams<'FiltersClient'> {}
 
 export function FiltersClient({ navigation }: RouterProps) {
   const createMenu = useAppSelector(state => state.restaurant.menu);
   const dispatch = useAppDispatch();
-  const [isModalVisible, setModalVisible] = React.useState<boolean>(false);
-  const [currentIngredient, setCurrentIngredient] = React.useState<{
-    value: string;
-    index: number;
-  }>({ value: '', index: -1 });
 
   const categories = [
-    { key: '1', value: 'Postres' },
-    { key: '2', value: 'Carnes' },
-    { key: '3', value: 'Pizza' },
-    { key: '4', value: 'Ensaladas' },
+    { key: '1', value: 'Árabe' },
+    { key: '2', value: 'Asiática' },
+    { key: '3', value: 'China' },
+    { key: '4', value: 'Francesa' },
+    { key: '5', value: 'Hamburgueseria' },
+    { key: '6', value: 'India' },
+    { key: '7', value: 'Parrillla' },
+    { key: '8', value: 'Pastas' },
+    { key: '9', value: 'Pizzería' },
+  ];
+  const stars = [
+    { key: '1', value: '⭐' },
+    { key: '2', value: '⭐⭐' },
+    { key: '3', value: '⭐⭐⭐' },
+    { key: '4', value: '⭐⭐⭐⭐' },
+  ];
+  const pricerange = [
+    { key: '1', value: '$' },
+    { key: '2', value: '$$' },
+    { key: '3', value: '$$$' },
+    { key: '4', value: '$$$$' },
   ];
 
   const selectedCategory = categories.find(
     locality => locality.value === createMenu.category,
   );
 
-  const backToRestaurant = React.useCallback(() => {
-    navigation.navigate('CreateRestaurant');
+  const enableScroll = () => (value: any) => ({ scrollEnabled: true });
+  const disableScroll = () => (value: any) => ({ scrollEnabled: false });
+
+  const backToHome = React.useCallback(() => {
+    navigation.navigate('Home');
   }, [navigation]);
 
   const saveMenu = React.useCallback(() => {
@@ -78,184 +83,90 @@ export function FiltersClient({ navigation }: RouterProps) {
     );
   };
 
-  const handleIngredientChange =
-    (index: number) =>
-    (e: NativeSyntheticEvent<TextInputEndEditingEventData>) => {
-      const ingredients = [...createMenu.ingredients];
-      ingredients[index] = e.nativeEvent.text;
-      handleValueChanged('ingredients')(ingredients);
-      setCurrentIngredient({
-        index: -1,
-        value: '',
-      });
-    };
-
-  const handleCurrentIngredientChange = (index: number) => (value: string) => {
-    setCurrentIngredient({
-      index,
-      value,
-    });
-  };
-
-  const handleRemoveIngredient = (index: number) => () => {
-    const ingredients = createMenu.ingredients;
-    const newArray = ingredients.filter(
-      ingredient => ingredients[index] !== ingredient,
-    );
-
-    handleValueChanged('ingredients')(newArray);
-  };
-
-  const handleAddInput = () => {
-    const ingredients = [...createMenu.ingredients];
-    ingredients.push('');
-    handleValueChanged('ingredients')(ingredients);
-  };
-
-  const showModal = () => {
-    setModalVisible(true);
-  };
-
-  const handleCloseEditModal = React.useCallback(() => {
-    setModalVisible(false);
-  }, [setModalVisible]);
-
   return (
     <View style={styles.containerView}>
       <ScrollPage internalContainerStyles={styles.container}>
+        <View style={styles.close}>
+          <ImageButton onPress={backToHome} imageSvg={ICONS.closeIcon} />
+        </View>
         <View style={styles.title}>
           <Headline5 darkPinkColor>
-            {localizedStrings.restaurant.newDish.title}
+            {localizedStrings.restaurant.clientFiltres.filter}
           </Headline5>
         </View>
         <View style={styles.subtilte}>
-          <Headline6>{localizedStrings.restaurant.newDish.category}</Headline6>
+          <Headline6>
+            {localizedStrings.restaurant.clientFiltres.maxdistance}
+          </Headline6>
         </View>
-        <View style={styles.containerIngredient}>
-          <View style={styles.containerInput}>
-            <Dropdown
-              placeholder={localizedStrings.restaurant.newDish.category}
-              onValueChanged={handleValueChanged('category')}
-              data={categories}
-              onValidateValue={atLeastOneSelected}
-              defaultPair={selectedCategory}
-              errorMessage="Debe ingresar una categoria valida."
-            />
-          </View>
-          <View style={styles.containerIcon}>
-            <ImageButton imageSvg={ICONS.addIcon} onPress={showModal} />
-            <CustomModal
-              isVisible={isModalVisible}
-              onClose={handleCloseEditModal}
-              modalTitle={'¿Desea eliminar su cuenta?'}
-              modalSubtitle={'Cantidad de estrellas'}
-              //bodyText={'Si elimina su cuenta automáticamente se eliminaran todos sus restaurantes.'}
-              textPrimaryButton={localizedStrings.restaurant.newDish.create}
-              textSecondaryButton={localizedStrings.restaurant.newDish.cancel}
-            />
-          </View>
+        <View style={styles.containerSlider}>
+          <MultiSlider
+            onValuesChangeStart={disableScroll}
+            onValuesChangeFinish={enableScroll}
+            selectedStyle={styles.slider}
+            unselectedStyle={styles.sliderUnselected}
+            markerStyle={styles.sliderButton}
+            pressedMarkerStyle={styles.sliderButtonSelected}
+            min={1}
+            max={35}
+            sliderLength={328}
+            enableLabel={true}
+          />
         </View>
         <View style={styles.subtilte}>
           <Headline6>
-            {localizedStrings.restaurant.newDish.dishInformation}
+            {localizedStrings.restaurant.clientFiltres.foodtype}
           </Headline6>
         </View>
         <View>
-          <Input
-            containerStyles={styles.input}
-            value={createMenu.name}
-            onChangeText={handleValueChanged('name')}
-            errorMessage="Debe ingresar un nombre."
-            onValidateText={notEmpty}
-            placeholder={localizedStrings.restaurant.newDish.dishName}
+          <Dropdown
+            placeholder={localizedStrings.restaurant.clientFiltres.foodtype}
+            onValueChanged={handleValueChanged('category')}
+            data={categories}
+            onValidateValue={atLeastOneSelected}
+            defaultPair={selectedCategory}
           />
-          <Input
-            containerStyles={styles.input}
-            value={createMenu.price}
-            onChangeText={handleValueChanged('price')}
-            errorMessage="Debe ingresar un precio."
-            onValidateText={notEmpty}
-            placeholder={localizedStrings.restaurant.newDish.sellPrice}
-            keyboardType="numeric"
-          />
-          <View style={styles.checkbox}>
-            <Checkbox
-              previousValue={createMenu.celiac}
-              onValueChanged={handleValueChanged('celiac')}
-              placeholder="Apto celiacos"
-            />
-            <Checkbox
-              previousValue={createMenu.vegan}
-              onValueChanged={handleValueChanged('vegan')}
-              placeholder="Vegano"
-            />
-          </View>
         </View>
         <View style={styles.subtilte}>
           <Headline6>
-            {localizedStrings.restaurant.newDish.dishImages}
+            {localizedStrings.restaurant.clientFiltres.pricerange}
           </Headline6>
         </View>
-        <ImagePicker
-          onImageAdded={handleValueChanged('images')}
-          previousImages={createMenu.images}
-          maxAmountOfImages={5}
-        />
-        <Caption>
-          {localizedStrings.restaurant.create.picturesCaption(
-            createMenu.images.length,
-            5,
-          )}
-        </Caption>
+        <View style={styles.priceRange}>
+          <Dropdown
+            placeholder={localizedStrings.restaurant.clientFiltres.from}
+            onValueChanged={handleValueChanged('category')}
+            data={pricerange}
+            onValidateValue={atLeastOneSelected}
+            defaultPair={selectedCategory}
+          />
+          <Dropdown
+            placeholder={localizedStrings.restaurant.clientFiltres.to}
+            onValueChanged={handleValueChanged('category')}
+            data={pricerange}
+            onValidateValue={atLeastOneSelected}
+            defaultPair={selectedCategory}
+          />
+        </View>
         <View style={styles.subtilte}>
           <Headline6>
-            {localizedStrings.restaurant.newDish.dishIngredients}
+            {localizedStrings.restaurant.clientFiltres.calification}
           </Headline6>
         </View>
         <View>
-          {createMenu.ingredients.map((ingredient, index) => {
-            return (
-              <View key={ingredient + index} style={styles.containerIngredient}>
-                <View style={styles.containerInput}>
-                  <Input
-                    onEndEditing={handleIngredientChange(index)}
-                    onChangeText={handleCurrentIngredientChange(index)}
-                    value={
-                      currentIngredient.index === index
-                        ? currentIngredient.value
-                        : ingredient
-                    }
-                    placeholder={localizedStrings.restaurant.newDish.ingredient}
-                    borderBottom
-                  />
-                </View>
-                <View style={styles.containerIcon}>
-                  <ImageButton
-                    onPress={handleRemoveIngredient(index)}
-                    imageSvg={ICONS.removeIcon}
-                  />
-                </View>
-              </View>
-            );
-          })}
-        </View>
-        <View style={styles.addIngredient}>
-          <TouchableText
-            message={localizedStrings.restaurant.newDish.addIngredient}
-            type="bodyDarkPink"
-            onPress={handleAddInput}
+          <Dropdown
+            placeholder={localizedStrings.restaurant.clientFiltres.starsnumber}
+            onValueChanged={handleValueChanged('category')}
+            data={stars}
+            onValidateValue={atLeastOneSelected}
+            defaultPair={selectedCategory}
           />
         </View>
         <View style={styles.createNewDishContainer}>
           <ColorfulButton
             buttonContainerStyle={styles.newDishButton}
-            title={localizedStrings.restaurant.newDish.finish}
+            title={localizedStrings.restaurant.clientFiltres.applyfilters}
             onPress={saveMenu}
-          />
-          <TransparentButton
-            buttonContainerStyle={styles.newDishButton}
-            title={localizedStrings.restaurant.newDish.cancel}
-            onPress={backToRestaurant}
           />
         </View>
       </ScrollPage>

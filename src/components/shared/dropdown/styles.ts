@@ -4,6 +4,8 @@ import { COLORS } from '../../../constants';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginLeft:2,
+    marginRight:2,
   },
   dropDownBorder: {
     borderRadius: 3.5,

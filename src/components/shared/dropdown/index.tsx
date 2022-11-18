@@ -31,7 +31,7 @@ export function Dropdown({
 }: PropTypes) {
   const [isValid, setIsValid] = React.useState<boolean>(true);
   const [selected, setSelected] = React.useState('');
-  const fullList = [{ key: '-1', value: '--Seleccione--' }, ...data];
+  const fullList = [{ key: '-1', value: placeholder }, ...data];
 
   React.useEffect(() => {
     const key = selected;
