@@ -11,18 +11,13 @@ import {
 import { MorfandoRouterParams } from '../../navigation/navigation';
 import { localizedStrings } from '../../localization/localized-strings';
 import { ICONS } from '../../constants';
-import { atLeastOneSelected, notEmpty } from '../../util/validation';
+import { atLeastOneSelected } from '../../util/validation';
 import { styles } from './styles';
-import { useAppDispatch, useAppSelector } from '../../redux/store';
-import { CreateMenu } from '../../redux/reducers/restaurant/slice';
-import { actions } from '../../redux';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
 interface RouterProps extends MorfandoRouterParams<'FiltersClient'> {}
 
 export function FiltersClient({ navigation }: RouterProps) {
-  const createMenu = useAppSelector(state => state.restaurant.menu);
-  const dispatch = useAppDispatch();
 
   const categories = [
     { key: '1', value: 'Árabe' },
@@ -48,9 +43,7 @@ export function FiltersClient({ navigation }: RouterProps) {
     { key: '4', value: '$$$$' },
   ];
 
-  const selectedCategory = categories.find(
-    locality => locality.value === createMenu.category,
-  );
+  const [selected, setSelected] = React.useState("");
 
   const enableScroll = () => (value: any) => ({ scrollEnabled: true });
   const disableScroll = () => (value: any) => ({ scrollEnabled: false });
@@ -59,29 +52,6 @@ export function FiltersClient({ navigation }: RouterProps) {
     navigation.navigate('Home');
   }, [navigation]);
 
-  const saveMenu = React.useCallback(() => {
-    if (Object.values(createMenu).some(i => i === '')) {
-      return;
-    }
-
-    dispatch(actions.restaurants.saveMenu());
-    navigation.navigate('Home');
-  }, [navigation, createMenu, dispatch]);
-
-  const handleValueChanged = (field: keyof CreateMenu) => (value: any) => {
-    const catId =
-      field === 'category'
-        ? categories.find(cat => cat.value === value)?.key || ''
-        : createMenu.categoryId;
-
-    dispatch(
-      actions.restaurants.updateMenu({
-        ...createMenu,
-        categoryId: catId,
-        [field]: value,
-      }),
-    );
-  };
 
   return (
     <View style={styles.containerView}>
@@ -121,10 +91,10 @@ export function FiltersClient({ navigation }: RouterProps) {
         <View>
           <Dropdown
             placeholder={localizedStrings.restaurant.clientFiltres.foodtype}
-            onValueChanged={handleValueChanged('category')}
+            // onValueChanged={handleValueChanged('category')}
             data={categories}
             onValidateValue={atLeastOneSelected}
-            defaultPair={selectedCategory}
+            // defaultPair={selectedCategory}
           />
         </View>
         <View style={styles.subtilte}>
@@ -135,17 +105,17 @@ export function FiltersClient({ navigation }: RouterProps) {
         <View style={styles.priceRange}>
           <Dropdown
             placeholder={localizedStrings.restaurant.clientFiltres.from}
-            onValueChanged={handleValueChanged('category')}
+            // onValueChanged={handleValueChanged('category')}
             data={pricerange}
             onValidateValue={atLeastOneSelected}
-            defaultPair={selectedCategory}
+            // defaultPair={selectedCategory}
           />
           <Dropdown
             placeholder={localizedStrings.restaurant.clientFiltres.to}
-            onValueChanged={handleValueChanged('category')}
+            // onValueChanged={handleValueChanged('category')}
             data={pricerange}
             onValidateValue={atLeastOneSelected}
-            defaultPair={selectedCategory}
+            // defaultPair={selectedCategory}
           />
         </View>
         <View style={styles.subtilte}>
@@ -156,17 +126,17 @@ export function FiltersClient({ navigation }: RouterProps) {
         <View>
           <Dropdown
             placeholder={localizedStrings.restaurant.clientFiltres.starsnumber}
-            onValueChanged={handleValueChanged('category')}
+            // onValueChanged={handleValueChanged('category')}
             data={stars}
             onValidateValue={atLeastOneSelected}
-            defaultPair={selectedCategory}
+            // defaultPair={selectedCategory}
           />
         </View>
-        <View style={styles.createNewDishContainer}>
+        <View style={styles.applyFilter}>
           <ColorfulButton
             buttonContainerStyle={styles.newDishButton}
             title={localizedStrings.restaurant.clientFiltres.applyfilters}
-            onPress={saveMenu}
+            // onPress={}
           />
         </View>
       </ScrollPage>

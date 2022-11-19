@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
     flex: 1,
   },
-   createNewDishContainer: {
+   applyFilter: {
     backgroundColor: COLORS.white,
     paddingVertical: 18,
     paddingHorizontal: 16,
