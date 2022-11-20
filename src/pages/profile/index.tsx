@@ -11,7 +11,7 @@ import {
   Title,
 } from '../../components/shared';
 import { styles } from './styles';
-import { useAppDispatch } from '../../redux/store';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { actions } from '../../redux';
 
 interface HeaderProps {
@@ -21,15 +21,18 @@ interface HeaderProps {
 }
 
 const Header = ({}: HeaderProps) => {
+  const {
+    user: { name, email },
+  } = useAppSelector(state => state.user);
   return (
     <View style={styles.personalInformationContainer}>
       <Image source={require('../../assets/images/temporal/Ellipse.png')} />
       <View style={styles.personalNameContainer}>
         <View style={styles.profileName}>
-          <Title>Lucas</Title>
+          <Title>{name}</Title>
           <ImageButton imageStyle={styles.editIcon} imageSvg={ICONS.edit} />
         </View>
-        <Caption>lubolle@gmail.com</Caption>
+        <Caption>{email}</Caption>
       </View>
     </View>
   );
@@ -66,7 +69,9 @@ const Item = React.memo(({ buttons }: ItemProps) => {
 interface SectionHeaderProps {
   title: string;
 }
-const SectionHeader = ({ title }: SectionHeaderProps) => <CTAText>{title}</CTAText>;
+const SectionHeader = ({ title }: SectionHeaderProps) => (
+  <CTAText>{title}</CTAText>
+);
 
 interface PropTypes {}
 export function Profile({}: PropTypes) {
