@@ -122,6 +122,7 @@ const googleSignIn = createAsyncThunk(
 
 const deleteUser = createAsyncThunk('user/delete', async () => {
   try {
+    console.log('Eliminando');
     await UserAPI.deleteUser();
   } catch (error) {
     console.log('Error al eliminar la cuenta');
