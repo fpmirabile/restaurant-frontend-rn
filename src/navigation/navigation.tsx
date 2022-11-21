@@ -12,6 +12,7 @@ import {
   SuccessRegistration,
   NewDish,
   RestaurantClient,
+  ViewFavs,
 } from '../pages';
 import { HomeNavHeader, ProfileNavHeader } from '../headers';
 import { useAppSelector } from '../redux/store';
@@ -37,6 +38,7 @@ export type RootStackParamList = {
   NewDish: undefined;
   ViewRestaurant: undefined;
   RestaurantClient: undefined;
+  ViewFavs: undefined;
   // Feed: { sort: 'latest' | 'top' } | undefined;
 };
 
@@ -123,6 +125,16 @@ export function Navigation() {
             <Stack.Screen
               name="RestaurantClient"
               component={RestaurantClient}
+              options={{
+                header: ({ navigation }) => (
+                  <ProfileNavHeader onPressBack={navigation.goBack} />
+                ),
+                headerShown: true,
+              }}
+            />
+            <Stack.Screen
+              name="ViewFavs"
+              component={ViewFavs}
               options={{
                 header: ({ navigation }) => (
                   <ProfileNavHeader onPressBack={navigation.goBack} />

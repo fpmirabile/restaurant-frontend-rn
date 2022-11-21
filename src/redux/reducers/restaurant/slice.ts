@@ -8,6 +8,7 @@ import Geolocation from '@react-native-community/geolocation';
 type State = {
   restaurants: Restaurant[];
   listRestaurants: Restaurant[];
+  favorites: Restaurant[];
   filterText: string;
   home: {
     loading: boolean;
@@ -63,6 +64,7 @@ export type CreateMenu = {
 
 const initialState: State = {
   restaurants: [],
+  favorites: [],
   listRestaurants: [],
   filterText: '',
   home: {
@@ -180,6 +182,19 @@ const getRestaurants = createAsyncThunk(
       console.log('get restaurants');
       const restaurants = await RestaurantAPI.getRestaurants();
       return restaurants;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+const getFavorites = createAsyncThunk(
+  'restaurant/getFavorites',
+  async (_, { rejectWithValue }) => {
+    try {
+      console.log('get favorites');
+      const favorites = await RestaurantAPI.getFavorites();
+      return favorites;
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -495,6 +510,7 @@ export const restaurantSlice = {
     saveMenu,
     selectRestaurant,
     getNearRestaurants,
+    getFavorites,
   },
   reducer,
 };

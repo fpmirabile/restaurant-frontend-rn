@@ -69,10 +69,15 @@ const createMenu = (category: string, menu: MenuCreate): Promise<any> => {
   return authenticatedPost(`/restaurant/category/${category}/meal`, menu);
 };
 
+const getFavorites = (): Promise<Restaurant[]> => {
+  return authenticatedGet('/restaurants');
+};
+
 export const RestaurantAPI = {
   getRestaurants,
   getRestaurantsNearMe,
   getSingleRestaurant,
   createRestaurant,
   createMenu,
+  getFavorites,
 };
