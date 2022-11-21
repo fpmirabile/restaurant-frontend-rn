@@ -92,6 +92,18 @@ export const localizedStrings = new LocalizedStrings({
         location: '¿Como llegar?',
         menu: 'Menú',
         comments: 'Comentarios',
+      },
+      clientFiltres:{
+        filter:'Filtros',
+        maxdistance:'Distancia máxima',
+        foodtype:'Tipo de comida',
+        pricerange:'Rango de precio',
+        from:'Desde',
+        to:'Hasta',
+        calification:'Calificación',
+        starsnumber:'Cantidad de estrellas',
+        applyfilters:'Aplicar filtros'
+        
       }
     },
   },
