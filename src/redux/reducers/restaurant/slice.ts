@@ -194,6 +194,7 @@ const getFavorites = createAsyncThunk(
     try {
       console.log('get favorites');
       const favorites = await RestaurantAPI.getFavorites();
+      console.log('my favs:', favorites);
       return favorites;
     } catch (error) {
       return rejectWithValue(error);

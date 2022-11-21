@@ -70,7 +70,7 @@ const createMenu = (category: string, menu: MenuCreate): Promise<any> => {
 };
 
 const getFavorites = (): Promise<Restaurant[]> => {
-  return authenticatedGet('/restaurants');
+  return authenticatedGet('/restaurants/favorites');
 };
 
 export const RestaurantAPI = {
