@@ -45,7 +45,8 @@ const getRestaurantsNearMe = (
   lat: number,
   lon: number,
 ): Promise<Restaurant[]> => {
-  return authenticatedGet(`/restaurants/near/${lat}/${lon}`);
+  //Dejo clavado el 80, pero ahi deberia ir la distancia que filtra el usuario
+  return authenticatedGet(`/restaurants/near/${lat}/${lon}/80`);
 };
 
 const getSingleRestaurant = (id: number): Promise<Restaurant> => {

@@ -120,6 +120,14 @@ const googleSignIn = createAsyncThunk(
   },
 );
 
+const deleteUser = createAsyncThunk('user/delete', async () => {
+  try {
+    await UserAPI.deleteUser();
+  } catch (error) {
+    console.log('Error al eliminar la cuenta');
+  }
+});
+
 export type UserState = {
   isAppInitLoading: boolean;
   auth: {
@@ -269,6 +277,17 @@ const userAppSlice = createSlice({
         console.log(error);
       }
     });
+    builder.addCase(deleteUser.fulfilled, state => {
+      removeSession();
+      console.log('Cuenta eliminada');
+      state.auth = {
+        ...initialState.auth,
+      };
+
+      state.user = {
+        ...initialState.user,
+      };
+    });
   },
 });
 
@@ -281,6 +300,7 @@ export const userSlice = {
     registerOwner,
     loginWithCredentials,
     googleSignIn,
+    deleteUser,
   },
   reducer,
 };

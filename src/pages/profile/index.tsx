@@ -121,7 +121,7 @@ export function Profile({}: PropTypes) {
               },
               {
                 buttonTitle: localizedStrings.profile.deleteAccount,
-                buttonAction: () => {},
+                buttonAction: () => dispatch(actions.userActions.deleteUser()),
                 icon: ICONS.trash,
               },
             ],
