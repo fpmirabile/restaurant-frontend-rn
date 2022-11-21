@@ -118,7 +118,7 @@ const listEmpty = React.memo(() => {
 export function ViewFavs({}: PropTypes) {
   const {
     restaurant: {
-      restaurants: restaurants,
+      favorites: restaurants,
       home: { loading, error },
     },
   } = useAppSelector(state => state);
