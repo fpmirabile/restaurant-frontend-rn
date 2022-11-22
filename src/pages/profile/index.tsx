@@ -80,6 +80,7 @@ interface PropTypes {}
 export function Profile({}: PropTypes) {
   const dispatch = useAppDispatch();
   const navigation = useAppNavigation();
+  const { isAdmin } = useAppSelector(state => state.user.user);
 
   const handleViewMyFavs = React.useCallback(() => {
     navigation.push('ViewFavs');
@@ -157,11 +158,52 @@ export function Profile({}: PropTypes) {
     [dispatch, handleViewMyFavs],
   );
 
+  const getOwnerInformation = React.useCallback(
+    () => [
+      {
+        title: localizedStrings.profile.legalInfo,
+        data: [
+          {
+            id: 1,
+            buttons: [
+              {
+                buttonTitle: localizedStrings.profile.tAndCond,
+                buttonAction: () => {},
+                icon: ICONS.info2,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        title: localizedStrings.profile.accountManagement,
+        data: [
+          {
+            id: 2,
+            buttons: [
+              {
+                buttonTitle: localizedStrings.profile.signOut,
+                buttonAction: () => dispatch(actions.userActions.logOut()),
+                icon: ICONS.signOut,
+              },
+              {
+                buttonTitle: localizedStrings.profile.deleteAccount,
+                buttonAction: () => dispatch(showConfirmModal),
+                icon: ICONS.trash,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    [dispatch],
+  );
+
   return (
     <View style={styles.container}>
       <SectionList
         ListHeaderComponent={Header}
-        sections={getProfileInformation()}
+        sections={isAdmin ? getOwnerInformation() : getProfileInformation()}
         keyExtractor={item => `${item.id}`}
         renderItem={({ item }) => <Item {...item} />}
         renderSectionHeader={({ section: { title } }) => (
