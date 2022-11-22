@@ -111,20 +111,24 @@ export const externalApi = (url: string, args: RequestInit = {}) => {
 export const refreshToken = async () => {
   const token = await getSession();
   const options = {
-    method: 'PUT',
-    headers: postHeaders,
+    method: 'POST',
+    headers: await withAuthenticationToken(postHeaders),
     body: JSON.stringify({
-      jwt: token && token.jwt,
-      refresh: token && token.refreshToken,
+      refreshToken: token && token.refreshToken,
     }),
   };
 
-  const url = `${getEndpoints().apiHostUrl}/auth/refresh`;
+  const url = `${getEndpoints().apiHostUrl}/login/refresh`;
   return fetch(url, options)
     .then(checkStatus)
     .then(formatResponse)
     .then(session => {
-      setSession(session);
+      console.log('session', session);
+      const { token: newToken, refreshToken: newRefresh } = session;
+      setSession({
+        jwt: newToken,
+        refreshToken: newRefresh,
+      });
       return session;
     })
     .catch(async err => {
@@ -159,17 +163,4 @@ const checkStatus = (response: Response) => {
   const error = new Error(response.statusText);
   (error as any).response = response;
   throw error;
-};
-
-export const scoreProfileApi = async (
-  url: string,
-  args: RequestInit = {},
-  options: AuthenticatedApiOptions = {},
-) => {
-  const { checkTokenExpiration: tokenExpiration, token } = options || {};
-  args.headers = await withAuthenticationToken(args.headers || {}, token);
-
-  return api(url, args, tokenExpiration).catch((err: ErrorResponse) => {
-    console.log('error during calling', JSON.stringify(err));
-  });
 };
