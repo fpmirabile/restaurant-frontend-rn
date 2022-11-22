@@ -12,6 +12,7 @@ import {
   SuccessRegistration,
   NewDish,
   RestaurantClient,
+  ViewFavs,
   FiltersClient,
 } from '../pages';
 import { HomeNavHeader, ProfileNavHeader } from '../headers';
@@ -38,6 +39,7 @@ export type RootStackParamList = {
   NewDish: undefined;
   ViewRestaurant: undefined;
   RestaurantClient: undefined;
+  ViewFavs: undefined;
   FiltersClient: undefined;
   // Feed: { sort: 'latest' | 'top' } | undefined;
 };
@@ -51,7 +53,6 @@ export function Navigation() {
   if (isAppInitLoading) {
     return <LoadingScreen />;
   }
-
 
   return (
     <NavigationContainer>
@@ -78,11 +79,14 @@ export function Navigation() {
                   const handleHamburgerPress = () => {
                     navigation.navigate('Profile');
                   };
-                  const handleFilterPress = () =>{
-                    navigation.navigate('FiltersClient')
+                  const handleFilterPress = () => {
+                    navigation.navigate('FiltersClient');
                   };
                   return (
-                    <HomeNavHeader onHamburgerClick={handleHamburgerPress} onFiltersClick={handleFilterPress}/>
+                    <HomeNavHeader
+                      onHamburgerClick={handleHamburgerPress}
+                      onFiltersClick={handleFilterPress}
+                    />
                   );
                 },
                 headerShown: true,
@@ -129,6 +133,17 @@ export function Navigation() {
               name="RestaurantClient"
               component={RestaurantClient}
               options={{
+                header: ({ navigation }) => (
+                  <ProfileNavHeader onPressBack={navigation.goBack} />
+                ),
+                headerShown: true,
+              }}
+            />
+            <Stack.Screen
+              name="ViewFavs"
+              component={ViewFavs}
+              options={{
+                animation: 'slide_from_left',
                 header: ({ navigation }) => (
                   <ProfileNavHeader onPressBack={navigation.goBack} />
                 ),

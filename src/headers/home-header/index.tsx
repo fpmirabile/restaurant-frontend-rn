@@ -16,7 +16,6 @@ export function HomeNavHeader({ onHamburgerClick, onFiltersClick }: PropTypes) {
     user: { name, isAdmin },
   } = useAppSelector(state => state.user);
 
-
   return (
     <View style={[styles.headerContainer, isAdmin && styles.adminHeader]}>
       <View>
@@ -27,7 +26,11 @@ export function HomeNavHeader({ onHamburgerClick, onFiltersClick }: PropTypes) {
           {isAdmin ? `Hola ${name}` : 'Morfando Inc'}
         </Title>
       </View>
-      <View>{!isAdmin && <ImageButton onPress={onFiltersClick} imageSvg={ICONS.filter} />}</View>
+      <View>
+        {!isAdmin && (
+          <ImageButton onPress={onFiltersClick} imageSvg={ICONS.filter} />
+        )}
+      </View>
     </View>
   );
 }

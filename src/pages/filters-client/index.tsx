@@ -18,7 +18,6 @@ import MultiSlider from '@ptomasroos/react-native-multi-slider';
 interface RouterProps extends MorfandoRouterParams<'FiltersClient'> {}
 
 export function FiltersClient({ navigation }: RouterProps) {
-
   const categories = [
     { key: '1', value: 'Árabe' },
     { key: '2', value: 'Asiática' },
@@ -43,15 +42,12 @@ export function FiltersClient({ navigation }: RouterProps) {
     { key: '4', value: '$$$$' },
   ];
 
-  const [selected, setSelected] = React.useState("");
-
-  const enableScroll = () => (value: any) => ({ scrollEnabled: true });
-  const disableScroll = () => (value: any) => ({ scrollEnabled: false });
+  const enableScroll = () => () => ({ scrollEnabled: true });
+  const disableScroll = () => () => ({ scrollEnabled: false });
 
   const backToHome = React.useCallback(() => {
     navigation.navigate('Home');
   }, [navigation]);
-
 
   return (
     <View style={styles.containerView}>

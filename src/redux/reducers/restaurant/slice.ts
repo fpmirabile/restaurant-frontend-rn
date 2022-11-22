@@ -9,6 +9,7 @@ import ImgToBase64 from 'react-native-image-base64-png';
 type State = {
   restaurants: Restaurant[];
   listRestaurants: Restaurant[];
+  favorites: Restaurant[];
   filterText: string;
   home: {
     loading: boolean;
@@ -24,6 +25,10 @@ type State = {
     error: string;
     stepOne: StepOneFields;
     stepTwo: StepTwoFields;
+  };
+  myFav: {
+    loading: boolean;
+    error: string;
   };
   menu: CreateMenu;
 };
@@ -64,6 +69,7 @@ export type CreateMenu = {
 
 const initialState: State = {
   restaurants: [],
+  favorites: [],
   listRestaurants: [],
   filterText: '',
   home: {
@@ -105,6 +111,10 @@ const initialState: State = {
     price: '',
     vegan: false,
     loading: false,
+  },
+  myFav: {
+    loading: false,
+    error: '',
   },
 };
 
@@ -194,6 +204,20 @@ const getRestaurants = createAsyncThunk(
       console.log('get restaurants');
       const restaurants = await RestaurantAPI.getRestaurants();
       return restaurants;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+const getFavorites = createAsyncThunk(
+  'restaurant/getFavorites',
+  async (_, { rejectWithValue }) => {
+    try {
+      console.log('get favorites');
+      const favorites = await RestaurantAPI.getFavorites();
+      console.log('my favs:', favorites);
+      return favorites;
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -423,6 +447,29 @@ const restaurantAppSlice = createSlice({
       state.listRestaurants = [...action.payload] || [];
       state.filterText = '';
     });
+
+    builder.addCase(getFavorites.rejected, (state, action) => {
+      console.log('get restaurants rejected', action);
+      state.myFav.loading = false;
+      // state.filterText = '';
+      if (action.payload) {
+        state.myFav.error =
+          (action.payload as any).message || 'Ocurrio un error insperado';
+      }
+    });
+    builder.addCase(getFavorites.pending, state => {
+      state.myFav.loading = true;
+      console.log('get restaurants pending');
+      state.myFav.error = '';
+    });
+    builder.addCase(getFavorites.fulfilled, (state, action) => {
+      console.log('get restaurants fullfilled');
+      state.myFav.loading = false;
+      state.favorites = action.payload || [];
+      // state.listRestaurants = [...action.payload] || [];
+      // state.filterText = '';
+    });
+
     builder.addCase(createRestaurant.pending, state => {
       state.create.loading = true;
       console.log('create pending');
@@ -523,6 +570,7 @@ export const restaurantSlice = {
     saveMenu,
     selectRestaurant,
     getNearRestaurants,
+    getFavorites,
     putFavorite,
   },
   reducer,
