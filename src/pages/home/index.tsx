@@ -27,13 +27,21 @@ const RestaurantItem = ({
   item,
 }: ListRenderItemInfo<Restaurant>): JSX.Element => {
   const { isAdmin } = useAppSelector(state => state.user.user);
-  const LikeIcon = item.favorite ? ICONS.like : ICONS.likeNoBackground;
+  const [isFavorite, setFavorite] = React.useState(item.favorite);
+  const LikeIcon = isFavorite ? ICONS.like : ICONS.likeNoBackground;
   const navigation = useAppNavigation();
   const dispatch = useAppDispatch();
+
   const handleViewNavigation = React.useCallback(() => {
     dispatch(actions.restaurants.selectRestaurant(item.id));
     navigation.push(isAdmin ? 'ViewRestaurant' : 'RestaurantClient');
   }, [navigation, dispatch, item, isAdmin]);
+
+  const putFavorite = React.useCallback(() => {
+    dispatch(actions.restaurants.putFavorite(item.id));
+    setFavorite(!isFavorite);
+    //LikeIcon = isFavorite ? ICONS.like : ICONS.likeNoBackground;
+  }, [dispatch, item, isFavorite]);
 
   return (
     <PressableView onPress={handleViewNavigation}>
@@ -62,7 +70,7 @@ const RestaurantItem = ({
           </View>
           {!isAdmin && (
             <PressableView containerStyles={styles.restaurantTopPosition}>
-              <LikeIcon />
+              <LikeIcon onPress={putFavorite} />
             </PressableView>
           )}
         </View>
@@ -144,12 +152,20 @@ const header = React.memo(() => {
 });
 
 const listEmpty = React.memo(() => {
+  const {
+    user: {
+      user: { isAdmin },
+    },
+  } = useAppSelector(state => state);
   const SadBurger = IMAGES.sadBurger;
+
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <View>
         <Headline6 darkPinkColor>
-          Parece no haber restaurants cerca tuyo.
+          {isAdmin
+            ? 'Aun no cargaste ningùn Restaurant'
+            : 'Parece no haber restaurants cerca tuyo'}
         </Headline6>
       </View>
       <View>
