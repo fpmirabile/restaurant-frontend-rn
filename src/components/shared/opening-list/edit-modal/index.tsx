@@ -8,26 +8,27 @@ import {
 import { ColorfulButton, TransparentButton } from '../../button';
 import { Headline5, Body2 } from '../../morfando-text';
 import { PressableInput } from '../../text-input';
-// import { TouchableText } from '../../touchable-text';
 import { ICONS } from '../../../../constants';
 import { ImageButton } from '../../image-button';
 import { styles } from './styles';
-import { TimeInput } from '..';
+
+export type TimeInput = {
+  openTime: string;
+  closeTime: string;
+};
 
 interface PropTypes {
   isVisible: boolean;
   onClose: () => void;
-  onSavePressed: (isClosed: boolean, formData: TimeInput[]) => void;
-  formData?: TimeInput[];
+  onSavePressed: (isClosed: boolean, formData: TimeInput) => void;
+  formData?: TimeInput;
   isOpened?: boolean;
 }
 
-const defaultValue = [
-  {
-    from: '',
-    to: '',
-  },
-];
+const defaultValue = {
+  openTime: '',
+  closeTime: '',
+};
 
 type TimeFields = keyof TimeInput;
 export function EditModal({
@@ -37,45 +38,22 @@ export function EditModal({
   onSavePressed,
   isOpened,
 }: PropTypes) {
-  const [times, setTimes] = React.useState<TimeInput[]>(
-    !formData || formData.length === 0 ? defaultValue : formData,
+  const [time, setTimes] = React.useState<TimeInput>(
+    !formData ? defaultValue : formData,
   );
   const [isOpen, setIsOpen] = React.useState<boolean>(isOpened || true);
-  const invalidTimes = times.some(time => time.to < time.from);
-  const isValidSave =
-    !times.some(time => !time.to || !time.from) && !invalidTimes;
+  const invalidTimes = time.closeTime <= time.openTime;
+  const isValidSave = time.closeTime && time.openTime && !invalidTimes;
 
   const handleSave = () => {
     if (!isValidSave) {
       return;
     }
 
-    onSavePressed(isOpen, times);
+    onSavePressed(isOpen, time);
     setTimes(defaultValue);
     setIsOpen(false);
   };
-
-  const removeTime = React.useCallback(
-    (index: number) => () => {
-      const remainingItems = times.filter((_, i) => i !== index);
-      setTimes([...remainingItems]);
-    },
-    [setTimes, times],
-  );
-
-  // const handleAddTime = React.useCallback(() => {
-  //   if (times.length >= 2) {
-  //     return;
-  //   }
-
-  //   setTimes([
-  //     ...times,
-  //     {
-  //       from: '',
-  //       to: '',
-  //     },
-  //   ]);
-  // }, [times, setTimes]);
 
   const handleSwitchChange = React.useCallback(
     (newValue: boolean) => {
@@ -85,33 +63,32 @@ export function EditModal({
   );
 
   const handleTimePicked = React.useCallback(
-    (field: TimeFields, index: number) =>
-      (event: DateTimePickerEvent, date?: Date) => {
-        if (event.type !== 'set') {
-          return;
-        }
+    (field: TimeFields) => (event: DateTimePickerEvent, date?: Date) => {
+      if (event.type !== 'set') {
+        return;
+      }
 
-        if (date) {
-          const selectedDate = date;
-          const hour = selectedDate?.getHours();
-          const minutes = date.getMinutes();
-          const newTimes = [...times];
-          newTimes[index][field] = `${hour < 10 ? `0${hour}` : hour}:${
-            minutes < 10 ? `0${minutes}` : minutes
-          }`;
-          setTimes([...newTimes]);
-        }
-      },
-    [times, setTimes],
+      if (date) {
+        const selectedDate = date;
+        const hour = selectedDate?.getHours();
+        const minutes = date.getMinutes();
+        const newTimes = { ...time };
+        newTimes[field] = `${hour < 10 ? `0${hour}` : hour}:${
+          minutes < 10 ? `0${minutes}` : minutes
+        }`;
+        setTimes(newTimes);
+      }
+    },
+    [time, setTimes],
   );
 
   const handleTouchTime = React.useCallback(
-    (field: TimeFields, index: number) => () => {
+    (field: TimeFields) => () => {
       DateTimePickerAndroid.open({
         value: new Date(),
         mode: 'time',
         display: 'clock',
-        onChange: handleTimePicked(field, index),
+        onChange: handleTimePicked(field),
         is24Hour: true,
       });
     },
@@ -133,55 +110,27 @@ export function EditModal({
           />
         </View>
         <View style={[styles.parentView, !isOpen && styles.closeOpenContainer]}>
-          <Body2>Cerrado</Body2>
+          <Body2>Abierto</Body2>
           <Switch onValueChange={handleSwitchChange} value={isOpen} />
         </View>
         {isOpen && (
           <View style={[styles.parentView, styles.datePickersContainer]}>
-            {times.map((time, index) => {
-              return (
-                <View key={`input-${index}`} style={styles.datePickerContainer}>
-                  <PressableInput
-                    onPress={handleTouchTime('from', index)}
-                    containerStyles={[
-                      styles.datePicker,
-                      styles.firstDatePicker,
-                    ]}
-                    value={time.from}
-                    placeholder="Apertura"
-                  />
-                  <PressableInput
-                    onPress={handleTouchTime('to', index)}
-                    containerStyles={[
-                      styles.datePicker,
-                      styles.secondDatePicker,
-                    ]}
-                    value={time.to}
-                    placeholder="Cierre"
-                  />
-                  {index > 0 && (
-                    <ImageButton
-                      onPress={removeTime(index)}
-                      imageStyle={styles.datePickerClose}
-                      imageSvg={ICONS.closeIcon}
-                    />
-                  )}
-                </View>
-              );
-            })}
+            <View style={styles.datePickerContainer}>
+              <PressableInput
+                onPress={handleTouchTime('openTime')}
+                containerStyles={[styles.datePicker, styles.firstDatePicker]}
+                value={time.openTime}
+                placeholder="Apertura"
+              />
+              <PressableInput
+                onPress={handleTouchTime('closeTime')}
+                containerStyles={[styles.datePicker, styles.secondDatePicker]}
+                value={time.closeTime}
+                placeholder="Cierre"
+              />
+            </View>
           </View>
         )}
-        {/* {isOpen && (
-          <View style={[styles.parentView, styles.addRow]}>
-            {times.length < 2 && (
-              <TouchableText
-                onPress={handleAddTime}
-                type="body2DarkPink"
-                message="Agregar horario"
-              />
-            )}
-          </View>
-        )} */}
         {invalidTimes && (
           <Body2 darkPinkColor>Los horarios ingresados no son correctos.</Body2>
         )}

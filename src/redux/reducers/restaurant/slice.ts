@@ -44,7 +44,8 @@ export type StepTwoFields = {
   times: {
     day: Days;
     open: boolean;
-    times: { from: string; to: string }[];
+    closeTime: string;
+    openTime: string;
   }[];
   images: string[];
 };
@@ -283,16 +284,17 @@ const createRestaurant = createAsyncThunk(
         lat: Number(restaurants.create.stepOne.lat) || 0,
         lon: Number(restaurants.create.stepOne.lon) || 0,
         images: base64Images,
-        openDays: restaurants.create.stepTwo.times.map((time: any) => {
+        openDays: restaurants.create.stepTwo.times.map(time => {
           return {
             day: time.day,
-            openTime: time.times[0]?.from || '',
-            closeTime: time.times[0]?.to || '',
+            openTime: time.openTime || '',
+            closeTime: time.closeTime || '',
             open: time.open,
           };
         }),
       };
 
+      console.log('send times:', JSON.stringify(newRestaurant.openDays));
       const response = await RestaurantAPI.createRestaurant(newRestaurant);
       console.log('restaurant created');
       setTimeout(() => {

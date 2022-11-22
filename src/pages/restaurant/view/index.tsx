@@ -44,14 +44,7 @@ export function ViewRestaurant({}: PropTypes) {
   }, [dispatch]);
   // const handleSwitchChange = React.useCallback((newValue: boolean) => {}, []);
   const categoriesList = useAppSelector(state => state.restaurant.categories);
-  const mapDays =
-    selectedRestaurant?.openDays?.map(day => {
-      return {
-        day: day.day,
-        open: day.open,
-        times: [{ from: day.openTime, to: day.closeTime }],
-      };
-    }) || [];
+  const mapDays = selectedRestaurant?.openDays;
   const isOpen = !selectedRestaurant?.isClosed;
   console.log(selectedRestaurant?.name);
   return (
