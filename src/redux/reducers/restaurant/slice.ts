@@ -174,6 +174,19 @@ const getNearRestaurants = createAsyncThunk(
   },
 );
 
+const putFavorite = createAsyncThunk(
+  'restaurant/favorite',
+  async (payload: number, { rejectWithValue }) => {
+    try {
+      await RestaurantAPI.putFavorite(payload);
+      console.log('Nuevo favorito: ' + payload);
+    } catch (error) {
+      console.log('Put favorite', error);
+      rejectWithValue(error);
+    }
+  },
+);
+
 const getRestaurants = createAsyncThunk(
   'restaurant/getRestaurants',
   async (_, { rejectWithValue }) => {
@@ -484,6 +497,18 @@ const restaurantAppSlice = createSlice({
         state.home.error = message;
       }
     });
+    builder.addCase(putFavorite.rejected, (state, action) => {
+      state.home.loading = false;
+      state.filterText = '';
+      const message = (action.payload as any).message;
+      if (message) {
+        state.home.error = message;
+      }
+    });
+    builder.addCase(putFavorite.fulfilled, state => {
+      state.home.loading = false;
+      state.home.error = '';
+    });
   },
 });
 
@@ -498,6 +523,7 @@ export const restaurantSlice = {
     saveMenu,
     selectRestaurant,
     getNearRestaurants,
+    putFavorite,
   },
   reducer,
 };

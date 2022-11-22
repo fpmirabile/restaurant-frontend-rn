@@ -1,4 +1,8 @@
-import { authenticatedGet, authenticatedPost } from './config/calls';
+import {
+  authenticatedGet,
+  authenticatedPost,
+  authenticatedPut,
+} from './config/calls';
 
 export type Days = 'L' | 'M' | 'X' | 'J' | 'V' | 'S' | 'D';
 
@@ -41,6 +45,10 @@ const getRestaurants = (): Promise<Restaurant[]> => {
   return authenticatedGet('/restaurants');
 };
 
+const putFavorite = (restaurantId: number): Promise<any> => {
+  return authenticatedPut('/restaurant/' + restaurantId + '/favorites');
+};
+
 const getRestaurantsNearMe = (
   lat: number,
   lon: number,
@@ -76,4 +84,5 @@ export const RestaurantAPI = {
   getSingleRestaurant,
   createRestaurant,
   createMenu,
+  putFavorite,
 };
