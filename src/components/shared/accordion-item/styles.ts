@@ -25,6 +25,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   itemPrice: {
-    color: COLORS.grey,
+    color: COLORS.blueSecondary,
   },
 });

@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { geolocationAPI } from '../../../api/geocoding.api';
-import { Days, Restaurant, RestaurantAPI } from '../../../api/restaurant.api';
+import { Days, Restaurant, RestaurantAPI, Category } from '../../../api/restaurant.api';
 import { tryRequestGeoPermissions } from '../../../util/geolocalization';
 import Geolocation from '@react-native-community/geolocation';
 import ImgToBase64 from 'react-native-image-base64-png';
-// import ImgToBase64 from 'react-native-image-base64-png';
+import { act } from 'react-test-renderer';
+import { RootState } from '../../store';
 
 type State = {
   restaurants: Restaurant[];
@@ -26,6 +27,7 @@ type State = {
     stepTwo: StepTwoFields;
   };
   menu: CreateMenu;
+  categories: Category[];
 };
 
 export type StepTwoFields = {
@@ -62,6 +64,7 @@ export type CreateMenu = {
   loading: boolean;
 };
 
+//Estado inicial
 const initialState: State = {
   restaurants: [],
   listRestaurants: [],
@@ -106,6 +109,7 @@ const initialState: State = {
     vegan: false,
     loading: false,
   },
+  categories: [],
 };
 
 const getCurrentPosition = createAsyncThunk('currentPosition', async () => {
@@ -181,6 +185,32 @@ const getRestaurants = createAsyncThunk(
       console.log('get restaurants');
       const restaurants = await RestaurantAPI.getRestaurants();
       return restaurants;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+//Aca intento traer las categorias   async (payload: number, { rejectWithValue }) => {
+const getCategoriesByRestaurant = createAsyncThunk(
+  'restaurant/getCategories',
+  async (payload:number | undefined, {getState, rejectWithValue }) => {
+    try {
+
+      const rState = getState() as any;
+      const restaurants = rState.restaurant as State;
+      const selectedRestaurant = restaurants.view.selectedRestaurant;
+      console.log('get categories');
+      console.log(selectedRestaurant?.id || payload)
+      //creo una variable categorias que espera una respuesta del API.
+      if(!payload && !selectedRestaurant)
+      {
+        return;
+      }
+      //El 0 nunca va a entrar, si ambos son negados voy al return
+      const categories = await RestaurantAPI.getRestaurantCategories(selectedRestaurant?.id || payload || 0);
+      console.log(categories)
+      return categories;
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -322,10 +352,11 @@ const saveMenu = createAsyncThunk(
 
 const selectRestaurant = createAsyncThunk(
   'restaurants/selectRestaurant',
-  async (payload: number, { rejectWithValue }) => {
+  async (payload: number, { rejectWithValue,dispatch, fulfillWithValue }) => {
     try {
       const restaurant = await RestaurantAPI.getSingleRestaurant(payload);
       console.log('response selectRestaurant: ', restaurant);
+      await dispatch(getCategoriesByRestaurant(restaurant.id));
       return restaurant;
     } catch (error) {
       console.log('selected restaurant rejected', error);
@@ -337,6 +368,8 @@ const selectRestaurant = createAsyncThunk(
 const restaurantAppSlice = createSlice({
   name: 'restaurant',
   initialState,
+
+  //REDUCERSSSSSSSSSSSSS
   reducers: {
     filter: (state, action: PayloadAction<string>) => {
       const filterText = action.payload;
@@ -349,6 +382,14 @@ const restaurantAppSlice = createSlice({
       state.listRestaurants = state.listRestaurants.filter(restaurant =>
         restaurant.name.toLowerCase().includes(filterText.toLowerCase()),
       );
+    },
+    cleanViewScreen: state => {
+      state.categories = [];
+      state.view = {
+        ...initialState.view,
+      }
+
+
     },
     clean: state => {
       state.restaurants = [];
@@ -387,6 +428,10 @@ const restaurantAppSlice = createSlice({
         ...action.payload,
       };
     },
+    //REDUCER PARA CARGAR EL ESTADO INICIAL
+    restaurantCategories: (state, action)=>{
+      state.categories = action.payload;
+    },
   },
   extraReducers(builder) {
     builder.addCase(getRestaurants.rejected, (state, action) => {
@@ -410,6 +455,7 @@ const restaurantAppSlice = createSlice({
       state.listRestaurants = [...action.payload] || [];
       state.filterText = '';
     });
+
     builder.addCase(createRestaurant.pending, state => {
       state.create.loading = true;
       console.log('create pending');
@@ -428,6 +474,23 @@ const restaurantAppSlice = createSlice({
           (action.payload as any).message || 'Ocurrio un error insperado';
       }
     });
+
+//Extra reducres categorias
+    builder.addCase(getCategoriesByRestaurant.rejected, (state, action) => {
+      console.log('get categories rejected', action);
+    });
+    builder.addCase(getCategoriesByRestaurant.pending, state => {
+      // state.home.loading = true;
+      console.log('get categorias pending');
+    });
+    builder.addCase(getCategoriesByRestaurant.fulfilled, (state, action) => {
+      console.log('get categories fullfilled', action.payload);
+      state.categories = action.payload || []
+      // state.categories = action.payload || [];
+      // state.categories.id = action.payload.id;
+      // state.categories.name = action.payload.name
+    });
+
     builder.addCase(handleStepOneSave.fulfilled, (state, action) => {
       state.create.stepOne = {
         ...state.create.stepOne,
@@ -498,6 +561,7 @@ export const restaurantSlice = {
     saveMenu,
     selectRestaurant,
     getNearRestaurants,
+    getCategoriesByRestaurant
   },
   reducer,
 };

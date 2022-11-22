@@ -39,4 +39,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 18,
     bottom: 1,
   },
+  message:{
+    paddingBottom:16,
+  }
 });

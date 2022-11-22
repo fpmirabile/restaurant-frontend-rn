@@ -69,6 +69,7 @@ export const localizedStrings = new LocalizedStrings({
       },
       view: {
         createNewDish: 'Crear nuevo plato/item',
+        noCategories: 'Lo sentimos, este restaurante no cuenta con categorías creadas',
       },
       bottomBar: {
         cancel: 'Cancelar',
@@ -89,6 +90,8 @@ export const localizedStrings = new LocalizedStrings({
         finish: 'Finalizar',
         cancel: 'Cancelar',
         create: 'Crear',
+        modalTitle: 'Crear nueva categoria',
+        modalInputPlaceholder: 'Nombre de categoria',
       },
       clientView: {
         location: '¿Como llegar?',

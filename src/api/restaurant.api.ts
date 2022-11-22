@@ -70,10 +70,30 @@ const createMenu = (category: string, menu: MenuCreate): Promise<any> => {
   return authenticatedPost(`/restaurant/category/${category}/meal`, menu);
 };
 
+export type ItemsCategory = {
+  images: string[];
+  ingredients: string[];
+  id: number;
+  name: string;
+  price: number;
+  suitableVegan: boolean;
+  suitableCeliac: boolean;
+}
+
+export type Category = {
+  id:number;
+  name: string;
+  items: ItemsCategory [];
+}
+const getRestaurantCategories = (id: number): Promise<Category[]> => {
+  return authenticatedGet(`/restaurant/${id}/categories`);
+};
+
 export const RestaurantAPI = {
   getRestaurants,
   getRestaurantsNearMe,
   getSingleRestaurant,
   createRestaurant,
   createMenu,
+  getRestaurantCategories,
 };
