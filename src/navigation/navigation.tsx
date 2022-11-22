@@ -136,6 +136,7 @@ export function Navigation() {
               name="ViewFavs"
               component={ViewFavs}
               options={{
+                animation: 'slide_from_left',
                 header: ({ navigation }) => (
                   <ProfileNavHeader onPressBack={navigation.goBack} />
                 ),

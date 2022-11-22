@@ -33,69 +33,73 @@ const RestaurantItem = ({
   }, [navigation, dispatch, item]);
 
   return (
-    <PressableView onPress={handleViewNavigation}>
-      <Shadow
-        style={styles.shadowElement}
-        distance={2}
-        startColor={'rgba(0, 0, 0, 0.20)'}
-        endColor={'rgba(0, 0, 0, 0.03)'}
-        containerStyle={styles.restaurantItemShadowContainer}
-        offset={[0, 1]}>
-        <View style={styles.restaurantContainer}>
-          <View style={styles.restaurantTopPosition}>
-            <Body fontType="bold" darkPinkColor>
-              {item.name}
-            </Body>
-            <Body>{item.foodType}</Body>
+    <View style={styles.restaurantsContainer}>
+      <PressableView onPress={handleViewNavigation}>
+        <Shadow
+          style={styles.shadowElement}
+          distance={2}
+          startColor={'rgba(0, 0, 0, 0.20)'}
+          endColor={'rgba(0, 0, 0, 0.03)'}
+          containerStyle={styles.restaurantItemShadowContainer}
+          offset={[0, 1]}>
+          <View style={styles.restaurantContainer}>
+            <View style={styles.restaurantTopPosition}>
+              <Body fontType="bold" darkPinkColor>
+                {item.name}
+              </Body>
+              <Body>{item.foodType}</Body>
+            </View>
           </View>
-        </View>
-        <View>
-          {item.photos && item.photos.length ? (
-            <Image
-              style={styles.restaurantBackgroundImage}
-              source={{
-                uri: item.photos[0],
-              }}
-            />
-          ) : (
-            <NoAvailableImage />
-          )}
-        </View>
-        <View style={styles.restaurantInfoContainer}>
-          <Body2 style={styles.addressSize}>
-            <Body fontType="bold" darkPinkColor>
-              Dirección
-            </Body>{' '}
-            {capitalize(item.address)}
-          </Body2>
-          <Body2>
-            <Body fontType="bold" darkPinkColor>
-              Precio medio
-            </Body>{' '}
-            {item.priceRange}
-          </Body2>
-          <View style={styles.starsContainer}>
-            <Body style={styles.starTitle} fontType="bold" darkPinkColor>
-              Estrellas
-            </Body>
-            <Rating starSize={16} currentValue={item.stars} />
+          <View>
+            {item.photos && item.photos.length ? (
+              <Image
+                style={styles.restaurantBackgroundImage}
+                source={{
+                  uri: item.photos[0],
+                }}
+              />
+            ) : (
+              <NoAvailableImage />
+            )}
           </View>
-        </View>
-      </Shadow>
-    </PressableView>
+          <View style={styles.restaurantInfoContainer}>
+            <Body2 style={styles.addressSize}>
+              <Body fontType="bold" darkPinkColor>
+                Dirección
+              </Body>{' '}
+              {capitalize(item.address)}
+            </Body2>
+            <Body2>
+              <Body fontType="bold" darkPinkColor>
+                Precio medio
+              </Body>{' '}
+              {item.priceRange}
+            </Body2>
+            <View style={styles.starsContainer}>
+              <Body style={styles.starTitle} fontType="bold" darkPinkColor>
+                Estrellas
+              </Body>
+              <Rating starSize={16} currentValue={item.stars} />
+            </View>
+          </View>
+        </Shadow>
+      </PressableView>
+    </View>
   );
 };
 
 const header = React.memo(() => {
   const RestaurantIcon = ICONS.restaurant;
   return (
-    <View style={styles.listHeaderContainer}>
-      <View style={styles.title}>
-        <Title darkPinkColor>{localizedStrings.profile.myLikes}</Title>
-      </View>
-      <View style={styles.titleContainer}>
-        <View style={styles.restaurantIcon}>{<RestaurantIcon />}</View>
-        <Body fontType="bold">Restaurantes favoritos</Body>
+    <View style={styles.headerContainer}>
+      <View style={styles.listHeaderContainer}>
+        <View style={styles.title}>
+          <Title darkPinkColor>{localizedStrings.profile.myLikes}</Title>
+        </View>
+        <View style={styles.titleContainer}>
+          <View style={styles.restaurantIcon}>{<RestaurantIcon />}</View>
+          <Body fontType="bold">Restaurantes favoritos</Body>
+        </View>
       </View>
     </View>
   );
@@ -145,11 +149,13 @@ export function ViewFavs({}: PropTypes) {
     <View style={styles.container}>
       {error && <View />}
       {loading && (
-        <Image
-          style={styles.loadingIcon}
-          resizeMode="contain"
-          source={require('../../assets/images/loading/loading.gif')}
-        />
+        <View style={styles.loadingBody}>
+          <Image
+            style={styles.loadingIcon}
+            resizeMode="contain"
+            source={require('../../assets/images/loading/loading.gif')}
+          />
+        </View>
       )}
       {!loading && (
         <FlatList

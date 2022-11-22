@@ -6,19 +6,23 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: COLORS.background,
+    // backgroundColor: COLORS.darkPink,
+    // justifyContent: 'center',
+    // alignItems: 'flex-start',
+    // paddingTop: 50,
+    paddingHorizontal: 16,
+  },
+  loadingBody: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 40,
-    // paddingHorizontal: 16,
+    width: '100%',
+    backgroundColor: COLORS.background,
   },
   loadingIcon: {
     flex: 1,
-  },
-  title: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    marginBottom: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   listSeparator: {
     marginVertical: 8,
@@ -27,11 +31,6 @@ export const styles = StyleSheet.create({
     marginBottom: 16,
     width: '100%',
   },
-  titleContainer: {
-    marginBottom: 16,
-    flexDirection: 'row',
-  },
-
   restaurantIcon: {
     width: 24,
     height: 24,
@@ -42,7 +41,9 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   restaurantItemShadowContainer: {
-    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
   },
   backdrop: {
     position: 'absolute',
@@ -100,14 +101,25 @@ export const styles = StyleSheet.create({
   },
   listBodyContainer: {
     flexDirection: 'column',
+    //alignItems: 'center',
+    //paddingHorizontal: 16,
+    paddingTop: 50,
+    paddingBottom: 16,
   },
   listBodyContainerEmpty: {
     flexDirection: 'column',
     flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingTop: 50,
+    paddingHorizontal: 16,
+    widht: '100%',
   },
   listEmpty: {
     flex: 1,
     justifyContent: 'flex-start',
+    width: '100%',
   },
   bodyEmpty: {
     flex: 0.75,
@@ -115,7 +127,28 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   listHeaderContainer: {
+    flexDirection: 'column',
     justifyContent: 'flex-start',
+    alignItems: 'stretch',
+  },
+  title: {
+    justifyContent: 'flex-start',
+    alignItems: 'stretch',
+    marginBottom: 8,
+  },
+  titleContainer: {
+    marginBottom: 16,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  restaurantsContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    width: '100%',
     alignItems: 'flex-start',
+    justifyContent: 'flex-start',
   },
 });
