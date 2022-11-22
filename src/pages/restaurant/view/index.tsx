@@ -44,7 +44,6 @@ export function ViewRestaurant({}: PropTypes) {
   }, [dispatch]);
   // const handleSwitchChange = React.useCallback((newValue: boolean) => {}, []);
   const categoriesList = useAppSelector(state => state.restaurant.categories);
-  console.log(categoriesList.length)
   const mapDays =
     selectedRestaurant?.openDays?.map(day => {
       return {
@@ -54,9 +53,9 @@ export function ViewRestaurant({}: PropTypes) {
       };
     }) || [];
   const isOpen = !selectedRestaurant?.isClosed;
-
+    console.log(selectedRestaurant?.name)
   return (
-    <ScrollPage>
+    <ScrollPage internalContainerStyles={styles.container}>
       {loading && (
         <View
           style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -70,28 +69,26 @@ export function ViewRestaurant({}: PropTypes) {
         <View
           style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
           <Headline6>
-            Lo sentimos no podemos mostrarte la informacion sobre este
-            restaurante en este momento.
+            {localizedStrings.restaurant.view.errorMessage}
           </Headline6>
         </View>
       )}
       {!loading && (
-        <View style={styles.container}>
+        <View style={styles.containerView}>
           <View style={styles.title}>
-            <Headline5 style={styles.restaurantTitle}>
+            <Headline5 darkPinkColor>
               {selectedRestaurant?.name}
             </Headline5>
             <ImageButton onPress={handleEditRestaurant} imageSvg={ICONS.edit} />
           </View>
-          <View>
+          <View style={styles.spaceForAdress}>
             <Body2>{selectedRestaurant?.address}</Body2>
           </View>
           <View style={styles.openingListContainer}>
             <OpeningList darkPinkColor previousDates={mapDays} />
           </View>
-
           <View style={styles.openRestaurent}>
-            <Body>Local Abierto</Body>
+            <Body>{localizedStrings.restaurant.view.openLocal}</Body>
             <Switch
               // onValueChange={handleSwitchChange}
               trackColor={{ true: COLORS.pink }}
@@ -99,7 +96,6 @@ export function ViewRestaurant({}: PropTypes) {
               value={isOpen}
             />
           </View>
-
           <View>
             <Headline5 style={styles.title}>Categorias</Headline5>
           </View>

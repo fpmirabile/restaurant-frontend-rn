@@ -70,6 +70,8 @@ export const localizedStrings = new LocalizedStrings({
       view: {
         createNewDish: 'Crear nuevo plato/item',
         noCategories: 'Lo sentimos, este restaurante no cuenta con categorías creadas',
+        openLocal: 'Local abierto',
+        errorMessage: 'Lo sentimos no podemos mostrarte la informacion sobre este restaurante en este momento.',
       },
       bottomBar: {
         cancel: 'Cancelar',
