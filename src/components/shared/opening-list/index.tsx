@@ -18,7 +18,7 @@ interface PropTypes {
 const createDays = (previousValues: OpenDays[] | undefined): OpenDays[] => {
   const weekDays: Days[] = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
   const result: OpenDays[] = [];
-  if (previousValues) {
+  if (previousValues && previousValues.length > 0) {
     weekDays.forEach(day => {
       const value = previousValues.find(prev => prev.day === day);
       if (value) {
@@ -45,6 +45,7 @@ export function OpeningList({
   previousDates,
   editable,
 }: PropTypes) {
+  console.log(previousDates);
   const [openDays, setOpenDays] = React.useState<OpenDays[]>(
     createDays(previousDates),
   );
