@@ -43,6 +43,9 @@ const RestaurantItem = ({
     //LikeIcon = isFavorite ? ICONS.like : ICONS.likeNoBackground;
   }, [dispatch, item, isFavorite]);
 
+  if (item.photos) {
+    console.log(`home photos ${item.id}`, item.photos);
+  }
   return (
     <PressableView onPress={handleViewNavigation}>
       <Shadow

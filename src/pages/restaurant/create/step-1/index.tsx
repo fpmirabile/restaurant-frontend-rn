@@ -29,10 +29,10 @@ export function CreateRestaurantStepOne({}: PropTypes) {
   const localities = [
     { key: '1', value: 'CABA' },
     { key: '2', value: 'Avellaneda' },
-    { key: '2', value: 'Quilmes' },
-    { key: '3', value: 'Vicente Lopez' },
-    { key: '2', value: 'Palomar' },
-    { key: '2', value: 'Tigre' },
+    { key: '3', value: 'Quilmes' },
+    { key: '4', value: 'Vicente Lopez' },
+    { key: '5', value: 'Palomar' },
+    { key: '6', value: 'Tigre' },
   ];
   const states = [{ key: '1', value: 'Buenos Aires' }];
   const selectedState = states.find(state => state.value === stepOne.state);
