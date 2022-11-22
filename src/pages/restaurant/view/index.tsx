@@ -13,9 +13,10 @@ import {
 import { COLORS, ICONS } from '../../../constants';
 import { AccordionList } from '../../../components/shared/accordion-list';
 import { localizedStrings } from '../../../localization/localized-strings';
-import { useAppSelector } from '../../../redux/store';
+import { useAppDispatch, useAppSelector } from '../../../redux/store';
 import { useAppNavigation } from '../../../hook/navigation';
 import { styles } from './styles';
+import { actions } from '../../../redux';
 
 interface PropTypes {}
 
@@ -25,7 +26,9 @@ export function ViewRestaurant({}: PropTypes) {
   );
   const navigation = useAppNavigation();
 
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
+
+  //Navegacion
   const handleEditRestaurant = React.useCallback(() => {
     navigation.push('CreateRestaurant');
   }, [navigation]);
@@ -33,57 +36,14 @@ export function ViewRestaurant({}: PropTypes) {
   const handleNewDish = React.useCallback(() => {
     navigation.push('NewDish');
   }, [navigation]);
-
+  //Esto me mantiene el estado del componente limpio cuando se hace dimount
+  React.useEffect(() => {
+    return () => {
+      dispatch(actions.restaurants.cleanViewScreen());
+    };
+  }, [dispatch]);
   // const handleSwitchChange = React.useCallback((newValue: boolean) => {}, []);
-
-  const categories = [
-    {
-      title: 'Promociones del día',
-      items: [
-        {
-          title: 'Flan',
-          imageSource: '../../../assets/images/temporal/flan-casero.png',
-          price: '640$',
-        },
-      ],
-    },
-    {
-      title: 'Carnes',
-      items: [
-        {
-          title: 'Churrasco',
-          imageSource: '../../../assets/images/temporal/flan-casero.png',
-          price: '800$',
-        },
-        {
-          title: 'Tira de asado',
-          imageSource: '../../../assets/images/temporal/flan-casero.png',
-          price: '960$',
-        },
-      ],
-    },
-    {
-      title: 'Bebidas',
-      items: [
-        {
-          title: 'Agua Mineral',
-          imageSource: '../../../assets/images/temporal/flan-casero.png',
-          price: '250$',
-        },
-      ],
-    },
-    {
-      title: 'Postres',
-      items: [
-        {
-          title: 'Flan',
-          imageSource: '../../../assets/images/temporal/flan-casero.png',
-          price: '640$',
-        },
-      ],
-    },
-  ];
-
+  const categoriesList = useAppSelector(state => state.restaurant.categories);
   const mapDays =
     selectedRestaurant?.openDays?.map(day => {
       return {
@@ -93,8 +53,9 @@ export function ViewRestaurant({}: PropTypes) {
       };
     }) || [];
   const isOpen = !selectedRestaurant?.isClosed;
+    console.log(selectedRestaurant?.name)
   return (
-    <ScrollPage>
+    <ScrollPage internalContainerStyles={styles.container}>
       {loading && (
         <View
           style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -108,28 +69,26 @@ export function ViewRestaurant({}: PropTypes) {
         <View
           style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
           <Headline6>
-            Lo sentimos no podemos mostrarte la informacion sobre este
-            restaurante en este momento.
+            {localizedStrings.restaurant.view.errorMessage}
           </Headline6>
         </View>
       )}
       {!loading && (
-        <View style={styles.container}>
+        <View style={styles.containerView}>
           <View style={styles.title}>
-            <Headline5 style={styles.restaurantTitle}>
+            <Headline5 darkPinkColor>
               {selectedRestaurant?.name}
             </Headline5>
             <ImageButton onPress={handleEditRestaurant} imageSvg={ICONS.edit} />
           </View>
-          <View>
+          <View style={styles.spaceForAdress}>
             <Body2>{selectedRestaurant?.address}</Body2>
           </View>
           <View style={styles.openingListContainer}>
             <OpeningList darkPinkColor previousDates={mapDays} />
           </View>
-
           <View style={styles.openRestaurent}>
-            <Body>Local Abierto</Body>
+            <Body>{localizedStrings.restaurant.view.openLocal}</Body>
             <Switch
               // onValueChange={handleSwitchChange}
               trackColor={{ true: COLORS.pink }}
@@ -137,14 +96,20 @@ export function ViewRestaurant({}: PropTypes) {
               value={isOpen}
             />
           </View>
-
           <View>
             <Headline5 style={styles.title}>Categorias</Headline5>
           </View>
           <View style={styles.categoryContainer}>
-            {categories.map((item, index) => {
-              return <AccordionList category={item} key={index} />;
-            })}
+            {
+              categoriesList.length != 0 ? (
+                categoriesList.map((item, index) => {
+                  return <AccordionList category={item} key={index}/>})
+              ):(
+                <View style={styles.message}>
+                  <Body>{localizedStrings.restaurant.view.noCategories}</Body>
+                </View>
+              )
+            }
           </View>
           <View style={styles.createNewDishContainer}>
             <ColorfulButton

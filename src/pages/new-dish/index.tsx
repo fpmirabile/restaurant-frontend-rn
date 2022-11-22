@@ -32,12 +32,16 @@ interface RouterProps extends MorfandoRouterParams<'NewDish'> {}
 
 export function NewDish({ navigation }: RouterProps) {
   const createMenu = useAppSelector(state => state.restaurant.menu);
+  //Consumo las categorias del estado general de la app
+  const categoriesList = useAppSelector(state => state.restaurant.categories)
+  console.log(categoriesList)
   const dispatch = useAppDispatch();
   const [isModalVisible, setModalVisible] = React.useState<boolean>(false);
   const [currentIngredient, setCurrentIngredient] = React.useState<{
     value: string;
     index: number;
   }>({ value: '', index: -1 });
+
 
   const categories = [
     { key: '1', value: 'Postres' },
@@ -147,9 +151,9 @@ export function NewDish({ navigation }: RouterProps) {
             <CustomModal
               isVisible={isModalVisible}
               onClose={handleCloseEditModal}
-              modalTitle={'¿Desea eliminar su cuenta?'}
-              modalSubtitle={'Cantidad de estrellas'}
-              //bodyText={'Si elimina su cuenta automáticamente se eliminaran todos sus restaurantes.'}
+              modalTitle={localizedStrings.restaurant.newDish.modalTitle}
+              input={true}
+              inputPlaceholder={localizedStrings.restaurant.newDish.modalInputPlaceholder}
               textPrimaryButton={localizedStrings.restaurant.newDish.create}
               textSecondaryButton={localizedStrings.restaurant.newDish.cancel}
             />

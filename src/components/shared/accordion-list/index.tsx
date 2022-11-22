@@ -5,21 +5,11 @@ import { Headline6, ImageButton } from '../../../components/shared';
 import { ICONS } from '../../../constants';
 import { AccordionItem } from '../accordion-item';
 import { styles } from './styles';
+import { Category, ItemsCategory } from '../../../api/restaurant.api'
 
 interface PropTypes {
-  category?: Category;
+  category: Category;
 }
-
-type Category = {
-  title: string;
-  items: ItemCategory[];
-};
-
-export type ItemCategory = {
-  title: string;
-  imageSource: string;
-  price: string;
-};
 
 export function AccordionList({ category }: PropTypes) {
   const [showContent, setShowContent] = React.useState(false);
@@ -30,7 +20,7 @@ export function AccordionList({ category }: PropTypes) {
         <View style={styles.titleContainer}>
           {category && (
             <>
-              <Headline6>{category.title}</Headline6>
+              <Headline6>{category.name}</Headline6>
               {showContent ? (
                 <ImageButton imageSvg={ICONS.upChevron} />
               ) : (
@@ -45,7 +35,7 @@ export function AccordionList({ category }: PropTypes) {
           {category.items.map((item, index) => {
             return (
               <View style={styles.body}>
-                <AccordionItem itemCategory={item} key={index} />
+                <AccordionItem itemsCategory={item} key={index} />
               </View>
             );
           })}
