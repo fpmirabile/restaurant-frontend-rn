@@ -1,10 +1,5 @@
 import * as React from 'react';
-import {
-  View,
-  ImageBackground,
-  NativeSyntheticEvent,
-  TextInputEndEditingEventData,
-} from 'react-native';
+import { View, ImageBackground } from 'react-native';
 import {
   Input,
   TouchableText,
@@ -17,17 +12,20 @@ import { ColorfulButton } from '../../components/shared';
 import { MorfandoRouterParams } from '../../navigation/navigation';
 import { actions } from '../../redux';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
-import { isValidEmail, isValidPassword } from '../../util/validation';
+import {
+  equalsTo,
+  isValidEmail,
+  isValidPassword,
+  notEmpty,
+} from '../../util/validation';
 import { styles } from './styles';
 
 type FormField = {
   value: string;
-  error: boolean;
 };
 
 const initialField: FormField = {
   value: '',
-  error: false,
 };
 
 export type RegistrationForm = {
@@ -56,74 +54,25 @@ export function UserRegistration({ navigation }: RouterProps) {
   }, [navigation]);
 
   const handleInputOnChange =
-    (field: keyof RegistrationForm) =>
-    (e: NativeSyntheticEvent<TextInputEndEditingEventData>) => {
+    (field: keyof RegistrationForm) => (newText: string) => {
       setFormValues({
         ...form,
         [field]: {
-          ...form[field],
-          value: e.nativeEvent.text,
+          value: newText,
         },
       });
     };
 
+  const isAnyFieldEmpty = Object.values(form).some(i => !i.value);
   const handleRegistrationPress = () => {
-    let fieldValues = Object.values(form);
-    if (fieldValues.some(i => i.error)) {
-      const emptyFields = Object.keys(form).filter((field: string) => {
-        return !form[field as keyof RegistrationForm].value;
-      });
-
-      const copyForm = { ...form };
-      emptyFields.forEach((field: string) => {
-        copyForm[field as keyof RegistrationForm].error = true;
-      });
-
-      setFormValues(copyForm);
+    if (isAnyFieldEmpty) {
+      return;
     } else {
       if (isLoading) {
         return;
       }
 
       dispatch(actions.userActions.registerOwner(form));
-    }
-  };
-
-  const onBlurInput = (field: keyof RegistrationForm) => () => {
-    switch (field) {
-      case 'email':
-        setFormValues({
-          ...form,
-          email: { ...form.email, error: !isValidEmail(form.email.value) },
-        });
-        break;
-      case 'password':
-        setFormValues({
-          ...form,
-          password: {
-            ...form.password,
-            error: !isValidPassword(form.password.value),
-          },
-        });
-        break;
-      case 'name':
-        setFormValues({
-          ...form,
-          name: {
-            ...form.name,
-            error: !form.name.value,
-          },
-        });
-        break;
-      case 'repeatPassword':
-        setFormValues({
-          ...form,
-          repeatPassword: {
-            ...form.repeatPassword,
-            error: form.password.value !== form.repeatPassword.value,
-          },
-        });
-        break;
     }
   };
 
@@ -143,46 +92,37 @@ export function UserRegistration({ navigation }: RouterProps) {
         <View style={[styles.whiteBox, styles.elevation]}>
           <View style={styles.selectedLoginContent}>
             <Input
-              onChange={handleInputOnChange('email')}
-              onEndEditing={handleInputOnChange('email')}
+              onChangeText={handleInputOnChange('email')}
+              onValidateText={isValidEmail}
               containerStyles={styles.emailInput}
               value={form.email.value}
               placeholder="Email"
-              hasError={form.email.error}
               errorMessage="El email ingresado no es correcto."
-              onBlur={onBlurInput('email')}
             />
             <Input
-              onChange={handleInputOnChange('name')}
-              onEndEditing={handleInputOnChange('name')}
+              onChangeText={handleInputOnChange('name')}
+              onValidateText={notEmpty}
               containerStyles={styles.emailInput}
               value={form.name.value}
               placeholder="Nombre y apellido"
-              hasError={form.name.error}
               errorMessage="El nombre ingresado no es correcto."
-              onBlur={onBlurInput('name')}
             />
             <PasswordInput
-              onChange={handleInputOnChange('password')}
-              onEndEditing={handleInputOnChange('password')}
+              onChangeText={handleInputOnChange('password')}
+              onValidateText={isValidPassword}
               containerStyles={styles.emailInput}
               value={form.password.value}
               placeholder="Contraseña"
-              errorMessage="La password ingresada no es correcta."
-              hasError={form.password.error}
-              onBlur={onBlurInput('password')}
+              errorMessage="La contraseña no cumple con nuestras normas (al menos 1 mayuscula, 1 miniscula, 1 simbolo, 1 numero y 6 caracteres"
               secureTextEntry
             />
-            <Input
-              onChange={handleInputOnChange('repeatPassword')}
-              onEndEditing={handleInputOnChange('repeatPassword')}
+            <PasswordInput
+              onChangeText={handleInputOnChange('repeatPassword')}
+              onValidateText={equalsTo(form.password.value)}
               containerStyles={styles.emailInput}
               value={form.repeatPassword.value}
               placeholder="Repita contraseña"
               errorMessage="Las passwords no coinciden."
-              hasError={form.repeatPassword.error}
-              onBlur={onBlurInput('repeatPassword')}
-              secureTextEntry
             />
             {!!error && <Caption darkPinkColor>{error}</Caption>}
           </View>
@@ -193,6 +133,7 @@ export function UserRegistration({ navigation }: RouterProps) {
           isLoading={isLoading}
           onPress={handleRegistrationPress}
           title="Registrarse"
+          disabled={isAnyFieldEmpty}
         />
         <View>
           <TouchableText

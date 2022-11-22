@@ -65,3 +65,7 @@ export const atLeastOneSelected = (
   const numberKey = Number(value?.key);
   return !!value && !isNaN(numberKey) && numberKey > 0;
 };
+
+export const equalsTo = (otherValue: string) => (currentValue: string) => {
+  return otherValue === currentValue;
+};

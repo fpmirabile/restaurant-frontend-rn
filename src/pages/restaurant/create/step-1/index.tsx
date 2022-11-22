@@ -1,12 +1,7 @@
 import * as React from 'react';
 import { View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import {
-  // Caption,
-  Headline6,
-  Input,
-  Dropdown,
-} from '../../../../components/shared';
+import { Headline6, Input, Dropdown } from '../../../../components/shared';
 import { localizedStrings } from '../../../../localization/localized-strings';
 import { actions, StepOneFields } from '../../../../redux';
 import { useAppDispatch, useAppSelector } from '../../../../redux/store';
