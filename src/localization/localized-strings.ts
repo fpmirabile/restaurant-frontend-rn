@@ -11,6 +11,8 @@ export const localizedStrings = new LocalizedStrings({
       password: 'Contraseña',
       forgotPassword: '¿Olvidaste tu contraseña?',
       login: 'Ingresar',
+      confirm: 'Confirmar',
+      cancel: 'Cancelar',
     },
     home: {
       createNewRestaurant: 'Crear nuevo restaurante',
@@ -88,11 +90,22 @@ export const localizedStrings = new LocalizedStrings({
         cancel: 'Cancelar',
         create: 'Crear',
       },
-      clientView:{
+      clientView: {
         location: '¿Como llegar?',
         menu: 'Menú',
         comments: 'Comentarios',
-      }
+      },
+      clientFiltres: {
+        filter: 'Filtros',
+        maxdistance: 'Distancia máxima',
+        foodtype: 'Tipo de comida',
+        pricerange: 'Rango de precio',
+        from: 'Desde',
+        to: 'Hasta',
+        calification: 'Calificación',
+        starsnumber: 'Cantidad de estrellas',
+        applyfilters: 'Aplicar filtros',
+      },
     },
   },
 });

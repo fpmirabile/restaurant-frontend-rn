@@ -13,6 +13,7 @@ import {
   NewDish,
   RestaurantClient,
   ViewFavs,
+  FiltersClient,
 } from '../pages';
 import { HomeNavHeader, ProfileNavHeader } from '../headers';
 import { useAppSelector } from '../redux/store';
@@ -39,6 +40,7 @@ export type RootStackParamList = {
   ViewRestaurant: undefined;
   RestaurantClient: undefined;
   ViewFavs: undefined;
+  FiltersClient: undefined;
   // Feed: { sort: 'latest' | 'top' } | undefined;
 };
 
@@ -77,9 +79,14 @@ export function Navigation() {
                   const handleHamburgerPress = () => {
                     navigation.navigate('Profile');
                   };
-
+                  const handleFilterPress = () => {
+                    navigation.navigate('FiltersClient');
+                  };
                   return (
-                    <HomeNavHeader onHamburgerClick={handleHamburgerPress} />
+                    <HomeNavHeader
+                      onHamburgerClick={handleHamburgerPress}
+                      onFiltersClick={handleFilterPress}
+                    />
                   );
                 },
                 headerShown: true,
@@ -143,6 +150,7 @@ export function Navigation() {
                 headerShown: true,
               }}
             />
+            <Stack.Screen name="FiltersClient" component={FiltersClient} />
           </Stack.Group>
         )}
       </Stack.Navigator>

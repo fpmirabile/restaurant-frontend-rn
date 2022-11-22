@@ -14,6 +14,7 @@ import { styles } from './styles';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { actions } from '../../redux';
 import { useAppNavigation } from '../../hook/navigation';
+import { ConfirmModal } from '../../components/shared/confirm-modal';
 
 interface HeaderProps {
   name: string;
@@ -84,6 +85,22 @@ export function Profile({}: PropTypes) {
     navigation.push('ViewFavs');
   }, [navigation]);
 
+  //Modal de confirmacion para eliminar cuenta
+  const [isModalVisible, setModalVisible] = React.useState<boolean>(false);
+
+  const showConfirmModal = async () => {
+    setModalVisible(true);
+  };
+
+  const handleConfirmModal = async () => {
+    setModalVisible(false);
+    dispatch(actions.userActions.deleteUser());
+  };
+
+  const hideConfirmModal = async () => {
+    setModalVisible(false);
+  };
+
   const getProfileInformation = React.useCallback(
     () => [
       {
@@ -129,7 +146,7 @@ export function Profile({}: PropTypes) {
               },
               {
                 buttonTitle: localizedStrings.profile.deleteAccount,
-                buttonAction: () => {},
+                buttonAction: () => dispatch(showConfirmModal),
                 icon: ICONS.trash,
               },
             ],
@@ -152,6 +169,15 @@ export function Profile({}: PropTypes) {
         )}
         scrollEnabled
         contentContainerStyle={styles.sectionListContainer}
+      />
+      <ConfirmModal
+        isVisible={isModalVisible}
+        onConfirm={handleConfirmModal}
+        onCancel={hideConfirmModal}
+        modalTitle={'Usted esta por eliminar su cuenta'}
+        confirmText={'¿Esta seguro que desea eliminar su cuenta?'}
+        textPrimaryButton={localizedStrings.login.confirm}
+        textSecondaryButton={localizedStrings.login.cancel}
       />
     </View>
   );

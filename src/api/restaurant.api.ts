@@ -1,4 +1,8 @@
-import { authenticatedGet, authenticatedPost } from './config/calls';
+import {
+  authenticatedGet,
+  authenticatedPost,
+  authenticatedPut,
+} from './config/calls';
 
 export type Days = 'L' | 'M' | 'X' | 'J' | 'V' | 'S' | 'D';
 
@@ -41,11 +45,16 @@ const getRestaurants = (): Promise<Restaurant[]> => {
   return authenticatedGet('/restaurants');
 };
 
+const putFavorite = (restaurantId: number): Promise<any> => {
+  return authenticatedPut('/restaurant/' + restaurantId + '/favorites');
+};
+
 const getRestaurantsNearMe = (
   lat: number,
   lon: number,
 ): Promise<Restaurant[]> => {
-  return authenticatedGet(`/restaurants/near/${lat}/${lon}`);
+  //Dejo clavado el 80, pero ahi deberia ir la distancia que filtra el usuario
+  return authenticatedGet(`/restaurants/near/${lat}/${lon}/80`);
 };
 
 const getSingleRestaurant = (id: number): Promise<Restaurant> => {
@@ -80,4 +89,5 @@ export const RestaurantAPI = {
   createRestaurant,
   createMenu,
   getFavorites,
+  putFavorite,
 };

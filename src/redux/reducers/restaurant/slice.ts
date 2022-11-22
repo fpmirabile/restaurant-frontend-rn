@@ -3,6 +3,7 @@ import { geolocationAPI } from '../../../api/geocoding.api';
 import { Days, Restaurant, RestaurantAPI } from '../../../api/restaurant.api';
 import { tryRequestGeoPermissions } from '../../../util/geolocalization';
 import Geolocation from '@react-native-community/geolocation';
+import ImgToBase64 from 'react-native-image-base64-png';
 // import ImgToBase64 from 'react-native-image-base64-png';
 
 type State = {
@@ -183,6 +184,19 @@ const getNearRestaurants = createAsyncThunk(
   },
 );
 
+const putFavorite = createAsyncThunk(
+  'restaurant/favorite',
+  async (payload: number, { rejectWithValue }) => {
+    try {
+      await RestaurantAPI.putFavorite(payload);
+      console.log('Nuevo favorito: ' + payload);
+    } catch (error) {
+      console.log('Put favorite', error);
+      rejectWithValue(error);
+    }
+  },
+);
+
 const getRestaurants = createAsyncThunk(
   'restaurant/getRestaurants',
   async (_, { rejectWithValue }) => {
@@ -216,14 +230,15 @@ const createRestaurant = createAsyncThunk(
     try {
       const state = getState() as any;
       const restaurants = state.restaurant as State;
-      // const images = restaurants.create.stepTwo.images as string[];
-      // const base64Images = await Promise.all(
-      //   images.map(async value => {
-      //     const base64 = await ImgToBase64.getBase64String(value);
-      //     return base64;
-      //   }),
-      // );
+      const images = restaurants.create.stepTwo.images as string[];
+      const base64Images = await Promise.all(
+        images.map(async value => {
+          const base64 = await ImgToBase64.getBase64String(value);
+          return base64;
+        }),
+      );
 
+      //console.log(base64Images)
       const newRestaurant = {
         foodType: restaurants.create.stepTwo.typeOfFood,
         priceRange: restaurants.create.stepTwo.priceRange,
@@ -236,7 +251,7 @@ const createRestaurant = createAsyncThunk(
         name: restaurants.create.stepOne.name,
         lat: Number(restaurants.create.stepOne.lat) || 0,
         lon: Number(restaurants.create.stepOne.lon) || 0,
-        images: [],
+        images: base64Images,
         openDays: restaurants.create.stepTwo.times.map((time: any) => {
           return {
             day: time.day,
@@ -247,7 +262,8 @@ const createRestaurant = createAsyncThunk(
         }),
       };
 
-      console.log(newRestaurant);
+      //console.log(restaurants.create.stepTwo)
+      //console.log(newRestaurant);
       const response = await RestaurantAPI.createRestaurant(newRestaurant);
       console.log('restaurant created: ', response);
       dispatch(getRestaurants());
@@ -528,6 +544,18 @@ const restaurantAppSlice = createSlice({
         state.home.error = message;
       }
     });
+    builder.addCase(putFavorite.rejected, (state, action) => {
+      state.home.loading = false;
+      state.filterText = '';
+      const message = (action.payload as any).message;
+      if (message) {
+        state.home.error = message;
+      }
+    });
+    builder.addCase(putFavorite.fulfilled, state => {
+      state.home.loading = false;
+      state.home.error = '';
+    });
   },
 });
 
@@ -543,6 +571,7 @@ export const restaurantSlice = {
     selectRestaurant,
     getNearRestaurants,
     getFavorites,
+    putFavorite,
   },
   reducer,
 };

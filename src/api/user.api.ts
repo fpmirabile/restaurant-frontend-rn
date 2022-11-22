@@ -1,4 +1,8 @@
-import { authenticatedGet, authenticatedPost } from './config/calls';
+import {
+  authenticatedDelete,
+  authenticatedGet,
+  authenticatedPost,
+} from './config/calls';
 
 export interface User {
   id: string;
@@ -60,9 +64,14 @@ const loginSso = async ({
   });
 };
 
+const deleteUser = async () => {
+  return authenticatedDelete('/users');
+};
+
 export const UserAPI = {
   loginCredentials,
   loginSso,
   me,
   registerNewOwner,
+  deleteUser,
 };
