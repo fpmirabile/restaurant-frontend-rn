@@ -144,12 +144,20 @@ const header = React.memo(() => {
 });
 
 const listEmpty = React.memo(() => {
+  const {
+    user: {
+      user: { isAdmin },
+    },
+  } = useAppSelector(state => state);
   const SadBurger = IMAGES.sadBurger;
+
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <View>
         <Headline6 darkPinkColor>
-          Parece no haber restaurants cerca tuyo.
+          {isAdmin
+            ? 'Aun no cargaste ningùn Restaurant'
+            : 'Parece no haber restaurants cerca tuyo'}
         </Headline6>
       </View>
       <View>
