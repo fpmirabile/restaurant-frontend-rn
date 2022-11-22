@@ -33,9 +33,8 @@ export function Dropdown({
   const [selected, setSelected] = React.useState('');
   const fullList = [{ key: '-1', value: placeholder }, ...data];
 
-  React.useEffect(() => {
-    const key = selected;
-    const element = data.find(i => i.key === key);
+  const handleSelected = React.useCallback(() => {
+    const element = data.find(i => i.key === selected);
     if (onValueChanged) {
       if (onValidateValue) {
         setIsValid(onValidateValue(element));
@@ -43,12 +42,12 @@ export function Dropdown({
 
       onValueChanged(element?.value || '');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selected]);
+  }, [data, onValidateValue, selected, setIsValid, onValueChanged]);
 
   return (
     <View style={[styles.container, containerStyles]}>
       <SelectList
+        onSelect={handleSelected}
         defaultOption={defaultPair || fullList[0]}
         placeholder={placeholder}
         setSelected={setSelected}

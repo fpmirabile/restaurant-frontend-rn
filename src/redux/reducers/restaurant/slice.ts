@@ -72,7 +72,6 @@ export type CreateMenu = {
   loading: boolean;
 };
 
-//Estado inicial
 const initialState: State = {
   restaurants: [],
   favorites: [],
@@ -264,13 +263,13 @@ const createRestaurant = createAsyncThunk(
       const restaurants = state.restaurant as State;
       const images = restaurants.create.stepTwo.images as string[];
       const base64Images = await Promise.all(
-        images.map(async value => {
-          const base64 = await ImgToBase64.getBase64String(value);
-          return base64;
+        images.map(async file => {
+          const base64 = await ImgToBase64.getBase64String(file);
+          const extension = file.split('.').pop();
+          return `data:image/${extension};base64,${base64}`;
         }),
       );
 
-      //console.log(base64Images)
       const newRestaurant = {
         foodType: restaurants.create.stepTwo.typeOfFood,
         priceRange: restaurants.create.stepTwo.priceRange,
@@ -294,11 +293,11 @@ const createRestaurant = createAsyncThunk(
         }),
       };
 
-      //console.log(restaurants.create.stepTwo)
-      //console.log(newRestaurant);
       const response = await RestaurantAPI.createRestaurant(newRestaurant);
-      console.log('restaurant created: ', response);
-      dispatch(getRestaurants());
+      console.log('restaurant created');
+      setTimeout(() => {
+        dispatch(getRestaurants());
+      }, 2000);
       return response;
     } catch (err) {
       console.log(err);
@@ -407,8 +406,6 @@ const selectRestaurant = createAsyncThunk(
 const restaurantAppSlice = createSlice({
   name: 'restaurant',
   initialState,
-
-  //REDUCERSSSSSSSSSSSSS
   reducers: {
     filter: (state, action: PayloadAction<string>) => {
       const filterText = action.payload;
@@ -484,13 +481,15 @@ const restaurantAppSlice = createSlice({
       state.home.loading = true;
       console.log('get restaurants pending');
       state.home.error = '';
+      state.restaurants = [];
+      state.listRestaurants = [];
+      state.filterText = '';
     });
     builder.addCase(getRestaurants.fulfilled, (state, action) => {
-      console.log('get restaurants fullfilled');
       state.home.loading = false;
-      state.restaurants = action.payload || [];
+      state.restaurants = [...action.payload] || [];
       state.listRestaurants = [...action.payload] || [];
-      state.filterText = '';
+      console.log('get restaurants fullfilled', action.payload);
     });
 
     builder.addCase(getFavorites.rejected, (state, action) => {

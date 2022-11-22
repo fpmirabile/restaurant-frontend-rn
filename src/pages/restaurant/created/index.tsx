@@ -7,16 +7,14 @@ import {
   TransparentButton,
 } from '../../../components/shared';
 import { MorfandoRouterParams } from '../../../navigation/navigation';
-import { styles } from './styles';
 import { localizedStrings } from '../../../localization/localized-strings';
-import { useAppDispatch, useAppSelector } from '../../../redux/store';
+import { useAppSelector } from '../../../redux/store';
 import { ICONS } from '../../../constants';
-import { actions } from '../../../redux';
+import { styles } from './styles';
 
 interface PropTypes
   extends MorfandoRouterParams<'FinishedRestaurantCreation'> {}
 export function RestaurantCreated({ navigation }: PropTypes) {
-  const dispatch = useAppDispatch();
   const Chef = ICONS.chef;
   const { loading, error } = useAppSelector(state => state.restaurant.create);
 
@@ -26,12 +24,6 @@ export function RestaurantCreated({ navigation }: PropTypes) {
   const handleContinueLater = React.useCallback(() => {
     navigation.navigate('Home');
   }, [navigation]);
-
-  React.useEffect(() => {
-    if (!loading && !error) {
-      dispatch(actions.restaurants.getRestaurants());
-    }
-  }, [dispatch, loading, error]);
 
   return (
     <View style={styles.container}>
