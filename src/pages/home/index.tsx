@@ -135,7 +135,7 @@ const header = React.memo(() => {
         <View style={styles.inputContainer}>
           <Input
             onChangeText={handleInputEditing}
-            rightIcon={require('../../assets/images/icons/search.png')}
+            rightIcon={ICONS.search}
             value={filterText}
             placeholder="Buscar restaurantes / tipo de comida"
           />

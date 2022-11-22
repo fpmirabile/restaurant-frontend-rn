@@ -12,11 +12,9 @@ import { localizedStrings } from '../../localization/localized-strings';
 
 export type LoginForm = {
   username: {
-    error: boolean;
     value: string;
   };
   password: {
-    error: boolean;
     value: string;
   };
 };
@@ -28,11 +26,9 @@ export function Login({ navigation }: PropTypes) {
   const [selectedTab, setSelectedTab] = React.useState<Tab>('client');
   const [loginForm, setLoginForm] = React.useState<LoginForm>({
     username: {
-      error: false,
       value: '',
     },
     password: {
-      error: false,
       value: '',
     },
   });
@@ -54,10 +50,6 @@ export function Login({ navigation }: PropTypes) {
   };
 
   const onCredentialsLogin = () => {
-    const hasError = Object.values(loginForm).some(obj => obj.error);
-    if (hasError) {
-      return;
-    }
     dispatch(
       actions.userActions.loginWithCredentials({
         username: loginForm.username.value,

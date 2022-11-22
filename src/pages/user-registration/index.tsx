@@ -11,6 +11,7 @@ import {
   Body,
   Title,
   Caption,
+  PasswordInput,
 } from '../../components/shared';
 import { ColorfulButton } from '../../components/shared';
 import { MorfandoRouterParams } from '../../navigation/navigation';
@@ -161,7 +162,7 @@ export function UserRegistration({ navigation }: RouterProps) {
               errorMessage="El nombre ingresado no es correcto."
               onBlur={onBlurInput('name')}
             />
-            <Input
+            <PasswordInput
               onChange={handleInputOnChange('password')}
               onEndEditing={handleInputOnChange('password')}
               containerStyles={styles.emailInput}

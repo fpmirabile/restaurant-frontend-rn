@@ -1,18 +1,18 @@
 import * as React from 'react';
 import {
-  Image,
   StyleProp,
   TextInput,
   View,
   ViewStyle,
-  ImageSourcePropType,
   NativeSyntheticEvent,
   TextInputChangeEventData,
   TextInputEndEditingEventData,
   TouchableOpacity,
   KeyboardTypeOptions,
 } from 'react-native';
-import { COLORS } from '../../../constants';
+import { SvgProps } from 'react-native-svg';
+import { COLORS, ICONS } from '../../../constants';
+import { ImageButton } from '../image-button';
 import { Caption } from '../morfando-text';
 import { styles } from './styles';
 
@@ -27,7 +27,8 @@ interface PropTypes {
   value: string;
   errorMessage?: string;
   hasError?: boolean;
-  rightIcon?: ImageSourcePropType;
+  rightIcon?: React.FC<SvgProps>;
+  onRightIconPress?: () => void;
   containerStyles?: StyleProp<ViewStyle>;
   onBlur?: () => void;
   secureTextEntry?: boolean;
@@ -45,11 +46,12 @@ export function Input({
   hasError,
   value,
   borderBottom,
-  rightIcon,
+  rightIcon: RightIcon,
   containerStyles = {},
   onBlur,
   onChange,
   onEndEditing,
+  onRightIconPress,
   secureTextEntry,
   disabled,
   keyboardType,
@@ -84,7 +86,13 @@ export function Input({
         editable={!disabled}
         placeholderTextColor={placeholderColor}
       />
-      {rightIcon && <Image style={styles.rightIcon} source={rightIcon} />}
+      {!!RightIcon && (
+        <ImageButton
+          onPress={onRightIconPress}
+          imageStyle={styles.rightIcon}
+          imageSvg={RightIcon}
+        />
+      )}
       {!!errorMessage && (hasError || !isValid) && (
         <Caption style={styles.errorMessage}>{errorMessage}</Caption>
       )}
@@ -107,5 +115,26 @@ export function PressableInput({
       onPress={onPress}>
       <Input {...props} disabled />
     </TouchableOpacity>
+  );
+}
+
+interface PasswordInputProps extends PropTypes {}
+export function PasswordInput({ ...props }: PasswordInputProps) {
+  const [showPassword, setShowPassword] = React.useState(true);
+  const showPasswordIcon = showPassword
+    ? ICONS.hidePassword
+    : ICONS.showPassword;
+
+  const onPasswordIconPress = React.useCallback(() => {
+    setShowPassword(!showPassword);
+  }, [setShowPassword, showPassword]);
+
+  return (
+    <Input
+      {...props}
+      secureTextEntry={showPassword}
+      rightIcon={showPasswordIcon}
+      onRightIconPress={onPasswordIconPress}
+    />
   );
 }

@@ -22,7 +22,7 @@ export function ImageButton({
   imageSvg: ImageSVG,
 }: PropTypes) {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity disabled={!onPress} onPress={onPress}>
       {ImageSVG ? (
         <ImageSVG style={imageStyle} />
       ) : imageSource ? (

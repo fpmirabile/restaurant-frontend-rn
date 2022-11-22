@@ -7,13 +7,14 @@ import {
 import {
   ColorfulButton,
   Input,
+  PasswordInput,
   TouchableText,
 } from '../../../components/shared';
 import { styles } from './styles';
 import { Body, Caption } from '../../../components/shared/morfando-text';
 import { localizedStrings } from '../../../localization/localized-strings';
 import { LoginForm } from '..';
-import { isValidEmail } from '../../../util/validation';
+import { isValidEmail, isValidPassword } from '../../../util/validation';
 import { useAppSelector } from '../../../redux/store';
 
 type InputType = 'username' | 'password';
@@ -33,6 +34,7 @@ function LoginWithCredentialsComponent({
   const { credentialsError: error, loading: isLoading } = useAppSelector(
     state => state.user.login,
   );
+
   const handleInputOnChange =
     (input: InputType) =>
     (e: NativeSyntheticEvent<TextInputEndEditingEventData>) => {
@@ -47,22 +49,6 @@ function LoginWithCredentialsComponent({
         password: { ...form.password, value: e.nativeEvent.text },
       });
     };
-
-  const handleInputBlur = (field: InputType) => () => {
-    switch (field) {
-      case 'username':
-        onFormChanged({
-          ...form,
-          username: {
-            ...form.username,
-            error: !isValidEmail(form.username.value),
-          },
-        });
-        break;
-      case 'password':
-        break;
-    }
-  };
 
   const handleLogin = () => {
     if (isLoading) {
@@ -81,22 +67,19 @@ function LoginWithCredentialsComponent({
       <Input
         onChange={handleInputOnChange('username')}
         onEndEditing={handleInputOnChange('username')}
-        onBlur={handleInputBlur('username')}
+        onValidateText={isValidEmail}
         value={form.username.value}
-        hasError={form.username.error}
         errorMessage="El usuario ingresado no parece ser un email valido."
         placeholder={localizedStrings.login.email}
         containerStyles={styles.emailInput}
       />
-      <Input
+      <PasswordInput
         onChange={handleInputOnChange('password')}
         onEndEditing={handleInputOnChange('password')}
-        onBlur={handleInputBlur('password')}
+        onValidateText={isValidPassword}
         value={form.password.value}
-        hasError={form.password.error}
-        errorMessage="La contraseña no es correcta."
+        errorMessage="La contraseña no cumple con nuestras normas (al menos 1 mayuscula, 1 miniscula, 1 simbolo, 1 numero y 6 caracteres"
         placeholder={localizedStrings.login.password}
-        secureTextEntry
       />
       <TouchableText
         containerStyles={styles.forgotPassword}
@@ -112,6 +95,7 @@ function LoginWithCredentialsComponent({
         isLoading={isLoading}
         title={localizedStrings.login.login}
         onPress={handleLogin}
+        disabled={!form.username.value || !form.password.value}
       />
     </View>
   );

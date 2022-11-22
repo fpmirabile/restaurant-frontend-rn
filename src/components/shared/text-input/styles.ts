@@ -35,9 +35,10 @@ export const styles = StyleSheet.create({
   },
   rightIcon: {
     right: 15,
-    top: 10,
+    top: -35,
     position: 'absolute',
     resizeMode: 'stretch',
+    zIndex: 1000,
   },
   errorMessage: {
     color: COLORS.darkPink,
