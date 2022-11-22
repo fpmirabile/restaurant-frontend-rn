@@ -17,14 +17,14 @@ export const styles = StyleSheet.create({
   openRestaurent: {
     flexDirection: 'row',
     alignItems: 'center',
-    height:42,
+    height: 42,
   },
   categoryContainer: {
     backgroundColor: COLORS.background,
     marginTop: 20,
   },
   openingListContainer: {
-    marginTop:24,
+    marginTop: 24,
   },
   newDishButton: {
     minWidth: '100%',
@@ -32,23 +32,22 @@ export const styles = StyleSheet.create({
   createNewDishContainer: {
     backgroundColor: COLORS.white,
     paddingVertical: 18,
-    bottom: 1,
   },
-  message:{
-    paddingBottom:16,
+  message: {
+    paddingBottom: 16,
   },
   containerView: {
     backgroundColor: COLORS.background,
     flex: 1,
-    paddingTop:'18%',
-    marginLeft:16,
-    marginRight:16,
+    paddingTop: '18%',
+    marginLeft: 16,
+    marginRight: 16,
   },
-  spaceForAdress:{
-    marginTop:8,
+  spaceForAdress: {
+    marginTop: 8,
   },
-  containerIcon:{
-    flex:1,
+  containerIcon: {
+    flex: 1,
     alignItems: 'flex-end',
     justifyContent: 'center',
   },
@@ -66,7 +65,7 @@ export const styles = StyleSheet.create({
     fontFamily: 'OpenSans-Regular',
     width: '100%',
   },
-  dropdownStyles:{
+  dropdownStyles: {
     borderRadius: 3.5,
     borderColor: COLORS.grey,
   },
