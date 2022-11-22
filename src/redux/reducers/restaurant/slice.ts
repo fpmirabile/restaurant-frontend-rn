@@ -9,6 +9,8 @@ import {
 import { tryRequestGeoPermissions } from '../../../util/geolocalization';
 import Geolocation from '@react-native-community/geolocation';
 import ImgToBase64 from 'react-native-image-base64-png';
+import { RootState } from '../../store';
+import { placeSlice } from '../place/slice';
 
 type State = {
   restaurants: Restaurant[];
@@ -347,8 +349,18 @@ const handleStepOneSave = createAsyncThunk(
   'restaurant/getLatitudeAndLongitude',
   async (
     payload: State['create']['stepOne'],
-    { rejectWithValue, dispatch },
+    { rejectWithValue, dispatch, getState },
   ) => {
+    const appGlobalState = getState() as RootState;
+    const {
+      create: {
+        stepOne: { state: province },
+      },
+    } = appGlobalState.restaurant;
+    if (province !== payload.state) {
+      dispatch(placeSlice.actions.getLocalities(payload.state));
+    }
+
     await dispatch(sliceActions.onUpdateStepOne(payload));
     const getLocation = await getLatAndLon(payload, rejectWithValue);
     return getLocation;
