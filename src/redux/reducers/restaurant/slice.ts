@@ -1,11 +1,14 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { geolocationAPI } from '../../../api/geocoding.api';
-import { Days, Restaurant, RestaurantAPI, Category } from '../../../api/restaurant.api';
+import {
+  Days,
+  Restaurant,
+  RestaurantAPI,
+  Category,
+} from '../../../api/restaurant.api';
 import { tryRequestGeoPermissions } from '../../../util/geolocalization';
 import Geolocation from '@react-native-community/geolocation';
 import ImgToBase64 from 'react-native-image-base64-png';
-import { act } from 'react-test-renderer';
-import { RootState } from '../../store';
 
 type State = {
   restaurants: Restaurant[];
@@ -216,24 +219,24 @@ const getRestaurants = createAsyncThunk(
 
 const getCategoriesByRestaurant = createAsyncThunk(
   'restaurant/getCategories',
-  async (payload:number | undefined, {getState, rejectWithValue }) => {
+  async (payload: number | undefined, { getState, rejectWithValue }) => {
     try {
-
       const rState = getState() as any;
       const restaurants = rState.restaurant as State;
       const selectedRestaurant = restaurants.view.selectedRestaurant;
       console.log('get categories');
-      console.log(selectedRestaurant?.id || payload)
+      console.log(selectedRestaurant?.id || payload);
       //creo una variable categorias que espera una respuesta del API.
-      if(!payload && !selectedRestaurant)
-      {
+      if (!payload && !selectedRestaurant) {
         return;
       }
       //El 0 nunca va a entrar, si ambos son negados voy al return
-      const categories = await RestaurantAPI.getRestaurantCategories(selectedRestaurant?.id || payload || 0);
-      console.log(categories)
+      const categories = await RestaurantAPI.getRestaurantCategories(
+        selectedRestaurant?.id || payload || 0,
+      );
+      console.log(categories);
       return categories;
-      } catch (error) {
+    } catch (error) {
       return rejectWithValue(error);
     }
   },
@@ -388,7 +391,7 @@ const saveMenu = createAsyncThunk(
 
 const selectRestaurant = createAsyncThunk(
   'restaurants/selectRestaurant',
-  async (payload: number, { rejectWithValue,dispatch, fulfillWithValue }) => {
+  async (payload: number, { rejectWithValue, dispatch }) => {
     try {
       const restaurant = await RestaurantAPI.getSingleRestaurant(payload);
       console.log('response selectRestaurant: ', restaurant);
@@ -423,9 +426,7 @@ const restaurantAppSlice = createSlice({
       state.categories = [];
       state.view = {
         ...initialState.view,
-      }
-
-
+      };
     },
     clean: state => {
       state.restaurants = [];
@@ -465,7 +466,7 @@ const restaurantAppSlice = createSlice({
       };
     },
     //REDUCER PARA CARGAR EL ESTADO INICIAL
-    restaurantCategories: (state, action)=>{
+    restaurantCategories: (state, action) => {
       state.categories = action.payload;
     },
   },
@@ -533,17 +534,17 @@ const restaurantAppSlice = createSlice({
       }
     });
 
-//Extra reducres categorias
-    builder.addCase(getCategoriesByRestaurant.rejected, (state, action) => {
+    //Extra reducres categorias
+    builder.addCase(getCategoriesByRestaurant.rejected, (_, action) => {
       console.log('get categories rejected', action);
     });
-    builder.addCase(getCategoriesByRestaurant.pending, state => {
+    builder.addCase(getCategoriesByRestaurant.pending, () => {
       // state.home.loading = true;
       console.log('get categorias pending');
     });
     builder.addCase(getCategoriesByRestaurant.fulfilled, (state, action) => {
       console.log('get categories fullfilled', action.payload);
-      state.categories = action.payload || []
+      state.categories = action.payload || [];
       // state.categories = action.payload || [];
       // state.categories.id = action.payload.id;
       // state.categories.name = action.payload.name

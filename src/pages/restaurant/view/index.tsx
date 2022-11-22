@@ -53,7 +53,7 @@ export function ViewRestaurant({}: PropTypes) {
       };
     }) || [];
   const isOpen = !selectedRestaurant?.isClosed;
-    console.log(selectedRestaurant?.name)
+  console.log(selectedRestaurant?.name);
   return (
     <ScrollPage internalContainerStyles={styles.container}>
       {loading && (
@@ -68,17 +68,13 @@ export function ViewRestaurant({}: PropTypes) {
       {error && (
         <View
           style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-          <Headline6>
-            {localizedStrings.restaurant.view.errorMessage}
-          </Headline6>
+          <Headline6>{localizedStrings.restaurant.view.errorMessage}</Headline6>
         </View>
       )}
       {!loading && (
         <View style={styles.containerView}>
           <View style={styles.title}>
-            <Headline5 darkPinkColor>
-              {selectedRestaurant?.name}
-            </Headline5>
+            <Headline5 darkPinkColor>{selectedRestaurant?.name}</Headline5>
             <ImageButton onPress={handleEditRestaurant} imageSvg={ICONS.edit} />
           </View>
           <View style={styles.spaceForAdress}>
@@ -100,16 +96,15 @@ export function ViewRestaurant({}: PropTypes) {
             <Headline5 style={styles.title}>Categorias</Headline5>
           </View>
           <View style={styles.categoryContainer}>
-            {
-              categoriesList.length != 0 ? (
-                categoriesList.map((item, index) => {
-                  return <AccordionList category={item} key={index}/>})
-              ):(
-                <View style={styles.message}>
-                  <Body>{localizedStrings.restaurant.view.noCategories}</Body>
-                </View>
-              )
-            }
+            {categoriesList.length != 0 ? (
+              categoriesList.map((item, index) => {
+                return <AccordionList category={item} key={index} />;
+              })
+            ) : (
+              <View style={styles.message}>
+                <Body>{localizedStrings.restaurant.view.noCategories}</Body>
+              </View>
+            )}
           </View>
           <View style={styles.createNewDishContainer}>
             <ColorfulButton

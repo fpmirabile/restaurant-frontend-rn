@@ -86,16 +86,17 @@ export type ItemsCategory = {
   price: number;
   suitableVegan: boolean;
   suitableCeliac: boolean;
-}
+};
 
 export type Category = {
-  id:number;
+  id: number;
   name: string;
-  items: ItemsCategory [];
-}
+  items: ItemsCategory[];
+};
 const getRestaurantCategories = (id: number): Promise<Category[]> => {
   return authenticatedGet(`/restaurant/${id}/categories`);
-  
+};
+
 const getFavorites = (): Promise<Restaurant[]> => {
   return authenticatedGet('/restaurants/favorites');
 };
