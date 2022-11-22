@@ -13,6 +13,7 @@ import {
 import { styles } from './styles';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { actions } from '../../redux';
+import { useAppNavigation } from '../../hook/navigation';
 import { ConfirmModal } from '../../components/shared/confirm-modal';
 
 interface HeaderProps {
@@ -25,6 +26,7 @@ const Header = ({}: HeaderProps) => {
   const {
     user: { name, email },
   } = useAppSelector(state => state.user);
+  console.log(name);
   return (
     <View style={styles.personalInformationContainer}>
       <Image source={require('../../assets/images/temporal/Ellipse.png')} />
@@ -77,6 +79,11 @@ const SectionHeader = ({ title }: SectionHeaderProps) => (
 interface PropTypes {}
 export function Profile({}: PropTypes) {
   const dispatch = useAppDispatch();
+  const navigation = useAppNavigation();
+
+  const handleViewMyFavs = React.useCallback(() => {
+    navigation.push('ViewFavs');
+  }, [navigation]);
 
   //Modal de confirmacion para eliminar cuenta
   const [isModalVisible, setModalVisible] = React.useState<boolean>(false);
@@ -104,7 +111,7 @@ export function Profile({}: PropTypes) {
             buttons: [
               {
                 buttonTitle: localizedStrings.profile.myLikes,
-                buttonAction: () => {},
+                buttonAction: () => dispatch(handleViewMyFavs),
                 icon: ICONS.like,
               },
             ],
@@ -147,7 +154,7 @@ export function Profile({}: PropTypes) {
         ],
       },
     ],
-    [dispatch],
+    [dispatch, handleViewMyFavs],
   );
 
   return (

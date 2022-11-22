@@ -10,6 +10,7 @@ import { RootState } from '../../store';
 type State = {
   restaurants: Restaurant[];
   listRestaurants: Restaurant[];
+  favorites: Restaurant[];
   filterText: string;
   home: {
     loading: boolean;
@@ -25,6 +26,10 @@ type State = {
     error: string;
     stepOne: StepOneFields;
     stepTwo: StepTwoFields;
+  };
+  myFav: {
+    loading: boolean;
+    error: string;
   };
   menu: CreateMenu;
   categories: Category[];
@@ -67,6 +72,7 @@ export type CreateMenu = {
 //Estado inicial
 const initialState: State = {
   restaurants: [],
+  favorites: [],
   listRestaurants: [],
   filterText: '',
   home: {
@@ -110,6 +116,10 @@ const initialState: State = {
     loading: false,
   },
   categories: [],
+  myFav: {
+    loading: false,
+    error: '',
+  },
 };
 
 const getCurrentPosition = createAsyncThunk('currentPosition', async () => {
@@ -204,7 +214,6 @@ const getRestaurants = createAsyncThunk(
   },
 );
 
-//Aca intento traer las categorias   async (payload: number, { rejectWithValue }) => {
 const getCategoriesByRestaurant = createAsyncThunk(
   'restaurant/getCategories',
   async (payload:number | undefined, {getState, rejectWithValue }) => {
@@ -224,6 +233,20 @@ const getCategoriesByRestaurant = createAsyncThunk(
       const categories = await RestaurantAPI.getRestaurantCategories(selectedRestaurant?.id || payload || 0);
       console.log(categories)
       return categories;
+      } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+const getFavorites = createAsyncThunk(
+  'restaurant/getFavorites',
+  async (_, { rejectWithValue }) => {
+    try {
+      console.log('get favorites');
+      const favorites = await RestaurantAPI.getFavorites();
+      console.log('my favs:', favorites);
+      return favorites;
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -469,6 +492,28 @@ const restaurantAppSlice = createSlice({
       state.filterText = '';
     });
 
+    builder.addCase(getFavorites.rejected, (state, action) => {
+      console.log('get restaurants rejected', action);
+      state.myFav.loading = false;
+      // state.filterText = '';
+      if (action.payload) {
+        state.myFav.error =
+          (action.payload as any).message || 'Ocurrio un error insperado';
+      }
+    });
+    builder.addCase(getFavorites.pending, state => {
+      state.myFav.loading = true;
+      console.log('get restaurants pending');
+      state.myFav.error = '';
+    });
+    builder.addCase(getFavorites.fulfilled, (state, action) => {
+      console.log('get restaurants fullfilled');
+      state.myFav.loading = false;
+      state.favorites = action.payload || [];
+      // state.listRestaurants = [...action.payload] || [];
+      // state.filterText = '';
+    });
+
     builder.addCase(createRestaurant.pending, state => {
       state.create.loading = true;
       console.log('create pending');
@@ -587,6 +632,7 @@ export const restaurantSlice = {
     selectRestaurant,
     getNearRestaurants,
     getCategoriesByRestaurant,
+    getFavorites,
     putFavorite,
   },
   reducer,

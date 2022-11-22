@@ -95,6 +95,9 @@ export type Category = {
 }
 const getRestaurantCategories = (id: number): Promise<Category[]> => {
   return authenticatedGet(`/restaurant/${id}/categories`);
+  
+const getFavorites = (): Promise<Restaurant[]> => {
+  return authenticatedGet('/restaurants/favorites');
 };
 
 export const RestaurantAPI = {
@@ -104,5 +107,6 @@ export const RestaurantAPI = {
   createRestaurant,
   createMenu,
   getRestaurantCategories,
+  getFavorites,
   putFavorite,
 };
