@@ -98,14 +98,14 @@ export function CustomModal({
             styles.buttonsContainer,
             styles.spaceFromError,
           ]}>
-          <ColorfulButton
-            buttonContainerStyle={[styles.button, styles.cancelButton]}
-            title={textPrimaryButton}
-            onPress={onClose}
-          />
           <TransparentButton
             buttonContainerStyle={[styles.button]}
             title={textSecondaryButton}
+            onPress={onClose}
+          />
+          <ColorfulButton
+            buttonContainerStyle={[styles.button, styles.cancelButton]}
+            title={textPrimaryButton}
             onPress={onClose}
           />
         </View>

@@ -33,15 +33,14 @@ interface RouterProps extends MorfandoRouterParams<'NewDish'> {}
 export function NewDish({ navigation }: RouterProps) {
   const createMenu = useAppSelector(state => state.restaurant.menu);
   //Consumo las categorias del estado general de la app
-  const categoriesList = useAppSelector(state => state.restaurant.categories)
-  console.log(categoriesList)
+  const categoriesList = useAppSelector(state => state.restaurant.categories);
+  console.log(categoriesList);
   const dispatch = useAppDispatch();
   const [isModalVisible, setModalVisible] = React.useState<boolean>(false);
   const [currentIngredient, setCurrentIngredient] = React.useState<{
     value: string;
     index: number;
   }>({ value: '', index: -1 });
-
 
   const categories = [
     { key: '1', value: 'Postres' },
@@ -153,7 +152,9 @@ export function NewDish({ navigation }: RouterProps) {
               onClose={handleCloseEditModal}
               modalTitle={localizedStrings.restaurant.newDish.modalTitle}
               input={true}
-              inputPlaceholder={localizedStrings.restaurant.newDish.modalInputPlaceholder}
+              inputPlaceholder={
+                localizedStrings.restaurant.newDish.modalInputPlaceholder
+              }
               textPrimaryButton={localizedStrings.restaurant.newDish.create}
               textSecondaryButton={localizedStrings.restaurant.newDish.cancel}
             />
@@ -251,15 +252,15 @@ export function NewDish({ navigation }: RouterProps) {
           />
         </View>
         <View style={styles.createNewDishContainer}>
-          <ColorfulButton
-            buttonContainerStyle={styles.newDishButton}
-            title={localizedStrings.restaurant.newDish.finish}
-            onPress={saveMenu}
-          />
           <TransparentButton
             buttonContainerStyle={styles.newDishButton}
             title={localizedStrings.restaurant.newDish.cancel}
             onPress={backToRestaurant}
+          />
+          <ColorfulButton
+            buttonContainerStyle={styles.newDishButton}
+            title={localizedStrings.restaurant.newDish.finish}
+            onPress={saveMenu}
           />
         </View>
       </ScrollPage>

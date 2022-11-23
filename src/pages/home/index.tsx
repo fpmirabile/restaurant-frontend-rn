@@ -40,7 +40,6 @@ const RestaurantItem = ({
   const putFavorite = React.useCallback(() => {
     dispatch(actions.restaurants.putFavorite(item.id));
     setFavorite(!isFavorite);
-    //LikeIcon = isFavorite ? ICONS.like : ICONS.likeNoBackground;
   }, [dispatch, item, isFavorite]);
 
   return (
@@ -51,7 +50,8 @@ const RestaurantItem = ({
         startColor={'rgba(0, 0, 0, 0.20)'}
         endColor={'rgba(0, 0, 0, 0.03)'}
         containerStyle={styles.restaurantItemShadowContainer}
-        offset={[0, 1]}>
+        offset={[0, 1]}
+        paintInside={false}>
         {item.isClosed && (
           <View style={styles.backdrop}>
             <View style={styles.backdropInnerContainer}>
@@ -69,8 +69,10 @@ const RestaurantItem = ({
             <Body>{item.foodType}</Body>
           </View>
           {!isAdmin && (
-            <PressableView containerStyles={styles.restaurantTopPosition}>
-              <LikeIcon onPress={putFavorite} />
+            <PressableView
+              onPress={putFavorite}
+              containerStyles={styles.restaurantTopPosition}>
+              <LikeIcon />
             </PressableView>
           )}
         </View>
@@ -92,7 +94,6 @@ const RestaurantItem = ({
               Dirección
             </Body>{' '}
             {capitalize(item.address)}
-            {/* José M. Estrada 134, Haedo, Provincia de Buenos Aires - 2km */}
           </Body2>
           <Body2>
             <Body fontType="bold" darkPinkColor>
@@ -104,7 +105,7 @@ const RestaurantItem = ({
             <Body style={styles.starTitle} fontType="bold" darkPinkColor>
               Estrellas
             </Body>
-            <Rating starSize={16} currentValue={item.stars} />
+            <Rating disabled starSize={16} currentValue={item.stars} />
           </View>
         </View>
       </Shadow>
@@ -129,13 +130,21 @@ const header = React.memo(() => {
     [dispatch],
   );
 
+  const handleClickOnX = React.useCallback(() => {
+    if (filterText) {
+      dispatch(actions.restaurants.filter(''));
+    }
+  }, [dispatch, filterText]);
+
+  const rightIcon = !filterText ? ICONS.search : ICONS.closeIcon;
   return (
     <View style={styles.listHeaderContainer}>
       {!isAdmin && (
         <View style={styles.inputContainer}>
           <Input
             onChangeText={handleInputEditing}
-            rightIcon={ICONS.search}
+            rightIcon={rightIcon}
+            onRightIconPress={handleClickOnX}
             value={filterText}
             placeholder="Buscar restaurantes / tipo de comida"
           />
@@ -213,8 +222,10 @@ export function Home({ navigation }: PropTypes) {
   }, [dispatch, isAdmin]);
 
   React.useEffect(() => {
-    dispatch(actions.place.getProvinces());
-  }, [dispatch]);
+    if (isAdmin) {
+      dispatch(actions.place.getProvinces());
+    }
+  }, [dispatch, isAdmin]);
 
   return (
     <View style={styles.container}>

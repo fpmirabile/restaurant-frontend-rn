@@ -57,7 +57,18 @@ const getRestaurantsNearMe = (
   return authenticatedGet(`/restaurants/near/${lat}/${lon}/80`);
 };
 
-const getSingleRestaurant = (id: number): Promise<Restaurant> => {
+export interface Comment {
+  date: Date;
+  name: string;
+  comment: string;
+  stars: number;
+  photo: string | null | undefined;
+}
+export interface FullRestaurant extends Restaurant {
+  categories: Category[];
+  comments: Comment[];
+}
+const getSingleRestaurant = (id: number): Promise<FullRestaurant> => {
   return authenticatedGet(`/restaurant/${id}`);
 };
 

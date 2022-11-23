@@ -9,6 +9,7 @@ interface PropTypes {
   onStarChanged?: () => void;
   starSize?: number;
   starColor?: string;
+  fractions?: number;
 }
 
 export function Rating({
@@ -17,6 +18,7 @@ export function Rating({
   onStarChanged,
   starSize,
   starColor,
+  fractions = 0,
 }: PropTypes) {
   const [rating, updateRating] = React.useState<number>(currentValue || 0);
 
@@ -39,9 +41,10 @@ export function Rating({
         <LibRating
           imageSize={starSize || 24}
           startingValue={rating}
-          fractions={0}
+          fractions={fractions}
           ratingColor={starColor || '#FFDF6B'}
           onFinishRating={updateStars}
+          readonly={disabled}
         />
       </View>
     </View>

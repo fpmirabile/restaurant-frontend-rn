@@ -21,14 +21,24 @@ export function ImageButton({
   imageSource,
   imageSvg: ImageSVG,
 }: PropTypes) {
+  const [errorImage, setError] = React.useState(false);
+
+  const handleImageSourceError = React.useCallback(() => {
+    setError(true);
+  }, [setError]);
+
   return (
     <TouchableOpacity disabled={!onPress} onPress={onPress}>
       {ImageSVG ? (
         <ImageSVG style={imageStyle} />
-      ) : imageSource ? (
-        <Image style={imageStyle} source={imageSource} />
+      ) : imageSource && !errorImage ? (
+        <Image
+          style={imageStyle}
+          source={imageSource}
+          onError={handleImageSourceError}
+        />
       ) : (
-        <NoAvailableImage />
+        <NoAvailableImage style={imageStyle} />
       )}
     </TouchableOpacity>
   );

@@ -11,7 +11,7 @@ import {
   ScrollPage,
 } from '../../../components/shared';
 import { COLORS, ICONS } from '../../../constants';
-import { AccordionList } from '../../../components/shared/accordion-list';
+import { CategoryAccordion } from '../../../components/shared/accordion-list/category';
 import { localizedStrings } from '../../../localization/localized-strings';
 import { useAppDispatch, useAppSelector } from '../../../redux/store';
 import { useAppNavigation } from '../../../hook/navigation';
@@ -25,10 +25,7 @@ export function ViewRestaurant({}: PropTypes) {
     state => state.restaurant.view,
   );
   const navigation = useAppNavigation();
-
   const dispatch = useAppDispatch();
-
-  //Navegacion
   const handleEditRestaurant = React.useCallback(() => {
     navigation.push('CreateRestaurant');
   }, [navigation]);
@@ -36,17 +33,17 @@ export function ViewRestaurant({}: PropTypes) {
   const handleNewDish = React.useCallback(() => {
     navigation.push('NewDish');
   }, [navigation]);
-  //Esto me mantiene el estado del componente limpio cuando se hace dimount
+
   React.useEffect(() => {
     return () => {
       dispatch(actions.restaurants.cleanViewScreen());
     };
   }, [dispatch]);
+
   // const handleSwitchChange = React.useCallback((newValue: boolean) => {}, []);
   const categoriesList = useAppSelector(state => state.restaurant.categories);
   const mapDays = selectedRestaurant?.openDays;
   const isOpen = !selectedRestaurant?.isClosed;
-  console.log(selectedRestaurant?.name);
   return (
     <ScrollPage internalContainerStyles={styles.container}>
       {loading && (
@@ -89,12 +86,12 @@ export function ViewRestaurant({}: PropTypes) {
             <Headline5 style={styles.title}>Categorias</Headline5>
           </View>
           <View style={styles.categoryContainer}>
-            {categoriesList.length != 0 ? (
+            {categoriesList.length > 0 ? (
               categoriesList.map((item, index) => {
-                return <AccordionList category={item} key={index} />;
+                return <CategoryAccordion category={item} key={index} />;
               })
             ) : (
-              <View style={styles.message}>
+              <View style={styles.emptyCategoriesMessage}>
                 <Body>{localizedStrings.restaurant.view.noCategories}</Body>
               </View>
             )}

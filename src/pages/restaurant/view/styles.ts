@@ -33,7 +33,7 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     paddingVertical: 18,
   },
-  message: {
+  emptyCategoriesMessage: {
     paddingBottom: 16,
   },
   containerView: {

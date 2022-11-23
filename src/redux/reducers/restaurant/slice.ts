@@ -5,6 +5,7 @@ import {
   Restaurant,
   RestaurantAPI,
   Category,
+  FullRestaurant,
 } from '../../../api/restaurant.api';
 import { tryRequestGeoPermissions } from '../../../util/geolocalization';
 import Geolocation from '@react-native-community/geolocation';
@@ -24,7 +25,7 @@ type State = {
   view: {
     loading: boolean;
     error: string;
-    selectedRestaurant?: Restaurant;
+    selectedRestaurant?: FullRestaurant;
   };
   create: {
     loading: boolean;
@@ -181,7 +182,7 @@ const getNearRestaurants = createAsyncThunk(
           latitude,
           longitude,
         );
-        console.log('near me restaurants', restaurants);
+        console.log('near me restaurants');
         return restaurants;
       }
 
@@ -227,12 +228,10 @@ const getCategoriesByRestaurant = createAsyncThunk(
       const restaurants = rState.restaurant as State;
       const selectedRestaurant = restaurants.view.selectedRestaurant;
       console.log('get categories');
-      console.log(selectedRestaurant?.id || payload);
-      //creo una variable categorias que espera una respuesta del API.
       if (!payload && !selectedRestaurant) {
         return;
       }
-      //El 0 nunca va a entrar, si ambos son negados voy al return
+
       const categories = await RestaurantAPI.getRestaurantCategories(
         selectedRestaurant?.id || payload || 0,
       );
@@ -404,11 +403,10 @@ const saveMenu = createAsyncThunk(
 
 const selectRestaurant = createAsyncThunk(
   'restaurants/selectRestaurant',
-  async (payload: number, { rejectWithValue, dispatch }) => {
+  async (payload: number, { rejectWithValue }) => {
     try {
       const restaurant = await RestaurantAPI.getSingleRestaurant(payload);
       console.log('response selectRestaurant: ', restaurant);
-      await dispatch(getCategoriesByRestaurant(restaurant.id));
       return restaurant;
     } catch (error) {
       console.log('selected restaurant rejected', error);

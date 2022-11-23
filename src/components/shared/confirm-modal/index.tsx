@@ -54,15 +54,15 @@ export function ConfirmModal({
             styles.buttonsContainer,
             styles.spaceFromError,
           ]}>
-          <ColorfulButton
-            buttonContainerStyle={[styles.button, styles.cancelButton]}
-            title={textPrimaryButton}
-            onPress={onConfirm}
-          />
           <TransparentButton
             buttonContainerStyle={[styles.button]}
             title={textSecondaryButton}
             onPress={onCancel}
+          />
+          <ColorfulButton
+            buttonContainerStyle={[styles.button, styles.cancelButton]}
+            title={textPrimaryButton}
+            onPress={onConfirm}
           />
         </View>
       </View>
