@@ -4,6 +4,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
 import { restaurantSlice } from './reducers/restaurant/slice';
 import { userSlice, UserState } from './reducers/user/slice';
+import { placeSlice } from './reducers/place/slice';
 
 const persistConfiguration = {
   key: 'user',
@@ -18,6 +19,7 @@ export const realStore = configureStore({
       userSlice.reducer,
     ),
     restaurant: restaurantSlice.reducer,
+    place: placeSlice.reducer,
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware(),
 });

@@ -212,6 +212,10 @@ export function Home({ navigation }: PropTypes) {
     }
   }, [dispatch, isAdmin]);
 
+  React.useEffect(() => {
+    dispatch(actions.place.getProvinces());
+  }, [dispatch]);
+
   return (
     <View style={styles.container}>
       {error && <View />}
