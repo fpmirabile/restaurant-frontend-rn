@@ -24,6 +24,7 @@ import SadBurgerImage from './assets/images/sad-burger.svg';
 import ShowPasswordIcon from './assets/images/icons/show-password-icon.svg';
 import HidePasswordIcon from './assets/images/icons/hide-password-icon.svg';
 import SearchIcon from './assets/images/icons/search-icon.svg';
+import CommentIcon from './assets/images/icons/comment-icon.svg';
 
 const COLORS = {
   blueSecondary: '#211D42',
@@ -62,6 +63,7 @@ const ICONS = {
   showPassword: memo(ShowPasswordIcon),
   hidePassword: memo(HidePasswordIcon),
   search: memo(SearchIcon),
+  comment: memo(CommentIcon),
 };
 
 const IMAGES = {
