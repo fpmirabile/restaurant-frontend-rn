@@ -3,12 +3,12 @@ import { COLORS } from '../../constants';
 
 export const styles = StyleSheet.create({
   headerContainer: {
-    paddingTop: 16,
+    flexDirection: 'row',
     paddingHorizontal: 16,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     width: '100%',
-    height: 70,
+    height: 52,
     backgroundColor: COLORS.background,
   },
 });

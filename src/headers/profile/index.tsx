@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View } from 'react-native';
 import { TouchableText } from '../../components/shared';
+import { ICONS } from '../../constants';
 import { styles } from './styles';
 
 interface PropTypes {
@@ -8,9 +9,11 @@ interface PropTypes {
 }
 
 export function ProfileNavHeader({ onPressBack }: PropTypes) {
+  const { leftChevron: LeftChevron } = ICONS;
   return (
     <View style={styles.headerContainer}>
-      <TouchableText message="< Volver" onPress={onPressBack} type="ctaText" />
+      <LeftChevron />
+      <TouchableText message="Volver" onPress={onPressBack} type="ctaText" />
     </View>
   );
 }

@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: COLORS.background,
+    paddingTop: 52,
   },
   restaurantInformationContainer: {
     paddingHorizontal: 16,

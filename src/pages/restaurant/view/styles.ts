@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: COLORS.background,
+    paddingTop: 50,
   },
   title: {
     flexDirection: 'row',
@@ -39,7 +40,6 @@ export const styles = StyleSheet.create({
   containerView: {
     backgroundColor: COLORS.background,
     flex: 1,
-    paddingTop: '18%',
     marginLeft: 16,
     marginRight: 16,
   },
