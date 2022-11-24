@@ -35,6 +35,7 @@ export function NewDish({ navigation }: RouterProps) {
     menu: createMenu,
     categories: categoriesList,
     view: { selectedRestaurant },
+    created: { id: createdRestaurantId },
   } = useAppSelector(state => state.restaurant);
   const dispatch = useAppDispatch();
   const [isModalVisible, setModalVisible] = React.useState<boolean>(false);
@@ -59,13 +60,27 @@ export function NewDish({ navigation }: RouterProps) {
   }, [navigation, selectedRestaurant]);
 
   const saveMenu = React.useCallback(() => {
+    console.log(createMenu);
     if (Object.values(createMenu).some(i => i === '')) {
       return;
     }
 
-    dispatch(actions.restaurants.saveMenu(selectedRestaurant?.id));
-    navigation.navigate('ViewRestaurant');
-  }, [navigation, createMenu, dispatch, selectedRestaurant]);
+    dispatch(
+      actions.restaurants.saveMenu(
+        selectedRestaurant?.id || createdRestaurantId,
+      ),
+    );
+    navigation.reset({
+      index: 1,
+      routes: [{ name: 'Home' }, { name: 'ViewRestaurant' }],
+    });
+  }, [
+    navigation,
+    createMenu,
+    dispatch,
+    selectedRestaurant,
+    createdRestaurantId,
+  ]);
 
   const handleValueChanged = (field: keyof CreateMenu) => (value: any) => {
     const catId =
@@ -75,6 +90,8 @@ export function NewDish({ navigation }: RouterProps) {
             ?.id.toString() || ''
         : createMenu.categoryId;
 
+    console.log(categoriesList);
+    console.log('catId', catId);
     dispatch(
       actions.restaurants.updateMenu({
         ...createMenu,
@@ -132,13 +149,24 @@ export function NewDish({ navigation }: RouterProps) {
       dispatch(
         actions.restaurants.createCategory({
           categoryName,
-          restaurantId: selectedRestaurant?.id || 0,
+          restaurantId: selectedRestaurant?.id || createdRestaurantId || 0,
         }),
       );
       handleCloseCategoryModal();
     },
-    [dispatch, selectedRestaurant, handleCloseCategoryModal],
+    [
+      dispatch,
+      selectedRestaurant,
+      handleCloseCategoryModal,
+      createdRestaurantId,
+    ],
   );
+
+  React.useEffect(() => {
+    return () => {
+      dispatch(actions.restaurants.cleanCreated());
+    };
+  }, [dispatch]);
 
   return (
     <View style={styles.containerView}>

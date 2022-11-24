@@ -34,6 +34,9 @@ type State = {
     stepOne: StepOneFields;
     stepTwo: StepTwoFields;
   };
+  created: {
+    id?: number;
+  };
   myFav: {
     loading: boolean;
     error: string;
@@ -112,6 +115,9 @@ const initialState: State = {
       times: [],
       images: [],
     },
+  },
+  created: {
+    id: undefined,
   },
   menu: {
     category: '',
@@ -258,10 +264,15 @@ const createCategory = createAsyncThunk(
       }
 
       console.log('creating new category', restaurantId);
-      await RestaurantAPI.createNewCategory(restaurantId, categoryName);
+      const newCategory = await RestaurantAPI.createNewCategory(
+        restaurantId,
+        categoryName,
+      );
+      console.log('created category', newCategory);
       setTimeout(() => {
         dispatch(getCategoriesByRestaurant(restaurantId));
       }, 1000);
+      return newCategory;
     } catch (error) {
       rejectWithValue(error);
     }
@@ -359,7 +370,7 @@ const createRestaurant = createAsyncThunk(
       };
 
       const response = await RestaurantAPI.createRestaurant(newRestaurant);
-      console.log('restaurant created');
+      console.log('restaurant created', response);
       setTimeout(() => {
         dispatch(getRestaurants());
       }, 2000);
@@ -479,6 +490,11 @@ const restaurantAppSlice = createSlice({
   name: 'restaurant',
   initialState,
   reducers: {
+    cleanCreated: state => {
+      state.created = {
+        ...initialState.created,
+      };
+    },
     editRestaurant: (state, action: PayloadAction<FullRestaurant>) => {
       const {
         lat,
@@ -622,9 +638,12 @@ const restaurantAppSlice = createSlice({
       state.create.loading = true;
       console.log('create pending');
     });
-    builder.addCase(createRestaurant.fulfilled, state => {
+    builder.addCase(createRestaurant.fulfilled, (state, action) => {
       state.create = {
         ...initialState.create,
+      };
+      state.created = {
+        id: action.payload?.id,
       };
       console.log('create fullfilled');
     });
@@ -750,9 +769,10 @@ const restaurantAppSlice = createSlice({
         state.menu.error = message;
       }
     });
-    builder.addCase(createCategory.fulfilled, state => {
+    builder.addCase(createCategory.fulfilled, (state, action) => {
       state.menu.loading = false;
       state.menu.error = undefined;
+      state.menu.categoryId = action.payload?.id.toString() || '';
     });
   },
 });

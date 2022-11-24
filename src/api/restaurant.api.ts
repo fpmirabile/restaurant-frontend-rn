@@ -72,7 +72,9 @@ const getSingleRestaurant = async (id: number): Promise<FullRestaurant> => {
   return authenticatedGet(`/restaurant/${id}`);
 };
 
-const createRestaurant = async (restaurant: RestaurantCreate): Promise<any> => {
+const createRestaurant = async (
+  restaurant: RestaurantCreate,
+): Promise<{ id: number }> => {
   return authenticatedPost('/restaurant', restaurant);
 };
 
@@ -123,7 +125,7 @@ const getFavorites = async (): Promise<Restaurant[]> => {
 const createNewCategory = async (
   restaurantId: number,
   categoryName: string,
-): Promise<any> => {
+): Promise<{ id: number; name: string }> => {
   return authenticatedPost(`/restaurant/${restaurantId}/category`, {
     name: categoryName,
   });
