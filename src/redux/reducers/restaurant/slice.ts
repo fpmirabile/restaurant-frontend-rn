@@ -451,12 +451,13 @@ const saveMenu = createAsyncThunk(
       const menu = restaurants.menu;
       const request = {
         name: menu.name,
-        images: [],
+        images: await localImageToBase64(menu.images),
         ingredients: menu.ingredients,
         suitableCeliac: menu.vegan,
         suitableVegan: menu.celiac,
         price: Number(menu.price),
       };
+      console.log(request);
       const response = await RestaurantAPI.createMenu(menu.categoryId, request);
       if (restaurantId) {
         dispatch(selectRestaurant(restaurantId));

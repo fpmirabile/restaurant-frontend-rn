@@ -18,6 +18,7 @@ import {
   ImagePicker,
   Headline6,
   Dropdown,
+  Body,
 } from '../../components/shared';
 import { MorfandoRouterParams } from '../../navigation/navigation';
 import { localizedStrings } from '../../localization/localized-strings';
@@ -64,7 +65,6 @@ export function NewDish({ navigation }: RouterProps) {
   }, [navigation, selectedRestaurant, dispatch]);
 
   const saveMenu = React.useCallback(() => {
-    console.log(createMenu);
     if (Object.values(createMenu).some(i => i === '')) {
       return;
     }
@@ -303,6 +303,7 @@ export function NewDish({ navigation }: RouterProps) {
             onPress={handleAddInput}
           />
         </View>
+        {createMenu.error && <Body>{createMenu.error}</Body>}
         <View style={styles.createNewDishContainer}>
           <TransparentButton
             buttonContainerStyle={styles.newDishButton}
