@@ -3,6 +3,7 @@ import { Image, Switch, View } from 'react-native';
 import {
   Body,
   Body2,
+  CategoriesAccordion,
   ColorfulButton,
   Headline5,
   Headline6,
@@ -11,7 +12,6 @@ import {
   ScrollPage,
 } from '../../../components/shared';
 import { COLORS, ICONS } from '../../../constants';
-import { CategoryAccordion } from '../../../components/shared/accordion-list/category';
 import { localizedStrings } from '../../../localization/localized-strings';
 import { useAppDispatch, useAppSelector } from '../../../redux/store';
 import { useAppNavigation } from '../../../hook/navigation';
@@ -88,7 +88,7 @@ export function ViewRestaurant({}: PropTypes) {
           <View style={styles.categoryContainer}>
             {categoriesList.length > 0 ? (
               categoriesList.map((item, index) => {
-                return <CategoryAccordion category={item} key={index} />;
+                return <CategoriesAccordion category={item} key={index} />;
               })
             ) : (
               <View style={styles.emptyCategoriesMessage}>
