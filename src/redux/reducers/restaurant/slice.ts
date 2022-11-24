@@ -490,6 +490,11 @@ const restaurantAppSlice = createSlice({
   name: 'restaurant',
   initialState,
   reducers: {
+    cleanMenuCreation: state => {
+      state.menu = {
+        ...initialState.menu,
+      };
+    },
     cleanCreated: state => {
       state.created = {
         ...initialState.created,

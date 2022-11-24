@@ -4,7 +4,7 @@ import { COLORS } from '../../constants';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding:16,
+    padding: 16,
   },
   text: {
     paddingTop: 8,
@@ -14,18 +14,16 @@ export const styles = StyleSheet.create({
     flex: 1,
     marginTop: 8,
     textAlign: 'left',
-
   },
-  subtilte:{
+  subtilte: {
     textAlign: 'left',
-    marginTop:24,
-    marginBottom:8,
-
+    marginTop: 24,
+    marginBottom: 8,
   },
   input: {
     marginVertical: 8,
   },
-  checkbox:{
+  checkbox: {
     alignContent: 'space-around',
     justifyContent: 'space-between',
     flexDirection: 'row',
@@ -49,12 +47,12 @@ export const styles = StyleSheet.create({
   addPictureBody: {
     marginTop: 5,
   },
-  addIngredient:{
-    marginTop:16,
-    marginBottom:24,
+  addIngredient: {
+    marginTop: 16,
+    marginBottom: 24,
   },
   createNewDishContainer: {
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.background,
     paddingVertical: 18,
     paddingHorizontal: 16,
     alignItems: 'center',
@@ -63,16 +61,16 @@ export const styles = StyleSheet.create({
   },
   newDishButton: {
     width: 156,
-    height:48
+    height: 48,
   },
-  containerIngredient:{
+  containerIngredient: {
     flexDirection: 'row',
   },
-  containerInput:{
-    flex:8
+  containerInput: {
+    flex: 8,
   },
-  containerIcon:{
-    flex:1,
+  containerIcon: {
+    flex: 1,
     alignItems: 'flex-end',
     justifyContent: 'center',
   },
@@ -90,8 +88,8 @@ export const styles = StyleSheet.create({
     fontFamily: 'OpenSans-Regular',
     width: '100%',
   },
-  dropdownStyles:{
+  dropdownStyles: {
     borderRadius: 3.5,
     borderColor: COLORS.grey,
-  }
+  },
 });

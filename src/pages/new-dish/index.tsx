@@ -44,8 +44,9 @@ export function NewDish({ navigation }: RouterProps) {
     index: number;
   }>({ value: '', index: -1 });
 
-  const lookSelectedCategory = categoriesList.find(locality =>
-    locality.name.toLowerCase().includes(createMenu.category.toLowerCase()),
+  const lookSelectedCategory = categoriesList.find(
+    category =>
+      category.name.toLowerCase() === createMenu.category.toLowerCase(),
   );
 
   const selectedCategory = lookSelectedCategory
@@ -55,9 +56,12 @@ export function NewDish({ navigation }: RouterProps) {
       }
     : undefined;
 
+  console.log('selected category', selectedCategory);
+
   const handleCancelPressed = React.useCallback(() => {
+    dispatch(actions.restaurants.cleanMenuCreation());
     navigation.navigate(selectedRestaurant?.id ? 'ViewRestaurant' : 'Home');
-  }, [navigation, selectedRestaurant]);
+  }, [navigation, selectedRestaurant, dispatch]);
 
   const saveMenu = React.useCallback(() => {
     console.log(createMenu);
@@ -86,7 +90,7 @@ export function NewDish({ navigation }: RouterProps) {
     const catId =
       field === 'category'
         ? categoriesList
-            .find(cat => cat.name.toLowerCase().includes(value))
+            .find(cat => cat.name.toLowerCase().includes(value.toLowerCase()))
             ?.id.toString() || ''
         : createMenu.categoryId;
 
