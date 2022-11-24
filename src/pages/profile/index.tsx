@@ -88,6 +88,8 @@ export function Profile({}: PropTypes) {
 
   //Modal de confirmacion para eliminar cuenta
   const [isModalVisible, setModalVisible] = React.useState<boolean>(false);
+  //Modal de confirmacion para cierre de sesion
+  const [isModaCloseSesionlVisible, setModalCloseSesionVisible] = React.useState<boolean>(false);
 
   const showConfirmModal = async () => {
     setModalVisible(true);
@@ -102,6 +104,37 @@ export function Profile({}: PropTypes) {
     setModalVisible(false);
   };
 
+  const showCloseSesionModal = async () => {
+    setModalCloseSesionVisible(true);
+  };
+  const handleCloseSesionModal = async () => {
+    setModalCloseSesionVisible(false);
+    dispatch(actions.userActions.logOut())
+  };
+
+  const hideCloseSesionModal = async () => {
+    setModalCloseSesionVisible(false);
+  };
+
+    //   <ConfirmModal
+    //     isVisible={isModalVisible}
+    //     onConfirm={handleConfirmModal}
+    //     onCancel={hideConfirmModal}
+    //     modalTitle={'Usted esta por eliminar su cuenta'}
+    //     confirmText={'¿Esta seguro que desea eliminar su cuenta?'}
+    //     textPrimaryButton={localizedStrings.login.confirm}
+    //     textSecondaryButton={localizedStrings.login.cancel}
+    //   />
+    //     <ConfirmModal
+    //     isVisible={isModaCloseSesionlVisible}
+    //     onConfirm={handleCloseSesionModal}
+    //     onCancel={hideCloseSesionModal}
+    //     modalTitle={'Usted esta por cerrar sesion'}
+    //     confirmText={'¿Esta seguro que desea cerrar sesion?'}
+    //     textPrimaryButton={localizedStrings.login.confirm}
+    //     textSecondaryButton={localizedStrings.login.cancel}
+    //   />
+    // </View>
   const getProfileInformation = React.useCallback(
     () => [
       {
@@ -142,7 +175,7 @@ export function Profile({}: PropTypes) {
             buttons: [
               {
                 buttonTitle: localizedStrings.profile.signOut,
-                buttonAction: () => dispatch(actions.userActions.logOut()),
+                buttonAction: () => dispatch(showCloseSesionModal),
                 icon: ICONS.signOut,
               },
               {
@@ -183,7 +216,7 @@ export function Profile({}: PropTypes) {
             buttons: [
               {
                 buttonTitle: localizedStrings.profile.signOut,
-                buttonAction: () => dispatch(actions.userActions.logOut()),
+                buttonAction: () => dispatch(showCloseSesionModal),
                 icon: ICONS.signOut,
               },
               {
@@ -218,6 +251,15 @@ export function Profile({}: PropTypes) {
         onCancel={hideConfirmModal}
         modalTitle={'Usted esta por eliminar su cuenta'}
         confirmText={'¿Esta seguro que desea eliminar su cuenta?'}
+        textPrimaryButton={localizedStrings.login.confirm}
+        textSecondaryButton={localizedStrings.login.cancel}
+      />
+        <ConfirmModal
+        isVisible={isModaCloseSesionlVisible}
+        onConfirm={handleCloseSesionModal}
+        onCancel={hideCloseSesionModal}
+        modalTitle={'Usted esta por cerrar sesion'}
+        confirmText={'¿Esta seguro que desea cerrar sesion?'}
         textPrimaryButton={localizedStrings.login.confirm}
         textSecondaryButton={localizedStrings.login.cancel}
       />
