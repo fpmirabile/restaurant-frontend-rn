@@ -33,7 +33,6 @@ type RestaurantCreate = {
   street: string;
   streetNumber: string;
   place: string;
-  locality: string;
   state: string;
   openDays: OpenDays[];
   images: string[];
@@ -52,9 +51,10 @@ const putFavorite = (restaurantId: number): Promise<any> => {
 const getRestaurantsNearMe = (
   lat: number,
   lon: number,
+  distance: number = 80,
 ): Promise<Restaurant[]> => {
   //Dejo clavado el 80, pero ahi deberia ir la distancia que filtra el usuario
-  return authenticatedGet(`/restaurants/near/${lat}/${lon}/80`);
+  return authenticatedGet(`/restaurants/near/${lat}/${lon}/${distance}`);
 };
 
 export interface Comment {
@@ -74,6 +74,14 @@ const getSingleRestaurant = (id: number): Promise<FullRestaurant> => {
 
 const createRestaurant = (restaurant: RestaurantCreate): Promise<any> => {
   return authenticatedPost('/restaurant', restaurant);
+};
+
+interface EditRestaurant extends RestaurantCreate {}
+const editRestaurant = (
+  id: number,
+  restaurant: EditRestaurant,
+): Promise<any> => {
+  return authenticatedPut(`/restaurant/${id}`, restaurant);
 };
 
 type MenuCreate = {
@@ -121,4 +129,5 @@ export const RestaurantAPI = {
   getRestaurantCategories,
   getFavorites,
   putFavorite,
+  editRestaurant,
 };

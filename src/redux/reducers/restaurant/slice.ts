@@ -9,9 +9,9 @@ import {
 } from '../../../api/restaurant.api';
 import { tryRequestGeoPermissions } from '../../../util/geolocalization';
 import Geolocation from '@react-native-community/geolocation';
-import ImgToBase64 from 'react-native-image-base64-png';
 import { RootState } from '../../store';
 import { placeSlice } from '../place/slice';
+import { localImageToBase64 } from '../../../util/images';
 
 type State = {
   restaurants: Restaurant[];
@@ -30,6 +30,7 @@ type State = {
   create: {
     loading: boolean;
     error: string;
+    id?: number;
     stepOne: StepOneFields;
     stepTwo: StepTwoFields;
   };
@@ -93,6 +94,7 @@ const initialState: State = {
   create: {
     loading: false,
     error: '',
+    id: undefined,
     stepOne: {
       name: '',
       street: '',
@@ -188,7 +190,6 @@ const getNearRestaurants = createAsyncThunk(
 
       return [];
     } catch (error) {
-      console.log('get near restaurants', error);
       rejectWithValue(error);
     }
   },
@@ -199,9 +200,7 @@ const putFavorite = createAsyncThunk(
   async (payload: number, { rejectWithValue }) => {
     try {
       await RestaurantAPI.putFavorite(payload);
-      console.log('Nuevo favorito: ' + payload);
     } catch (error) {
-      console.log('Put favorite', error);
       rejectWithValue(error);
     }
   },
@@ -235,7 +234,6 @@ const getCategoriesByRestaurant = createAsyncThunk(
       const categories = await RestaurantAPI.getRestaurantCategories(
         selectedRestaurant?.id || payload || 0,
       );
-      console.log(categories);
       return categories;
     } catch (error) {
       return rejectWithValue(error);
@@ -249,7 +247,6 @@ const getFavorites = createAsyncThunk(
     try {
       console.log('get favorites');
       const favorites = await RestaurantAPI.getFavorites();
-      console.log('my favs:', favorites);
       return favorites;
     } catch (error) {
       return rejectWithValue(error);
@@ -257,29 +254,26 @@ const getFavorites = createAsyncThunk(
   },
 );
 
-const createRestaurant = createAsyncThunk(
-  'restaurant/createRestaurant',
+const saveEditRestaurant = createAsyncThunk(
+  'restaurant/saveEditRestaurant',
   async (_, { rejectWithValue, getState, dispatch }) => {
     try {
-      const state = getState() as any;
-      const restaurants = state.restaurant as State;
-      const images = restaurants.create.stepTwo.images as string[];
-      const base64Images = await Promise.all(
-        images.map(async file => {
-          const base64 = await ImgToBase64.getBase64String(file);
-          const extension = file.split('.').pop();
-          return `data:image/${extension};base64,${base64}`;
-        }),
-      );
+      const appGlobalState = getState() as RootState;
+      const restaurants = appGlobalState.restaurant as State;
+      const id = restaurants.create.id;
+      if (!id) {
+        return;
+      }
 
-      const newRestaurant = {
+      const images = restaurants.create.stepTwo.images;
+      const base64Images = await localImageToBase64(images);
+      const editRestaurantPayload = {
         foodType: restaurants.create.stepTwo.typeOfFood,
         priceRange: restaurants.create.stepTwo.priceRange,
         street: restaurants.create.stepOne.street,
         streetNumber: restaurants.create.stepOne.streetNumber,
-        place: restaurants.create.stepOne.neighborhood,
+        place: restaurants.create.stepOne.locality,
         neighborhood: restaurants.create.stepOne.neighborhood,
-        locality: restaurants.create.stepOne.locality,
         state: restaurants.create.stepOne.state,
         name: restaurants.create.stepOne.name,
         lat: Number(restaurants.create.stepOne.lat) || 0,
@@ -295,7 +289,48 @@ const createRestaurant = createAsyncThunk(
         }),
       };
 
-      console.log('send times:', JSON.stringify(newRestaurant.openDays));
+      await RestaurantAPI.editRestaurant(id, editRestaurantPayload);
+      console.log('edit restaurant triggered');
+      setTimeout(() => {
+        dispatch(getRestaurants());
+      }, 2000);
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  },
+);
+
+const createRestaurant = createAsyncThunk(
+  'restaurant/createRestaurant',
+  async (_, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const state = getState() as any;
+      const restaurants = state.restaurant as State;
+      const images = restaurants.create.stepTwo.images;
+      const base64Images = await localImageToBase64(images);
+
+      const newRestaurant = {
+        foodType: restaurants.create.stepTwo.typeOfFood,
+        priceRange: restaurants.create.stepTwo.priceRange,
+        street: restaurants.create.stepOne.street,
+        streetNumber: restaurants.create.stepOne.streetNumber,
+        place: restaurants.create.stepOne.locality,
+        neighborhood: restaurants.create.stepOne.neighborhood,
+        state: restaurants.create.stepOne.state,
+        name: restaurants.create.stepOne.name,
+        lat: Number(restaurants.create.stepOne.lat) || 0,
+        lon: Number(restaurants.create.stepOne.lon) || 0,
+        images: base64Images,
+        openDays: restaurants.create.stepTwo.times.map(time => {
+          return {
+            day: time.day,
+            openTime: time.openTime || '',
+            closeTime: time.closeTime || '',
+            open: time.open,
+          };
+        }),
+      };
+
       const response = await RestaurantAPI.createRestaurant(newRestaurant);
       console.log('restaurant created');
       setTimeout(() => {
@@ -382,17 +417,6 @@ const saveMenu = createAsyncThunk(
         price: Number(menu.price),
       };
       const response = await RestaurantAPI.createMenu(menu.categoryId, request);
-
-      console.log(
-        'categoryId',
-        menu.category,
-        menu.categoryId,
-        'request',
-        request,
-        'response: ',
-        response,
-      );
-
       return response;
     } catch (error) {
       console.log('create menu error', error);
@@ -403,10 +427,12 @@ const saveMenu = createAsyncThunk(
 
 const selectRestaurant = createAsyncThunk(
   'restaurants/selectRestaurant',
-  async (payload: number, { rejectWithValue }) => {
+  async (payload: number, { rejectWithValue, dispatch }) => {
     try {
       const restaurant = await RestaurantAPI.getSingleRestaurant(payload);
-      console.log('response selectRestaurant: ', restaurant);
+      const state = restaurant.address.split(',')[3]?.trim() || '';
+      console.log('response selectRestaurant');
+      dispatch(placeSlice.actions.getLocalities(state));
       return restaurant;
     } catch (error) {
       console.log('selected restaurant rejected', error);
@@ -419,6 +445,39 @@ const restaurantAppSlice = createSlice({
   name: 'restaurant',
   initialState,
   reducers: {
+    editRestaurant: (state, action: PayloadAction<FullRestaurant>) => {
+      const {
+        lat,
+        lon,
+        address,
+        foodType,
+        name,
+        photos,
+        priceRange,
+        openDays,
+        id,
+      } = action.payload;
+      const splitAddress = address.split(',');
+      state.create.id = id;
+      state.create.error = '';
+      state.create.loading = false;
+      state.create.stepOne = {
+        lat,
+        lon,
+        name,
+        street: splitAddress[0]?.replace(/[0-9]/g, '') || '',
+        streetNumber: splitAddress[0]?.replace(/\D/g, '') || '',
+        locality: splitAddress[2]?.trim() || '',
+        neighborhood: splitAddress[1]?.trim() || '',
+        state: splitAddress[3]?.trim() || '',
+      };
+      state.create.stepTwo = {
+        images: photos,
+        priceRange,
+        times: openDays || [],
+        typeOfFood: foodType,
+      };
+    },
     filter: (state, action: PayloadAction<string>) => {
       const filterText = action.payload;
       state.filterText = filterText;
@@ -474,7 +533,6 @@ const restaurantAppSlice = createSlice({
         ...action.payload,
       };
     },
-    //REDUCER PARA CARGAR EL ESTADO INICIAL
     restaurantCategories: (state, action) => {
       state.categories = action.payload;
     },
@@ -501,7 +559,7 @@ const restaurantAppSlice = createSlice({
       state.home.loading = false;
       state.restaurants = [...action.payload] || [];
       state.listRestaurants = [...action.payload] || [];
-      console.log('get restaurants fullfilled', action.payload);
+      console.log('get restaurants fullfilled');
     });
 
     builder.addCase(getFavorites.rejected, (state, action) => {
@@ -539,6 +597,24 @@ const restaurantAppSlice = createSlice({
     builder.addCase(createRestaurant.rejected, (state, action) => {
       state.create.loading = false;
       console.log('create rejected');
+      if (action.payload) {
+        state.create.error =
+          (action.payload as any).message || 'Ocurrio un error insperado';
+      }
+    });
+    builder.addCase(saveEditRestaurant.pending, state => {
+      state.create.loading = true;
+      console.log('edit pending');
+    });
+    builder.addCase(saveEditRestaurant.fulfilled, state => {
+      state.create = {
+        ...initialState.create,
+      };
+      console.log('edit restaurant fullfilled');
+    });
+    builder.addCase(saveEditRestaurant.rejected, (state, action) => {
+      state.create.loading = false;
+      console.log('edit rejected');
       if (action.payload) {
         state.create.error =
           (action.payload as any).message || 'Ocurrio un error insperado';
@@ -646,6 +722,7 @@ export const restaurantSlice = {
     getCategoriesByRestaurant,
     getFavorites,
     putFavorite,
+    saveEditRestaurant,
   },
   reducer,
 };

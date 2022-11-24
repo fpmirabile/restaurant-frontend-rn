@@ -6,19 +6,20 @@ const getLocalities = createAsyncThunk(
   async (selectedProvinceName: string, { rejectWithValue, getState }) => {
     try {
       const globalAppState = getState() as any;
-      const { states } = globalAppState.place as PlaceState;
-      console.log('getting localities');
+      const { states, lastStateId } = globalAppState.place as PlaceState;
+      console.log('getting localities', 'selected: ', selectedProvinceName);
       const provinceId = states.find(
-        province => province.value === selectedProvinceName,
+        province =>
+          province.value.toLowerCase() === selectedProvinceName.toLowerCase(),
       )?.key;
 
-      if (provinceId) {
+      if (provinceId && provinceId !== lastStateId) {
         console.log('provinceId', provinceId);
         const localities = await PlaceAPI.getLocalities(Number(provinceId));
-        return localities;
+        return { provinceId, localities };
       }
 
-      return [];
+      return undefined;
     } catch (error) {
       rejectWithValue(error);
     }
@@ -44,12 +45,14 @@ type DropdownType = {
 };
 
 type PlaceState = {
+  lastStateId?: string;
   loading: boolean;
   localities: DropdownType[];
   states: DropdownType[];
 };
 
 const initialState: PlaceState = {
+  lastStateId: undefined,
   loading: false,
   localities: [],
   states: [],
@@ -69,12 +72,14 @@ const placeAppSlice = createSlice({
     builder.addCase(getLocalities.fulfilled, (state, action) => {
       state.loading = false;
       if (action.payload) {
-        state.localities = action.payload.map(locality => {
+        const { provinceId, localities } = action.payload;
+        state.localities = localities.map(locality => {
           return {
             key: locality.id.toString(),
             value: locality.localidad,
           };
         });
+        state.lastStateId = provinceId;
       }
     });
     builder.addCase(getLocalities.rejected, () => {});

@@ -45,7 +45,6 @@ export function OpeningList({
   previousDates,
   editable,
 }: PropTypes) {
-  console.log(previousDates);
   const [openDays, setOpenDays] = React.useState<OpenDays[]>(
     createDays(previousDates),
   );
@@ -70,14 +69,6 @@ export function OpeningList({
       return;
     }
 
-    console.log(
-      'current',
-      copyOfOpenDays[currentDayIndex],
-      'new',
-      JSON.stringify(timeInputs),
-      'day',
-      selectDay,
-    );
     copyOfOpenDays[currentDayIndex].open = isOpen;
     copyOfOpenDays[currentDayIndex].closeTime = timeInputs.closeTime;
     copyOfOpenDays[currentDayIndex].openTime = timeInputs.openTime;

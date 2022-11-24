@@ -25,10 +25,17 @@ export function CreateRestaurantStepOne({}: PropTypes) {
     },
   } = useAppSelector(rState => rState);
   const dispatch = useAppDispatch();
-  const selectedState = states.find(state => state.value === stepOne.state);
-  const selectedLocality = localities.find(
-    locality => locality.value === stepOne.locality,
-  );
+  const selectedState = stepOne.state
+    ? states.find(
+        state => state.value.toLowerCase() === stepOne.state.toLowerCase(),
+      )
+    : undefined;
+
+  const selectedLocality = stepOne.locality
+    ? localities.find(locality =>
+        locality.value.toLowerCase().includes(stepOne.locality.toLowerCase()),
+      )
+    : undefined;
 
   const handleChangeValue = React.useCallback(
     (field: keyof StepOneFields) => (value: any) => {

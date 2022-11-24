@@ -14,7 +14,9 @@ const steps = [CreateRestaurantStepOne, CreateRestaurantStepTwo];
 interface PropTypes extends MorfandoRouterParams<'CreateRestaurant'> {}
 export function CreateRestaurant({ navigation }: PropTypes) {
   const dispatch = useAppDispatch();
-  const { stepOne, stepTwo } = useAppSelector(state => state.restaurant.create);
+  const { id, stepOne, stepTwo } = useAppSelector(
+    state => state.restaurant.create,
+  );
   const [step, setStep] = React.useState<number>(1);
   const handleGoBack = React.useCallback(() => {
     const previousStep = step - 1;
@@ -34,7 +36,12 @@ export function CreateRestaurant({ navigation }: PropTypes) {
         return;
       }
 
-      dispatch(actions.restaurants.createRestaurant());
+      if (id) {
+        dispatch(actions.restaurants.saveEditRestaurant());
+      } else {
+        dispatch(actions.restaurants.createRestaurant());
+      }
+
       navigation.push('FinishedRestaurantCreation');
       return;
     }
@@ -45,7 +52,7 @@ export function CreateRestaurant({ navigation }: PropTypes) {
       return;
     }
     setStep(nextStep);
-  }, [step, navigation, dispatch, stepOne, stepTwo]);
+  }, [step, navigation, dispatch, stepOne, stepTwo, id]);
 
   const StepComponent = !!steps[step - 1] && steps[step - 1];
   return (

@@ -27,8 +27,11 @@ export function ViewRestaurant({}: PropTypes) {
   const navigation = useAppNavigation();
   const dispatch = useAppDispatch();
   const handleEditRestaurant = React.useCallback(() => {
-    navigation.push('CreateRestaurant');
-  }, [navigation]);
+    if (selectedRestaurant) {
+      dispatch(actions.restaurants.editRestaurant(selectedRestaurant));
+      navigation.push('CreateRestaurant');
+    }
+  }, [navigation, dispatch, selectedRestaurant]);
 
   const handleNewDish = React.useCallback(() => {
     navigation.push('NewDish');

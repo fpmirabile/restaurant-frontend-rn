@@ -31,10 +31,11 @@ import { actions } from '../../redux';
 interface RouterProps extends MorfandoRouterParams<'NewDish'> {}
 
 export function NewDish({ navigation }: RouterProps) {
-  const createMenu = useAppSelector(state => state.restaurant.menu);
-  //Consumo las categorias del estado general de la app
-  const categoriesList = useAppSelector(state => state.restaurant.categories);
-  console.log(categoriesList);
+  const {
+    menu: createMenu,
+    categories: categoriesList,
+    create: { id: selectedRestaurantId },
+  } = useAppSelector(state => state.restaurant);
   const dispatch = useAppDispatch();
   const [isModalVisible, setModalVisible] = React.useState<boolean>(false);
   const [currentIngredient, setCurrentIngredient] = React.useState<{
@@ -42,20 +43,20 @@ export function NewDish({ navigation }: RouterProps) {
     index: number;
   }>({ value: '', index: -1 });
 
-  const categories = [
-    { key: '1', value: 'Postres' },
-    { key: '2', value: 'Carnes' },
-    { key: '3', value: 'Pizza' },
-    { key: '4', value: 'Ensaladas' },
-  ];
-
-  const selectedCategory = categories.find(
-    locality => locality.value === createMenu.category,
+  const lookSelectedCategory = categoriesList.find(locality =>
+    locality.name.toLowerCase().includes(createMenu.category.toLowerCase()),
   );
 
-  const backToRestaurant = React.useCallback(() => {
-    navigation.navigate('CreateRestaurant');
-  }, [navigation]);
+  const selectedCategory = lookSelectedCategory
+    ? {
+        key: lookSelectedCategory.id.toString(),
+        value: lookSelectedCategory.name,
+      }
+    : undefined;
+
+  const handleCancelPressed = React.useCallback(() => {
+    navigation.navigate(selectedRestaurantId ? 'ViewRestaurant' : 'Home');
+  }, [navigation, selectedRestaurantId]);
 
   const saveMenu = React.useCallback(() => {
     if (Object.values(createMenu).some(i => i === '')) {
@@ -69,7 +70,9 @@ export function NewDish({ navigation }: RouterProps) {
   const handleValueChanged = (field: keyof CreateMenu) => (value: any) => {
     const catId =
       field === 'category'
-        ? categories.find(cat => cat.value === value)?.key || ''
+        ? categoriesList
+            .find(cat => cat.name.toLowerCase().includes(value))
+            ?.id.toString() || ''
         : createMenu.categoryId;
 
     dispatch(
@@ -139,7 +142,9 @@ export function NewDish({ navigation }: RouterProps) {
             <Dropdown
               placeholder={localizedStrings.restaurant.newDish.category}
               onValueChanged={handleValueChanged('category')}
-              data={categories}
+              data={categoriesList.map(cat => {
+                return { key: cat.id.toString(), value: cat.name };
+              })}
               onValidateValue={atLeastOneSelected}
               defaultPair={selectedCategory}
               errorMessage="Debe ingresar una categoria valida."
@@ -255,7 +260,7 @@ export function NewDish({ navigation }: RouterProps) {
           <TransparentButton
             buttonContainerStyle={styles.newDishButton}
             title={localizedStrings.restaurant.newDish.cancel}
-            onPress={backToRestaurant}
+            onPress={handleCancelPressed}
           />
           <ColorfulButton
             buttonContainerStyle={styles.newDishButton}
