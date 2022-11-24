@@ -4,6 +4,7 @@ import { MorfandoRouterParams } from '../../navigation/navigation';
 import {
   Body,
   Body2,
+  CTAText,
   Headline6,
   PressableView,
   Title,
@@ -98,7 +99,7 @@ const header = React.memo(() => {
         </View>
         <View style={styles.titleContainer}>
           <View style={styles.restaurantIcon}>{<RestaurantIcon />}</View>
-          <Body fontType="bold">Restaurantes favoritos</Body>
+          <CTAText>Restaurantes favoritos</CTAText>
         </View>
       </View>
     </View>

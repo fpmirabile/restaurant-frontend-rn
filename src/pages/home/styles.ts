@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
   listHeaderContainer: {
     justifyContent: 'center',
     alignItems: 'flex-start',
+    paddingTop: 40,
   },
   listBodyContainer: {
     padding: 16,
