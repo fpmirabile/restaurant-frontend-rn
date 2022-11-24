@@ -5,6 +5,7 @@ export const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.background,
     flex: 1,
+    paddingTop: 25,
   },
   sectionListContainer: {
     padding: 24,
