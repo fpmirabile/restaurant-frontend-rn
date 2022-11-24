@@ -5,6 +5,7 @@ import {
   Body,
   Body2,
   ColorfulButton,
+  CTAText,
   Headline6,
   Input,
   PressableView,
@@ -152,9 +153,9 @@ const header = React.memo(() => {
       )}
       <View style={styles.titleContainer}>
         <View style={styles.restaurantIcon}>{<RestaurantIcon />}</View>
-        <Body fontType="bold">
+        <CTAText>
           {isAdmin ? 'Mis restaurantes' : 'Restaurantes cerca tuyo'}
-        </Body>
+        </CTAText>
       </View>
     </View>
   );
