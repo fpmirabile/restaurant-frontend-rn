@@ -21,9 +21,10 @@ import { actions } from '../../../redux';
 interface PropTypes {}
 
 export function ViewRestaurant({}: PropTypes) {
-  const { selectedRestaurant, loading, error } = useAppSelector(
-    state => state.restaurant.view,
-  );
+  const {
+    view: { selectedRestaurant, loading, error },
+    categories: categoriesList,
+  } = useAppSelector(state => state.restaurant);
   const navigation = useAppNavigation();
   const dispatch = useAppDispatch();
   const handleEditRestaurant = React.useCallback(() => {
@@ -43,10 +44,16 @@ export function ViewRestaurant({}: PropTypes) {
     };
   }, [dispatch]);
 
-  // const handleSwitchChange = React.useCallback((newValue: boolean) => {}, []);
-  const categoriesList = useAppSelector(state => state.restaurant.categories);
+  const handleOpenCloseRestaurant = React.useCallback(() => {
+    if (selectedRestaurant) {
+      dispatch(
+        actions.restaurants.openOrCloseRestaurant(selectedRestaurant.id),
+      );
+    }
+  }, [dispatch, selectedRestaurant]);
+
   const mapDays = selectedRestaurant?.openDays;
-  const isOpen = !selectedRestaurant?.isClosed;
+  const isOpen = !selectedRestaurant?.open;
   return (
     <ScrollPage internalContainerStyles={styles.container}>
       {loading && (
@@ -79,7 +86,7 @@ export function ViewRestaurant({}: PropTypes) {
           <View style={styles.openRestaurent}>
             <Body>{localizedStrings.restaurant.view.openLocal}</Body>
             <Switch
-              // onValueChange={handleSwitchChange}
+              onValueChange={handleOpenCloseRestaurant}
               trackColor={{ true: COLORS.pink }}
               thumbColor={isOpen ? COLORS.darkPink : COLORS.grey}
               value={isOpen}

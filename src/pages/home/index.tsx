@@ -53,7 +53,7 @@ const RestaurantItem = ({
         containerStyle={styles.restaurantItemShadowContainer}
         offset={[0, 1]}
         paintInside={false}>
-        {item.isClosed && (
+        {item.open && (
           <View style={styles.backdrop}>
             <View style={styles.backdropInnerContainer}>
               <Body center fontType="bold" style={styles.temporaryCloseFont}>
