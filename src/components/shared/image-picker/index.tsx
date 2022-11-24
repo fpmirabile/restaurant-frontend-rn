@@ -3,7 +3,7 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import { Image, View, FlatList } from 'react-native';
 import { ICONS } from '../../../constants';
 import { localizedStrings } from '../../../localization/localized-strings';
-import { Body } from '../morfando-text';
+import { Body, Caption } from '../morfando-text';
 import { PressableView } from '../pressable-view';
 import { styles } from './styles';
 import { ListRenderItemInfo } from 'react-native';
@@ -56,9 +56,9 @@ export function ImagePicker({
         containerStyles={styles.addPictureContainer}
         touchableStyles={styles.addPictureTouchableContainer}>
         <AddImageIcon />
-        <Body style={styles.addPictureBody}>
+        <Caption style={styles.addPictureBody}>
           {localizedStrings.restaurant.create.addPictures}
-        </Body>
+        </Caption>
       </PressableView>
     );
   });

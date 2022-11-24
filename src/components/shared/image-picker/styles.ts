@@ -25,6 +25,8 @@ export const styles = StyleSheet.create({
   },
   addPictureBody: {
     marginTop: 5,
+    width: 240,
+    textAlign:'center',
   },
   imageUploaded: {
     height: 200,

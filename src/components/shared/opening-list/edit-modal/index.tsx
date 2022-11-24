@@ -140,17 +140,18 @@ export function EditModal({
             styles.buttonsContainer,
             invalidTimes && styles.spaceFromError,
           ]}>
-          <ColorfulButton
-            buttonContainerStyle={[styles.button, styles.cancelButton]}
-            title="Cancel"
-            onPress={onClose}
-          />
           <TransparentButton
             disabled={!isValidSave}
             buttonContainerStyle={[styles.button]}
+            title="Cancelar"
+            onPress={onClose}
+          />
+          <ColorfulButton
+            buttonContainerStyle={[styles.button, styles.cancelButton]}
             title="Guardar"
             onPress={handleSave}
           />
+
         </View>
       </View>
     </Modal>
