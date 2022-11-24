@@ -75,6 +75,7 @@ export type CreateMenu = {
   images: string[];
   ingredients: string[];
   loading: boolean;
+  error?: string;
 };
 
 const initialState: State = {
@@ -122,6 +123,7 @@ const initialState: State = {
     price: '',
     vegan: false,
     loading: false,
+    error: undefined,
   },
   categories: [],
   myFav: {
@@ -237,6 +239,31 @@ const getCategoriesByRestaurant = createAsyncThunk(
       return categories;
     } catch (error) {
       return rejectWithValue(error);
+    }
+  },
+);
+
+const createCategory = createAsyncThunk(
+  'restaurant/createCategory',
+  async (
+    {
+      categoryName,
+      restaurantId,
+    }: { categoryName: string; restaurantId: number },
+    { rejectWithValue, dispatch },
+  ) => {
+    try {
+      if (!categoryName || !restaurantId) {
+        return;
+      }
+
+      console.log('creating new category', restaurantId);
+      await RestaurantAPI.createNewCategory(restaurantId, categoryName);
+      setTimeout(() => {
+        dispatch(getCategoriesByRestaurant(restaurantId));
+      }, 1000);
+    } catch (error) {
+      rejectWithValue(error);
     }
   },
 );
@@ -403,7 +430,10 @@ const handleStepOneSave = createAsyncThunk(
 
 const saveMenu = createAsyncThunk(
   'restaurants/saveMenu',
-  async (_, { getState, rejectWithValue }) => {
+  async (
+    restaurantId: number | undefined,
+    { getState, rejectWithValue, dispatch },
+  ) => {
     try {
       const rState = getState() as any;
       const restaurants = rState.restaurant as State;
@@ -417,6 +447,9 @@ const saveMenu = createAsyncThunk(
         price: Number(menu.price),
       };
       const response = await RestaurantAPI.createMenu(menu.categoryId, request);
+      if (restaurantId) {
+        dispatch(selectRestaurant(restaurantId));
+      }
       return response;
     } catch (error) {
       console.log('create menu error', error);
@@ -433,6 +466,7 @@ const selectRestaurant = createAsyncThunk(
       const state = restaurant.address.split(',')[3]?.trim() || '';
       console.log('response selectRestaurant');
       dispatch(placeSlice.actions.getLocalities(state));
+      dispatch(getCategoriesByRestaurant(restaurant.id));
       return restaurant;
     } catch (error) {
       console.log('selected restaurant rejected', error);
@@ -705,6 +739,21 @@ const restaurantAppSlice = createSlice({
       state.home.loading = false;
       state.home.error = '';
     });
+    builder.addCase(createCategory.pending, state => {
+      state.menu.loading = true;
+      state.menu.error = undefined;
+    });
+    builder.addCase(createCategory.rejected, (state, action) => {
+      state.menu.loading = false;
+      const message = (action.payload as any).message;
+      if (message) {
+        state.menu.error = message;
+      }
+    });
+    builder.addCase(createCategory.fulfilled, state => {
+      state.menu.loading = false;
+      state.menu.error = undefined;
+    });
   },
 });
 
@@ -723,6 +772,7 @@ export const restaurantSlice = {
     getFavorites,
     putFavorite,
     saveEditRestaurant,
+    createCategory,
   },
   reducer,
 };

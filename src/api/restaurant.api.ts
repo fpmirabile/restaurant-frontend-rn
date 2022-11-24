@@ -68,16 +68,16 @@ export interface FullRestaurant extends Restaurant {
   categories: Category[];
   comments: Comment[];
 }
-const getSingleRestaurant = (id: number): Promise<FullRestaurant> => {
+const getSingleRestaurant = async (id: number): Promise<FullRestaurant> => {
   return authenticatedGet(`/restaurant/${id}`);
 };
 
-const createRestaurant = (restaurant: RestaurantCreate): Promise<any> => {
+const createRestaurant = async (restaurant: RestaurantCreate): Promise<any> => {
   return authenticatedPost('/restaurant', restaurant);
 };
 
 interface EditRestaurant extends RestaurantCreate {}
-const editRestaurant = (
+const editRestaurant = async (
   id: number,
   restaurant: EditRestaurant,
 ): Promise<any> => {
@@ -93,7 +93,7 @@ type MenuCreate = {
   suitableCeliac: boolean;
 };
 
-const createMenu = (category: string, menu: MenuCreate): Promise<any> => {
+const createMenu = async (category: string, menu: MenuCreate): Promise<any> => {
   return authenticatedPost(`/restaurant/category/${category}/meal`, menu);
 };
 
@@ -112,12 +112,21 @@ export type Category = {
   name: string;
   items: ItemsCategory[];
 };
-const getRestaurantCategories = (id: number): Promise<Category[]> => {
+const getRestaurantCategories = async (id: number): Promise<Category[]> => {
   return authenticatedGet(`/restaurant/${id}/categories`);
 };
 
-const getFavorites = (): Promise<Restaurant[]> => {
+const getFavorites = async (): Promise<Restaurant[]> => {
   return authenticatedGet('/restaurants/favorites');
+};
+
+const createNewCategory = async (
+  restaurantId: number,
+  categoryName: string,
+): Promise<any> => {
+  return authenticatedPost(`/restaurant/${restaurantId}/category`, {
+    name: categoryName,
+  });
 };
 
 export const RestaurantAPI = {
@@ -130,4 +139,5 @@ export const RestaurantAPI = {
   getFavorites,
   putFavorite,
   editRestaurant,
+  createNewCategory,
 };

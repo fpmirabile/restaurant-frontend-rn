@@ -8,6 +8,7 @@ import { Input } from '../text-input';
 import { ICONS } from '../../../constants';
 import { ImageButton } from '../image-button';
 import { styles } from './styles';
+import { notEmpty } from '../../../util/validation';
 
 interface PropTypes {
   isVisible: boolean;
@@ -19,6 +20,8 @@ interface PropTypes {
   textSecondaryButton: string;
   input?: Boolean;
   inputPlaceholder?: string;
+  onAcceptModal?: (value: string) => void;
+  onCancelModal?: () => void;
 }
 
 export function CustomModal({
@@ -31,8 +34,9 @@ export function CustomModal({
   textPrimaryButton,
   textSecondaryButton,
   inputPlaceholder,
+  onAcceptModal,
 }: PropTypes) {
-  const [dishCategory] = React.useState<string>('');
+  const [inputText, setInputText] = React.useState<string>('');
   const [restaurantReview] = React.useState<string>('');
   const [rating, updateRating] = React.useState<number>(0);
 
@@ -43,6 +47,22 @@ export function CustomModal({
     },
     [updateRating],
   );
+
+  const handleInputChange = React.useCallback(
+    (text: string) => {
+      setInputText(text);
+    },
+    [setInputText],
+  );
+
+  const handleOnAccept = React.useCallback(() => {
+    if (onAcceptModal) {
+      onAcceptModal(inputText);
+      return;
+    }
+
+    onClose && onClose();
+  }, [onAcceptModal, inputText, onClose]);
 
   return (
     <Modal isVisible={isVisible} style={styles.modalStyles}>
@@ -81,7 +101,13 @@ export function CustomModal({
 
           {input && (
             <View style={styles.spaceForText}>
-              <Input value={dishCategory} placeholder={inputPlaceholder} />
+              <Input
+                onValidateText={notEmpty}
+                onChangeText={handleInputChange}
+                errorMessage="Este campo no puede ser vacio."
+                value={inputText}
+                placeholder={inputPlaceholder}
+              />
             </View>
           )}
 
@@ -106,7 +132,7 @@ export function CustomModal({
           <ColorfulButton
             buttonContainerStyle={[styles.button, styles.cancelButton]}
             title={textPrimaryButton}
-            onPress={onClose}
+            onPress={handleOnAccept}
           />
         </View>
       </View>

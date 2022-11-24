@@ -34,7 +34,7 @@ export function NewDish({ navigation }: RouterProps) {
   const {
     menu: createMenu,
     categories: categoriesList,
-    create: { id: selectedRestaurantId },
+    view: { selectedRestaurant },
   } = useAppSelector(state => state.restaurant);
   const dispatch = useAppDispatch();
   const [isModalVisible, setModalVisible] = React.useState<boolean>(false);
@@ -55,17 +55,17 @@ export function NewDish({ navigation }: RouterProps) {
     : undefined;
 
   const handleCancelPressed = React.useCallback(() => {
-    navigation.navigate(selectedRestaurantId ? 'ViewRestaurant' : 'Home');
-  }, [navigation, selectedRestaurantId]);
+    navigation.navigate(selectedRestaurant?.id ? 'ViewRestaurant' : 'Home');
+  }, [navigation, selectedRestaurant]);
 
   const saveMenu = React.useCallback(() => {
     if (Object.values(createMenu).some(i => i === '')) {
       return;
     }
 
-    dispatch(actions.restaurants.saveMenu());
-    navigation.navigate('Home');
-  }, [navigation, createMenu, dispatch]);
+    dispatch(actions.restaurants.saveMenu(selectedRestaurant?.id));
+    navigation.navigate('ViewRestaurant');
+  }, [navigation, createMenu, dispatch, selectedRestaurant]);
 
   const handleValueChanged = (field: keyof CreateMenu) => (value: any) => {
     const catId =
@@ -122,9 +122,23 @@ export function NewDish({ navigation }: RouterProps) {
     setModalVisible(true);
   };
 
-  const handleCloseEditModal = React.useCallback(() => {
+  const handleCloseCategoryModal = React.useCallback(() => {
     setModalVisible(false);
   }, [setModalVisible]);
+
+  const handleOnAcceptModal = React.useCallback(
+    (categoryName: string) => {
+      console.log(categoryName, selectedRestaurant?.id);
+      dispatch(
+        actions.restaurants.createCategory({
+          categoryName,
+          restaurantId: selectedRestaurant?.id || 0,
+        }),
+      );
+      handleCloseCategoryModal();
+    },
+    [dispatch, selectedRestaurant, handleCloseCategoryModal],
+  );
 
   return (
     <View style={styles.containerView}>
@@ -154,7 +168,7 @@ export function NewDish({ navigation }: RouterProps) {
             <ImageButton imageSvg={ICONS.addIcon} onPress={showModal} />
             <CustomModal
               isVisible={isModalVisible}
-              onClose={handleCloseEditModal}
+              onClose={handleCloseCategoryModal}
               modalTitle={localizedStrings.restaurant.newDish.modalTitle}
               input={true}
               inputPlaceholder={
@@ -162,6 +176,7 @@ export function NewDish({ navigation }: RouterProps) {
               }
               textPrimaryButton={localizedStrings.restaurant.newDish.create}
               textSecondaryButton={localizedStrings.restaurant.newDish.cancel}
+              onAcceptModal={handleOnAcceptModal}
             />
           </View>
         </View>
