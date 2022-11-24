@@ -9,8 +9,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     paddingHorizontal: 16,
-    marginVertical: 16,
     backgroundColor: COLORS.background,
+    height: 52,
   },
   adminHeader: {
     justifyContent: 'flex-start',
