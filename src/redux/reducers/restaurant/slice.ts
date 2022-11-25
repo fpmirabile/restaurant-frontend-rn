@@ -163,7 +163,7 @@ const getCurrentPosition = createAsyncThunk('currentPosition', async () => {
           });
         },
         {
-          enableHighAccuracy: false,
+          enableHighAccuracy: true,
           maximumAge: 1,
           timeout: 10000,
         },

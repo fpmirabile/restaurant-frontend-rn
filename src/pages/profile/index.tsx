@@ -8,7 +8,7 @@ import {
   TransparentButton,
   Caption,
   ImageButton,
-  Title,
+  Headline5,
 } from '../../components/shared';
 import { styles } from './styles';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
@@ -29,14 +29,14 @@ const Header = ({}: HeaderProps) => {
   console.log(name);
   return (
     <View style={styles.personalInformationContainer}>
-      <Image source={require('../../assets/images/temporal/Ellipse.png')} />
+      <Image style={styles.image}source={require('../../assets/images/temporal/Ellipse.png')} />
       <View style={styles.personalNameContainer}>
         <View style={styles.profileName}>
-          <Title>{name}</Title>
-          <ImageButton imageStyle={styles.editIcon} imageSvg={ICONS.edit} />
+          <Headline5>{name}</Headline5>
         </View>
         <Caption>{email}</Caption>
       </View>
+      <ImageButton imageStyle={styles.editIcon} imageSvg={ICONS.edit} />
     </View>
   );
 };
@@ -73,7 +73,7 @@ interface SectionHeaderProps {
   title: string;
 }
 const SectionHeader = ({ title }: SectionHeaderProps) => (
-  <CTAText>{title}</CTAText>
+  <CTAText style={styles.title}>{title}</CTAText>
 );
 
 interface PropTypes {}
@@ -88,6 +88,8 @@ export function Profile({}: PropTypes) {
 
   //Modal de confirmacion para eliminar cuenta
   const [isModalVisible, setModalVisible] = React.useState<boolean>(false);
+  //Modal de confirmacion para cierre de sesion
+  const [isModaCloseSesionlVisible, setModalCloseSesionVisible] = React.useState<boolean>(false);
 
   const showConfirmModal = async () => {
     setModalVisible(true);
@@ -100,6 +102,18 @@ export function Profile({}: PropTypes) {
 
   const hideConfirmModal = async () => {
     setModalVisible(false);
+  };
+
+  const showCloseSesionModal = async () => {
+    setModalCloseSesionVisible(true);
+  };
+  const handleCloseSesionModal = async () => {
+    setModalCloseSesionVisible(false);
+    dispatch(actions.userActions.logOut())
+  };
+
+  const hideCloseSesionModal = async () => {
+    setModalCloseSesionVisible(false);
   };
 
   const getProfileInformation = React.useCallback(
@@ -142,7 +156,7 @@ export function Profile({}: PropTypes) {
             buttons: [
               {
                 buttonTitle: localizedStrings.profile.signOut,
-                buttonAction: () => dispatch(actions.userActions.logOut()),
+                buttonAction: () => dispatch(showCloseSesionModal),
                 icon: ICONS.signOut,
               },
               {
@@ -183,7 +197,7 @@ export function Profile({}: PropTypes) {
             buttons: [
               {
                 buttonTitle: localizedStrings.profile.signOut,
-                buttonAction: () => dispatch(actions.userActions.logOut()),
+                buttonAction: () => dispatch(showCloseSesionModal),
                 icon: ICONS.signOut,
               },
               {
@@ -218,6 +232,15 @@ export function Profile({}: PropTypes) {
         onCancel={hideConfirmModal}
         modalTitle={'Usted esta por eliminar su cuenta'}
         confirmText={'¿Esta seguro que desea eliminar su cuenta?'}
+        textPrimaryButton={localizedStrings.login.confirm}
+        textSecondaryButton={localizedStrings.login.cancel}
+      />
+        <ConfirmModal
+        isVisible={isModaCloseSesionlVisible}
+        onConfirm={handleCloseSesionModal}
+        onCancel={hideCloseSesionModal}
+        modalTitle={'Usted esta por cerrar sesion'}
+        confirmText={'¿Esta seguro que desea cerrar sesion?'}
         textPrimaryButton={localizedStrings.login.confirm}
         textSecondaryButton={localizedStrings.login.cancel}
       />

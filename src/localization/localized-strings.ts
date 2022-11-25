@@ -49,9 +49,9 @@ export const localizedStrings = new LocalizedStrings({
         kindOfFood: 'Tipo de comida',
         priceRange: 'Rango de precio',
         restaurantPictures: 'Imagenes del restaurante',
-        addPictures: 'Agregar fotos',
+        addPictures: 'Puede seleccionar varias imagenes manteniendo presionada la primera imagen por unos segundos',
         picturesCaption: (addedAmount: number, totalAmount: number) =>
-          `Fotos: ${addedAmount}/${totalAmount} - Elige primero la foto principal de la publicación.`,
+          `Fotos: ${addedAmount}/${totalAmount} - La primera foto en seleccionar será la foto de portada.`,
       },
       created: {
         title: (loading: boolean, error: string) =>
