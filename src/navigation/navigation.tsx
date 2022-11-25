@@ -102,7 +102,7 @@ export function Navigation() {
               options={{
                 animation: 'slide_from_left',
                 header: ({ navigation }) => (
-                  <ProfileNavHeader onPressBack={navigation.goBack} />
+                  <ProfileNavHeader onPressBack={navigation.goBack}/>
                 ),
                 headerShown: true,
                 headerStyle: { backgroundColor: COLORS.background },
@@ -124,7 +124,7 @@ export function Navigation() {
               component={ViewRestaurant}
               options={{
                 header: ({ navigation }) => (
-                  <ProfileNavHeader onPressBack={navigation.goBack} />
+                  <ProfileNavHeader onPressBack={navigation.goBack}/>
                 ),
                 headerShown: true,
               }}
@@ -134,7 +134,7 @@ export function Navigation() {
               component={RestaurantClient}
               options={{
                 header: ({ navigation }) => (
-                  <ProfileNavHeader onPressBack={navigation.goBack} />
+                  <ProfileNavHeader onPressBack={navigation.goBack} shareIcon={true} />
                 ),
                 headerShown: true,
               }}
