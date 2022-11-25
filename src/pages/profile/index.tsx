@@ -8,7 +8,7 @@ import {
   TransparentButton,
   Caption,
   ImageButton,
-  Title,
+  Headline5,
 } from '../../components/shared';
 import { styles } from './styles';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
@@ -29,14 +29,14 @@ const Header = ({}: HeaderProps) => {
   console.log(name);
   return (
     <View style={styles.personalInformationContainer}>
-      <Image source={require('../../assets/images/temporal/Ellipse.png')} />
+      <Image style={styles.image}source={require('../../assets/images/temporal/Ellipse.png')} />
       <View style={styles.personalNameContainer}>
         <View style={styles.profileName}>
-          <Title>{name}</Title>
-          <ImageButton imageStyle={styles.editIcon} imageSvg={ICONS.edit} />
+          <Headline5>{name}</Headline5>
         </View>
         <Caption>{email}</Caption>
       </View>
+      <ImageButton imageStyle={styles.editIcon} imageSvg={ICONS.edit} />
     </View>
   );
 };
@@ -73,7 +73,7 @@ interface SectionHeaderProps {
   title: string;
 }
 const SectionHeader = ({ title }: SectionHeaderProps) => (
-  <CTAText>{title}</CTAText>
+  <CTAText style={styles.title}>{title}</CTAText>
 );
 
 interface PropTypes {}
@@ -116,25 +116,6 @@ export function Profile({}: PropTypes) {
     setModalCloseSesionVisible(false);
   };
 
-    //   <ConfirmModal
-    //     isVisible={isModalVisible}
-    //     onConfirm={handleConfirmModal}
-    //     onCancel={hideConfirmModal}
-    //     modalTitle={'Usted esta por eliminar su cuenta'}
-    //     confirmText={'¿Esta seguro que desea eliminar su cuenta?'}
-    //     textPrimaryButton={localizedStrings.login.confirm}
-    //     textSecondaryButton={localizedStrings.login.cancel}
-    //   />
-    //     <ConfirmModal
-    //     isVisible={isModaCloseSesionlVisible}
-    //     onConfirm={handleCloseSesionModal}
-    //     onCancel={hideCloseSesionModal}
-    //     modalTitle={'Usted esta por cerrar sesion'}
-    //     confirmText={'¿Esta seguro que desea cerrar sesion?'}
-    //     textPrimaryButton={localizedStrings.login.confirm}
-    //     textSecondaryButton={localizedStrings.login.cancel}
-    //   />
-    // </View>
   const getProfileInformation = React.useCallback(
     () => [
       {

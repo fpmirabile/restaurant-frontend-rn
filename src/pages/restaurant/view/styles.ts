@@ -69,4 +69,13 @@ export const styles = StyleSheet.create({
     borderRadius: 3.5,
     borderColor: COLORS.grey,
   },
+  restaurantBackgroundImage: {
+    width: '100%',
+    height: 130,
+    marginTop:16,
+    borderRadius:6,
+  },
+  noimageText:{
+    textAlign:'center'
+  }
 });

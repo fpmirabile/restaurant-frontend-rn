@@ -80,6 +80,22 @@ export function ViewRestaurant({}: PropTypes) {
           <View style={styles.spaceForAdress}>
             <Body2>{selectedRestaurant?.address}</Body2>
           </View>
+          <View>
+            {selectedRestaurant?.photos[0]!=undefined ?
+            (
+              <Image
+                style={styles.restaurantBackgroundImage}
+                source={{
+                  uri: selectedRestaurant?.photos[0],
+                }}
+              />
+            ):(
+              <View>
+                <Body style={styles.noimageText}>No hay imagen de restaurant disponible o intente cargando nuevamente.</Body>
+              </View>
+            ) 
+          }
+          </View>
           <View style={styles.openingListContainer}>
             <OpeningList darkPinkColor previousDates={mapDays} />
           </View>
