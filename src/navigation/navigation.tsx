@@ -134,7 +134,7 @@ export function Navigation() {
               component={RestaurantClient}
               options={{
                 header: ({ navigation }) => (
-                  <ProfileNavHeader onPressBack={navigation.goBack} shareIcon={true} />
+                  <ProfileNavHeader onPressBack={navigation.goBack} shareIcon />
                 ),
                 headerShown: true,
               }}
