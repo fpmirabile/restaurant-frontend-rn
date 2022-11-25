@@ -11,7 +11,6 @@ export const styles = StyleSheet.create({
   title: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    flex: 1,
     marginTop: 8,
     textAlign: 'left',
   },
@@ -45,6 +44,7 @@ export const styles = StyleSheet.create({
   },
   spaceForAdress: {
     marginTop: 8,
+    marginBottom: 14,
   },
   containerIcon: {
     flex: 1,
@@ -68,5 +68,15 @@ export const styles = StyleSheet.create({
   dropdownStyles: {
     borderRadius: 3.5,
     borderColor: COLORS.grey,
+  },
+  restaurantImage: {
+    width: '100%',
+    height: 120,
+    paddingTop: 14,
+  },
+  imageContainer: {
+    marginTop: 14,
+    backgroundColor: COLORS.blueSecondary,
+    height: 1,
   },
 });

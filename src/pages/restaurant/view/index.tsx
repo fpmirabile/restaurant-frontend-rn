@@ -17,6 +17,7 @@ import { useAppDispatch, useAppSelector } from '../../../redux/store';
 import { useAppNavigation } from '../../../hook/navigation';
 import { styles } from './styles';
 import { actions } from '../../../redux';
+import NoAvailableImage from '../../../assets/images/no-available-image.svg';
 
 interface PropTypes {}
 
@@ -80,6 +81,14 @@ export function ViewRestaurant({}: PropTypes) {
           <View style={styles.spaceForAdress}>
             <Body2>{selectedRestaurant?.address}</Body2>
           </View>
+          {selectedRestaurant?.photos.length ? (
+            <Image
+              style={styles.restaurantImage}
+              source={{ uri: selectedRestaurant?.photos[0] }}
+            />
+          ) : (
+            <NoAvailableImage style={styles.restaurantImage} />
+          )}
           <View style={styles.openingListContainer}>
             <OpeningList darkPinkColor previousDates={mapDays} />
           </View>
