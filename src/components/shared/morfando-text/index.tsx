@@ -127,6 +127,31 @@ export const Body2 = ({
   );
 };
 
+export const Body3 = ({
+  style,
+  center,
+  darkPinkColor,
+  fontType,
+  ...props
+}: AppTextProps) => {
+  const font = [
+    fontType === 'regular' && styles.body,
+    fontType === 'bold' && styles.bold,
+  ];
+  return (
+    <AppText
+      {...props}
+      style={[
+        styles.body3,
+        center && styles.center,
+        darkPinkColor && styles.darkPinkColor,
+        ...font,
+        style,
+      ]}
+    />
+  );
+};
+
 export const Error = ({ style, center, ...props }: AppTextProps) => (
   <AppText {...props} style={[styles.error, center && styles.center, style]} />
 );

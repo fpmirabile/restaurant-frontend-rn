@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
   },
   title2: {
     fontFamily: 'Fredoka-Regular',
-    fontSize: 16,
+    fontSize: 20,
     color: COLORS.blueSecondary,
   },
   body: {
@@ -38,6 +38,11 @@ export const styles = StyleSheet.create({
   body2: {
     fontFamily: 'OpenSans-Regular',
     fontSize: 14,
+    color: COLORS.blueSecondary,
+  },
+  body3: {
+    fontFamily: 'Fredoka-Regular',
+    fontSize: 16,
     color: COLORS.blueSecondary,
   },
   error: {
