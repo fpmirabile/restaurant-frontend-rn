@@ -39,6 +39,7 @@ export const styles = StyleSheet.create({
   shadowElement: {
     borderRadius: 4,
     backgroundColor: COLORS.white,
+    width: '100%',
   },
   restaurantItemShadowContainer: {
     flex: 1,
@@ -89,6 +90,7 @@ export const styles = StyleSheet.create({
   },
   addressSize: {
     minWidth: 300,
+    marginBottom: 8,
   },
   starsContainer: {
     alignItems: 'center',
