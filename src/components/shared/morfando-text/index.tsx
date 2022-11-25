@@ -64,6 +64,7 @@ export const Title2 = ({
   style,
   center,
   darkPinkColor,
+  fontType,
   ...props
 }: AppTextProps) => (
   <AppText
@@ -72,6 +73,7 @@ export const Title2 = ({
       styles.title2,
       center && styles.center,
       darkPinkColor && styles.darkPinkColor,
+      fontType === 'bold' && styles.boldFredoka,
       style,
     ]}
   />

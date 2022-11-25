@@ -21,6 +21,7 @@ import { capitalize } from '../../util/strings';
 import NoAvailableImage from '../../assets/images/no-available-image.svg';
 import { useAppNavigation } from '../../hook/navigation';
 import { styles } from './styles';
+import { Title2 } from '../../components/shared/morfando-text';
 
 interface PropTypes extends MorfandoRouterParams<'Home'> {}
 
@@ -64,9 +65,10 @@ const RestaurantItem = ({
         )}
         <View style={styles.restaurantContainer}>
           <View style={styles.restaurantTopPosition}>
-            <Body fontType="bold" darkPinkColor>
+            {/* <Body fontType="bold" darkPinkColor>
               {item.name}
-            </Body>
+            </Body> */}
+            <Title2 darkPinkColor>{item.name}</Title2>
             <Body>{item.foodType}</Body>
           </View>
           {!isAdmin && (
