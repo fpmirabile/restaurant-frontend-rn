@@ -25,6 +25,11 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     color: COLORS.blueSecondary,
   },
+  title2: {
+    fontFamily: 'Fredoka-Medium',
+    fontSize: 20,
+    color: COLORS.blueSecondary,
+  },
   body: {
     fontFamily: 'OpenSans-Regular',
     fontSize: 16,
@@ -33,6 +38,11 @@ export const styles = StyleSheet.create({
   body2: {
     fontFamily: 'OpenSans-Regular',
     fontSize: 14,
+    color: COLORS.blueSecondary,
+  },
+  body3: {
+    fontFamily: 'Fredoka-Medium',
+    fontSize: 16,
     color: COLORS.blueSecondary,
   },
   error: {
@@ -51,6 +61,9 @@ export const styles = StyleSheet.create({
   },
   bold: {
     fontFamily: 'OpenSans-Bold',
+  },
+  boldFredoka: {
+    fontFamily: 'Fredoka-Bold',
   },
   italic: {
     fontFamily: 'OpenSans-Italic',

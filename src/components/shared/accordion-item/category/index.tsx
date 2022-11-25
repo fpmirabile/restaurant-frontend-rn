@@ -3,8 +3,10 @@ import { TouchableOpacity } from 'react-native';
 import { View } from 'react-native';
 import { Image } from 'react-native';
 import { ItemsCategory } from '../../../../api/restaurant.api';
-import { Body } from '../../morfando-text';
+import { ICONS } from '../../../../constants';
+import { Body2, Body3 } from '../../morfando-text';
 import { styles } from './styles';
+import { ImageButton } from '../../image-button';
 
 interface PropTypes {
   itemsCategory: ItemsCategory;
@@ -26,13 +28,14 @@ export function AccordionItem({ itemsCategory }: PropTypes) {
       </TouchableOpacity>
       <View style={styles.detailContainer}>
         <View style={styles.titleContainer}>
-          <Body darkPinkColor fontType={'bold'}>
-            {itemsCategory.name}
-          </Body>
+          <Body3 darkPinkColor>{itemsCategory.name}</Body3>
         </View>
         <View>
-          <Body style={styles.itemPrice}>{'$' + itemsCategory.price}</Body>
+          <Body2 style={styles.itemPrice}>{'$' + itemsCategory.price}</Body2>
         </View>
+      </View>
+      <View style={styles.iconContainer}>
+        <ImageButton imageSvg={ICONS.trash} />
       </View>
     </View>
   );

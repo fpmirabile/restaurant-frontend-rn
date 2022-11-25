@@ -5,7 +5,7 @@ import {
   Body,
   Body2,
   CTAText,
-  Headline6,
+  Headline4,
   PressableView,
   Title,
 } from '../../components/shared';
@@ -111,7 +111,7 @@ const listEmpty = React.memo(() => {
   return (
     <View style={styles.listEmpty}>
       <View>
-        <Headline6 darkPinkColor>Ups, no encontramos nada por aquí</Headline6>
+        <Headline4 darkPinkColor>Ups, no encontramos nada por aquí</Headline4>
       </View>
       <View style={styles.bodyEmpty}>
         <SadBurger />
@@ -124,7 +124,7 @@ export function ViewFavs({}: PropTypes) {
   const {
     restaurant: {
       favorites: restaurants,
-      home: { loading, error },
+      myFav: { loading, error },
     },
   } = useAppSelector(state => state);
   const dispatch = useAppDispatch();
