@@ -25,6 +25,7 @@ import ShowPasswordIcon from './assets/images/icons/show-password-icon.svg';
 import HidePasswordIcon from './assets/images/icons/hide-password-icon.svg';
 import SearchIcon from './assets/images/icons/search-icon.svg';
 import CommentIcon from './assets/images/icons/comment-icon.svg';
+import SocialShare from './assets/images/icons/social-share-icon.svg';
 
 const COLORS = {
   blueSecondary: '#211D42',
@@ -64,6 +65,7 @@ const ICONS = {
   hidePassword: memo(HidePasswordIcon),
   search: memo(SearchIcon),
   comment: memo(CommentIcon),
+  socialShare: memo (SocialShare),
 };
 
 const IMAGES = {
