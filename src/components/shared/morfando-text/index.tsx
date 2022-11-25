@@ -138,7 +138,7 @@ export const Body3 = ({
 }: AppTextProps) => {
   const font = [
     fontType === 'regular' && styles.body,
-    fontType === 'bold' && styles.bold,
+    fontType === 'bold' && styles.boldFredoka,
   ];
   return (
     <AppText

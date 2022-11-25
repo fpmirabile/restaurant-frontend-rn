@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
     color: COLORS.blueSecondary,
   },
   body3: {
-    fontFamily: 'Fredoka-Regular',
+    fontFamily: 'Fredoka-Medium',
     fontSize: 16,
     color: COLORS.blueSecondary,
   },

@@ -18,6 +18,7 @@ import { Rating } from 'react-native-ratings';
 import NoAvailableImage from '../../assets/images/no-available-image.svg';
 import { useAppSelector } from '../../redux/store';
 import { styles } from './styles';
+import { Title2 } from '../../components/shared/morfando-text';
 
 export function RestaurantClient({}) {
   const { loading, selectedRestaurant } = useAppSelector(
@@ -53,9 +54,7 @@ export function RestaurantClient({}) {
             <View style={styles.restaurantInformationContainer}>
               <View style={styles.restaurantTitleAndLikeContainer}>
                 <View>
-                  <Headline6 darkPinkColor>
-                    {selectedRestaurant?.name}
-                  </Headline6>
+                  <Title2 darkPinkColor>{selectedRestaurant?.name}</Title2>
                 </View>
                 <View>
                   <ImageButton imageSvg={ICONS.likeNoBackground} />

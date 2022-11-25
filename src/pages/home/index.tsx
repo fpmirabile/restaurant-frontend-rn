@@ -21,7 +21,7 @@ import { capitalize } from '../../util/strings';
 import NoAvailableImage from '../../assets/images/no-available-image.svg';
 import { useAppNavigation } from '../../hook/navigation';
 import { styles } from './styles';
-import { Title2 } from '../../components/shared/morfando-text';
+import { Body3, Title2 } from '../../components/shared/morfando-text';
 
 interface PropTypes extends MorfandoRouterParams<'Home'> {}
 
@@ -65,9 +65,6 @@ const RestaurantItem = ({
         )}
         <View style={styles.restaurantContainer}>
           <View style={styles.restaurantTopPosition}>
-            {/* <Body fontType="bold" darkPinkColor>
-              {item.name}
-            </Body> */}
             <Title2 darkPinkColor>{item.name}</Title2>
             <Body>{item.foodType}</Body>
           </View>
@@ -88,26 +85,20 @@ const RestaurantItem = ({
               }}
             />
           ) : (
-            <NoAvailableImage />
+            <NoAvailableImage width={'100%'} />
           )}
         </View>
         <View style={styles.restaurantInfoContainer}>
           <Body2 style={styles.addressSize}>
-            <Body fontType="bold" darkPinkColor>
-              Dirección
-            </Body>{' '}
-            {capitalize(item.address)}
+            <Body3 darkPinkColor>Dirección</Body3> {capitalize(item.address)}
           </Body2>
           <Body2>
-            <Body fontType="bold" darkPinkColor>
-              Precio medio
-            </Body>{' '}
-            {item.priceRange}
+            <Body3 darkPinkColor>Precio medio</Body3> {item.priceRange}
           </Body2>
           <View style={styles.starsContainer}>
-            <Body style={styles.starTitle} fontType="bold" darkPinkColor>
+            <Body3 style={styles.starTitle} darkPinkColor>
               Estrellas
-            </Body>
+            </Body3>
             <Rating disabled starSize={16} currentValue={item.stars} />
           </View>
         </View>
