@@ -43,10 +43,37 @@ export const Headline6 = ({
   />
 );
 
-export const CTAText = ({ style, center, ...props }: AppTextProps) => (
+export const CTAText = ({
+  style,
+  center,
+  darkPinkColor,
+  ...props
+}: AppTextProps) => (
   <AppText
     {...props}
-    style={[styles.ctaText, center && styles.center, style]}
+    style={[
+      styles.ctaText,
+      center && styles.center,
+      darkPinkColor && styles.darkPinkColor,
+      style,
+    ]}
+  />
+);
+
+export const Title2 = ({
+  style,
+  center,
+  darkPinkColor,
+  ...props
+}: AppTextProps) => (
+  <AppText
+    {...props}
+    style={[
+      styles.title2,
+      center && styles.center,
+      darkPinkColor && styles.darkPinkColor,
+      style,
+    ]}
   />
 );
 

@@ -4,6 +4,8 @@ import { COLORS } from '../../../../constants';
 export const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
   },
   titleContainer: {
     flexDirection: 'row',
@@ -23,8 +25,13 @@ export const styles = StyleSheet.create({
   detailContainer: {
     flexDirection: 'column',
     justifyContent: 'center',
+    alignItems: 'flex-start',
+    flex: 1,
   },
   itemPrice: {
     color: COLORS.blueSecondary,
+  },
+  iconContainer: {
+    justifyContent: 'center',
   },
 });

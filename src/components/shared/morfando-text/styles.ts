@@ -25,6 +25,11 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     color: COLORS.blueSecondary,
   },
+  title2: {
+    fontFamily: 'Fredoka-Regular',
+    fontSize: 16,
+    color: COLORS.blueSecondary,
+  },
   body: {
     fontFamily: 'OpenSans-Regular',
     fontSize: 16,
