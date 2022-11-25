@@ -20,7 +20,7 @@ export type Restaurant = {
   lon: string;
   ownerId: number;
   address: string;
-  isClosed: boolean;
+  open: boolean;
   stars: number;
   favorite: boolean;
   openDays?: OpenDays[];
@@ -131,6 +131,10 @@ const createNewCategory = async (
   });
 };
 
+const openOrClose = async (restaurantId: number) => {
+  return authenticatedPut(`/restaurant/${restaurantId}/open`);
+};
+
 export const RestaurantAPI = {
   getRestaurants,
   getRestaurantsNearMe,
@@ -142,4 +146,5 @@ export const RestaurantAPI = {
   putFavorite,
   editRestaurant,
   createNewCategory,
+  openOrClose,
 };

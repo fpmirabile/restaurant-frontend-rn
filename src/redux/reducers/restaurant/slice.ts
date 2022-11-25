@@ -163,7 +163,7 @@ const getCurrentPosition = createAsyncThunk('currentPosition', async () => {
           });
         },
         {
-          enableHighAccuracy: false,
+          enableHighAccuracy: true,
           maximumAge: 1,
           timeout: 10000,
         },
@@ -451,12 +451,13 @@ const saveMenu = createAsyncThunk(
       const menu = restaurants.menu;
       const request = {
         name: menu.name,
-        images: [],
+        images: await localImageToBase64(menu.images),
         ingredients: menu.ingredients,
         suitableCeliac: menu.vegan,
         suitableVegan: menu.celiac,
         price: Number(menu.price),
       };
+      console.log(request);
       const response = await RestaurantAPI.createMenu(menu.categoryId, request);
       if (restaurantId) {
         dispatch(selectRestaurant(restaurantId));
@@ -481,6 +482,22 @@ const selectRestaurant = createAsyncThunk(
       return restaurant;
     } catch (error) {
       console.log('selected restaurant rejected', error);
+      rejectWithValue(error);
+    }
+  },
+);
+
+const openOrCloseRestaurant = createAsyncThunk(
+  'restaurants/openOrCloseRestaurant',
+  async (restaurantId: number, { rejectWithValue, dispatch }) => {
+    try {
+      console.log('opening or close restaurant');
+      await RestaurantAPI.openOrClose(restaurantId);
+      setTimeout(() => {
+        dispatch(getRestaurants());
+      }, 1000);
+      return restaurantId;
+    } catch (error) {
       rejectWithValue(error);
     }
   },
@@ -779,6 +796,26 @@ const restaurantAppSlice = createSlice({
       state.menu.error = undefined;
       state.menu.categoryId = action.payload?.id.toString() || '';
     });
+    builder.addCase(openOrCloseRestaurant.pending, state => {
+      state.view.loading = true;
+      state.view.error = '';
+    });
+    builder.addCase(openOrCloseRestaurant.fulfilled, state => {
+      state.view.loading = false;
+      state.view.error = '';
+      const res = state.view.selectedRestaurant;
+      if (res) {
+        const currentValue = res.open;
+        res.open = !currentValue;
+      }
+    });
+    builder.addCase(openOrCloseRestaurant.rejected, (state, action) => {
+      state.view.loading = false;
+      const message = (action.payload as any).message;
+      if (message) {
+        state.menu.error = message;
+      }
+    });
   },
 });
 
@@ -798,6 +835,7 @@ export const restaurantSlice = {
     putFavorite,
     saveEditRestaurant,
     createCategory,
+    openOrCloseRestaurant,
   },
   reducer,
 };
