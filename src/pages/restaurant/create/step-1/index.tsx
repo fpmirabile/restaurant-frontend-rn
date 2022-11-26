@@ -1,7 +1,12 @@
 import * as React from 'react';
 import { View } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
-import { Headline6, Input, Dropdown } from '../../../../components/shared';
+import MapView, { MapPressEvent, Marker } from 'react-native-maps';
+import {
+  Headline6,
+  Input,
+  Dropdown,
+  Caption,
+} from '../../../../components/shared';
 import { localizedStrings } from '../../../../localization/localized-strings';
 import { actions, StepOneFields } from '../../../../redux';
 import { useAppDispatch, useAppSelector } from '../../../../redux/store';
@@ -47,6 +52,19 @@ export function CreateRestaurantStepOne({}: PropTypes) {
       );
     },
     [dispatch, stepOne],
+  );
+
+  const handlePressMap = React.useCallback(
+    (event: MapPressEvent) => {
+      const { latitude, longitude } = event.nativeEvent.coordinate;
+      dispatch(
+        actions.restaurants.setLatAndLon({
+          latitude,
+          longitude,
+        }),
+      );
+    },
+    [dispatch],
   );
 
   const currentLoc =
@@ -121,19 +139,16 @@ export function CreateRestaurantStepOne({}: PropTypes) {
         <Headline6 style={styles.mapTitle}>
           {localizedStrings.restaurant.create.geolocalization}
         </Headline6>
-        {/* <Caption>
+        <Caption>
           {localizedStrings.restaurant.create.localizationSubtitle}
-        </Caption> */}
+        </Caption>
       </View>
       <MapView
         style={styles.map}
         initialRegion={currentLoc}
         ref={map}
         region={currentLoc}
-        zoomEnabled={false}
-        pitchEnabled={false}
-        scrollEnabled={false}
-        zoomTapEnabled={false}>
+        onPress={handlePressMap}>
         {stepOne.lat && stepOne.lon && (
           <Marker
             coordinate={{

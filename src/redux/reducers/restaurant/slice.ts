@@ -549,6 +549,13 @@ const restaurantAppSlice = createSlice({
   name: 'restaurant',
   initialState,
   reducers: {
+    setLatAndLon: (
+      state,
+      action: PayloadAction<{ latitude: number; longitude: number }>,
+    ) => {
+      state.create.stepOne.lat = action.payload.latitude.toString();
+      state.create.stepOne.lon = action.payload.longitude.toString();
+    },
     cleanMenuCreation: state => {
       state.menu = {
         ...initialState.menu,
