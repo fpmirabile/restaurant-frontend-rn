@@ -104,10 +104,10 @@ export const localizedStrings = new LocalizedStrings({
         menu: 'Menú',
         comments: 'Comentarios',
       },
-      clientFiltres: {
+      clientFilters: {
         filter: 'Filtros',
-        maxdistance: 'Distancia máxima',
-        foodtype: 'Tipo de comida',
+        maxDistance: 'Distancia máxima',
+        foodType: 'Tipo de comida',
         pricerange: 'Rango de precio',
         from: 'Desde',
         to: 'Hasta',

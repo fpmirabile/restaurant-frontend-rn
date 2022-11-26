@@ -21,7 +21,7 @@ const getLocalities = createAsyncThunk(
 
       return undefined;
     } catch (error) {
-      rejectWithValue(error);
+      return rejectWithValue(error);
     }
   },
 );
@@ -34,7 +34,7 @@ const getProvinces = createAsyncThunk(
       const provinces = PlaceAPI.getStates();
       return provinces;
     } catch (error) {
-      rejectWithValue(error);
+      return rejectWithValue(error);
     }
   },
 );

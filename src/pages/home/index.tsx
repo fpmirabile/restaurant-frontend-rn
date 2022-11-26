@@ -112,21 +112,24 @@ const header = React.memo(() => {
     user: {
       user: { isAdmin },
     },
-    restaurant: { filterText },
+    restaurant: {
+      filterText,
+      home: { error },
+    },
   } = useAppSelector(state => state);
   const dispatch = useAppDispatch();
   const RestaurantIcon = ICONS.restaurant;
 
   const handleInputEditing = React.useCallback(
     (text: string) => {
-      dispatch(actions.restaurants.filter(text));
+      dispatch(actions.restaurants.filterByName(text));
     },
     [dispatch],
   );
 
   const handleClickOnX = React.useCallback(() => {
     if (filterText) {
-      dispatch(actions.restaurants.filter(''));
+      dispatch(actions.restaurants.filterByName(''));
     }
   }, [dispatch, filterText]);
 
@@ -142,6 +145,11 @@ const header = React.memo(() => {
             value={filterText}
             placeholder="Buscar restaurantes / tipo de comida"
           />
+        </View>
+      )}
+      {error && (
+        <View>
+          <Body>${error}</Body>
         </View>
       )}
       <View style={styles.titleContainer}>
@@ -163,15 +171,21 @@ const listEmpty = React.memo(() => {
   const SadBurger = IMAGES.sadBurger;
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <View>
+    <View
+      style={{
+        flexGrow: 1,
+        flex: 2,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <View style={{ flex: 1 }}>
         <Headline6 darkPinkColor>
           {isAdmin
             ? 'Aun no cargaste ningùn Restaurant'
             : 'Parece no haber restaurants cerca tuyo'}
         </Headline6>
       </View>
-      <View>
+      <View style={{ flex: 1 }}>
         <SadBurger />
       </View>
     </View>
@@ -185,7 +199,7 @@ export function Home({ navigation }: PropTypes) {
     },
     restaurant: {
       listRestaurants: restaurants,
-      home: { loading, error },
+      home: { loading },
     },
   } = useAppSelector(state => state);
   const dispatch = useAppDispatch();
@@ -223,7 +237,6 @@ export function Home({ navigation }: PropTypes) {
 
   return (
     <View style={styles.container}>
-      {error && <View />}
       {loading && (
         <Image
           style={styles.loadingIcon}

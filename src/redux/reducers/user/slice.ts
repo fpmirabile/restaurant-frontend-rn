@@ -115,7 +115,7 @@ const googleSignIn = createAsyncThunk(
       }
     } catch (error) {
       console.log(error);
-      rejectWithValue(error);
+      return rejectWithValue(error);
     }
   },
 );

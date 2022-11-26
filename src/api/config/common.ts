@@ -164,3 +164,25 @@ const checkStatus = (response: Response) => {
   (error as any).response = response;
   throw error;
 };
+
+export const createQueryString = (
+  data: any,
+  ignoreFields: string[] = [],
+): string => {
+  if (typeof data !== 'object') {
+    return '';
+  }
+
+  let result = '?';
+  Object.keys(data).forEach(oKey => {
+    if (!ignoreFields.includes(oKey) && data[oKey]) {
+      result += `${oKey}=${encodeURIComponent(data[oKey])}&`;
+    }
+  });
+
+  if (result.endsWith('&')) {
+    result = result.substring(0, result.length - 1);
+  }
+
+  return result;
+};
