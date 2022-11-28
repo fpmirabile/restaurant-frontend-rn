@@ -274,7 +274,7 @@ const createCategory = createAsyncThunk(
       }, 1000);
       return newCategory;
     } catch (error) {
-      rejectWithValue(error);
+      return rejectWithValue(error);
     }
   },
 );
