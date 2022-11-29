@@ -25,8 +25,8 @@ export const styles = StyleSheet.create({
     paddingVertical: 18,
     paddingHorizontal: 16,
     alignItems: 'center',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
+    justifyContent: 'space-around',
+    flexDirection: 'column',
     flex: 1,
   },
   newDishButton: {

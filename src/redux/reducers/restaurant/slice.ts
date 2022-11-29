@@ -549,6 +549,12 @@ const restaurantAppSlice = createSlice({
   name: 'restaurant',
   initialState,
   reducers: {
+    cleanFilters: state => {
+      state.filters = {
+        ...initialState,
+        distance: undefined,
+      };
+    },
     setLatAndLon: (
       state,
       action: PayloadAction<{ latitude: number; longitude: number }>,
@@ -803,6 +809,7 @@ const restaurantAppSlice = createSlice({
       state.home.loading = true;
     });
     builder.addCase(getNearRestaurants.fulfilled, (state, action) => {
+      console.log('near restaurants fullfilled');
       state.home.loading = false;
       state.home.error = '';
       state.restaurants = action.payload || [];
@@ -810,6 +817,7 @@ const restaurantAppSlice = createSlice({
       state.filterText = '';
     });
     builder.addCase(getNearRestaurants.rejected, (state, action) => {
+      console.log('near restaurants rejected');
       state.home.loading = false;
       state.filterText = '';
       const message = (action.payload as any).message;

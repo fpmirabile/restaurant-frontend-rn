@@ -7,6 +7,7 @@ import {
   Headline6,
   Dropdown,
   ImageButton,
+  TouchableText,
 } from '../../components/shared';
 import { MorfandoRouterParams } from '../../navigation/navigation';
 import { localizedStrings } from '../../localization/localized-strings';
@@ -142,6 +143,12 @@ export function FiltersClient({ navigation }: RouterProps) {
     navigation,
   ]);
 
+  const handleCleanFilters = React.useCallback(async () => {
+    await dispatch(actions.restaurants.cleanFilters());
+    dispatch(actions.restaurants.getNearRestaurants());
+    navigation.goBack();
+  }, [dispatch, navigation]);
+
   return (
     <View style={styles.containerView}>
       <ScrollPage internalContainerStyles={styles.container}>
@@ -209,7 +216,7 @@ export function FiltersClient({ navigation }: RouterProps) {
         </View>
         <View>
           <Dropdown
-            placeholder={localizedStrings.restaurant.clientFilters.starsnumber}
+            placeholder={localizedStrings.restaurant.clientFilters.starsNumber}
             onValueChanged={handleStarsSelected}
             data={stars}
             defaultPair={stars.find(
@@ -218,9 +225,14 @@ export function FiltersClient({ navigation }: RouterProps) {
           />
         </View>
         <View style={styles.applyFilter}>
+          <TouchableText
+            type="captionDarkPink"
+            message={localizedStrings.restaurant.clientFilters.cleanFilters}
+            onPress={handleCleanFilters}
+          />
           <ColorfulButton
             buttonContainerStyle={styles.newDishButton}
-            title={localizedStrings.restaurant.clientFilters.applyfilters}
+            title={localizedStrings.restaurant.clientFilters.applyFilters}
             onPress={handleFilterRestaurants}
           />
         </View>
