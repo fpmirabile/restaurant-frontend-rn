@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View } from 'react-native';
 import {
+  Body,
   Caption,
   ColorfulButton,
   Title,
@@ -14,7 +15,8 @@ import { styles } from './styles';
 
 interface PropTypes
   extends MorfandoRouterParams<'FinishedRestaurantCreation'> {}
-export function RestaurantCreated({ navigation }: PropTypes) {
+export function RestaurantCreated({ navigation, route }: PropTypes) {
+  const { isEdit } = route.params;
   const Chef = ICONS.chef;
   const { loading, error } = useAppSelector(state => state.restaurant.create);
 
@@ -27,9 +29,18 @@ export function RestaurantCreated({ navigation }: PropTypes) {
 
   return (
     <View style={styles.container}>
+      
       <Title>{localizedStrings.restaurant.created.title(loading, error)}</Title>
       {!loading && !error && (
-        <Caption>{localizedStrings.restaurant.created.subtitle}</Caption>
+        <View>
+          {isEdit ? (
+            <Body>{localizedStrings.restaurant.created.subtitleEdit}</Body>
+          ) : (
+            <View>
+              <Body>{localizedStrings.restaurant.created.subtitle}</Body>
+            </View>
+          )}
+        </View>
       )}
       <View style={styles.bottomContainer}>
         <View style={styles.imageContainer}>

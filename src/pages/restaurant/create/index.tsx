@@ -10,6 +10,7 @@ import { CreateRestaurantStepOne } from './step-1';
 import { CreateRestaurantStepTwo } from './step-2';
 import { styles } from './styles';
 
+
 const steps = [CreateRestaurantStepOne, CreateRestaurantStepTwo];
 interface PropTypes extends MorfandoRouterParams<'CreateRestaurant'> {}
 export function CreateRestaurant({ navigation }: PropTypes) {
@@ -29,6 +30,7 @@ export function CreateRestaurant({ navigation }: PropTypes) {
     setStep(previousStep);
   }, [step, navigation, dispatch]);
 
+
   const handleContinue = React.useCallback(() => {
     const nextStep = step + 1;
     if (nextStep > steps.length) {
@@ -41,8 +43,9 @@ export function CreateRestaurant({ navigation }: PropTypes) {
       } else {
         dispatch(actions.restaurants.createRestaurant());
       }
+      navigation.push('FinishedRestaurantCreation',{isEdit:!!id})
 
-      navigation.push('FinishedRestaurantCreation');
+      
       return;
     }
 
