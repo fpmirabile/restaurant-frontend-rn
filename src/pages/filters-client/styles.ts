@@ -39,10 +39,6 @@ export const styles = StyleSheet.create({
   containerInput: {
     flex: 8,
   },
-  priceRange: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
   close: {
     paddingTop: 16,
     paddingBottom: 16,

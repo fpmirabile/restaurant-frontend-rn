@@ -52,8 +52,7 @@ const putFavorite = (restaurantId: number): Promise<any> => {
 export type Filter = {
   foodType?: string;
   stars?: number;
-  priceRangeFrom?: string;
-  priceRangeTo?: string;
+  priceRange?: string;
 };
 const getRestaurantsNearMe = (
   lat: number,

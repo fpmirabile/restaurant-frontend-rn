@@ -26,12 +26,9 @@ function useFilter(currentFilters: Filter & { distance?: number }) {
   const [selectedFoodType, setFoodType] = React.useState<string | undefined>(
     currentFilters.foodType,
   );
-  const [selectedFromPriceRange, setFromPriceRange] = React.useState<
+  const [selectedPriceRange, setPriceRange] = React.useState<
     string | undefined
-  >(currentFilters.priceRangeFrom);
-  const [selectedToPriceRange, setToPriceRange] = React.useState<
-    string | undefined
-  >(currentFilters.priceRangeTo);
+  >(currentFilters.priceRange);
   const [selectedDistance, setDistance] = React.useState<number>(
     currentFilters.distance || 50,
   );
@@ -39,12 +36,10 @@ function useFilter(currentFilters: Filter & { distance?: number }) {
   return {
     selectedDistance,
     selectedFoodType,
-    selectedFromPriceRange,
-    selectedToPriceRange,
+    selectedPriceRange,
     selectedStars,
     setStars,
-    setFromPriceRange,
-    setToPriceRange,
+    setPriceRange,
     setDistance,
     setFoodType,
   };
@@ -56,26 +51,24 @@ export function FiltersClient({ navigation }: RouterProps) {
   const {
     selectedDistance,
     selectedFoodType,
-    selectedFromPriceRange,
-    selectedToPriceRange,
+    selectedPriceRange,
     selectedStars,
     setDistance,
-    setFromPriceRange,
-    setToPriceRange,
+    setPriceRange,
     setFoodType,
     setStars,
   } = useFilter(filters);
 
   const foodTypes = [
-    { key: '1', value: 'Árabe' },
+    { key: '1', value: 'Parrilla' },
     { key: '2', value: 'Asiática' },
-    { key: '3', value: 'China' },
-    { key: '4', value: 'Francesa' },
-    { key: '5', value: 'Hamburgueseria' },
-    { key: '6', value: 'India' },
-    { key: '7', value: 'Parrillla' },
-    { key: '8', value: 'Pastas' },
-    { key: '9', value: 'Pizzería' },
+    { key: '3', value: 'Pastas' },
+    { key: '4', value: 'Hamburguesería' },
+    { key: '5', value: 'India' },
+    { key: '6', value: 'Árabe' },
+    { key: '7', value: 'China' },
+    { key: '8', value: 'Pizzería' },
+    { key: '9', value: 'Francesa' },
   ];
 
   const stars = [
@@ -91,6 +84,7 @@ export function FiltersClient({ navigation }: RouterProps) {
     { key: '2', value: '$$' },
     { key: '3', value: '$$$' },
     { key: '4', value: '$$$$' },
+    { key: '5', value: '$$$$$' },
   ];
 
   const handleSliderScrollEnd = React.useCallback(
@@ -111,14 +105,10 @@ export function FiltersClient({ navigation }: RouterProps) {
   );
 
   const handlePriceRange = React.useCallback(
-    (field: 'from' | 'to') => (value: string) => {
-      if (field === 'from') {
-        setFromPriceRange(value);
-      } else {
-        setToPriceRange(value);
-      }
+    (value: string) => {
+      setPriceRange(value);
     },
-    [setFromPriceRange, setToPriceRange],
+    [setPriceRange],
   );
 
   const handleStarsSelected = React.useCallback(
@@ -138,8 +128,7 @@ export function FiltersClient({ navigation }: RouterProps) {
         foodType: selectedFoodType,
         distance: selectedDistance,
         stars: selectedStars,
-        priceRangeFrom: selectedFromPriceRange,
-        priceRangeTo: selectedToPriceRange,
+        priceRange: selectedPriceRange,
       }),
     );
 
@@ -148,8 +137,7 @@ export function FiltersClient({ navigation }: RouterProps) {
     dispatch,
     selectedDistance,
     selectedFoodType,
-    selectedFromPriceRange,
-    selectedToPriceRange,
+    selectedPriceRange,
     selectedStars,
     navigation,
   ]);
@@ -201,24 +189,16 @@ export function FiltersClient({ navigation }: RouterProps) {
         </View>
         <View style={styles.subtitle}>
           <Headline6>
-            {localizedStrings.restaurant.clientFilters.pricerange}
+            {localizedStrings.restaurant.clientFilters.priceRange}
           </Headline6>
         </View>
-        <View style={styles.priceRange}>
+        <View>
           <Dropdown
-            placeholder={localizedStrings.restaurant.clientFilters.from}
-            onValueChanged={handlePriceRange('from')}
+            placeholder={localizedStrings.restaurant.clientFilters.priceRanges}
+            onValueChanged={handlePriceRange}
             data={priceRange}
             defaultPair={priceRange.find(
-              range => range.value === selectedFromPriceRange,
-            )}
-          />
-          <Dropdown
-            placeholder={localizedStrings.restaurant.clientFilters.to}
-            onValueChanged={handlePriceRange('to')}
-            data={priceRange}
-            defaultPair={priceRange.find(
-              range => range.value === selectedToPriceRange,
+              range => range.value === selectedPriceRange,
             )}
           />
         </View>
