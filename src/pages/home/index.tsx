@@ -181,11 +181,11 @@ const listEmpty = React.memo(() => {
       <View style={{ flex: 1 }}>
         <Headline6 darkPinkColor>
           {isAdmin
-            ? 'Aun no cargaste ningùn Restaurant'
+            ? 'Aun no cargaste ningún Restaurant'
             : 'Parece no haber restaurants cerca tuyo'}
         </Headline6>
       </View>
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, marginTop: 32 }}>
         <SadBurger />
       </View>
     </View>
