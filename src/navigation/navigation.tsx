@@ -34,7 +34,7 @@ export type RootStackParamList = {
   Registration: undefined;
   Profile: undefined;
   CreateRestaurant: undefined;
-  FinishedRestaurantCreation: undefined;
+  FinishedRestaurantCreation:{isEdit:boolean};
   SuccessRegistration: undefined;
   NewDish: undefined;
   ViewRestaurant: undefined;

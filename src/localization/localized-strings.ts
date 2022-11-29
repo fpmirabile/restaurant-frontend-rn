@@ -65,6 +65,7 @@ export const localizedStrings = new LocalizedStrings({
           }`,
         subtitle:
           'Felicitaciones, tu restaurante ya se encuentra creado y listo para comenzar a añadir los platos.',
+        subtitleEdit: 'Ya completaste la edición de tu restaurante 🎉. Podes continuar añadiendo nuevos platos 🍽️.',
         primaryButton: 'Continuar con el menu',
         secondaryButton: 'Continuar luego',
       },

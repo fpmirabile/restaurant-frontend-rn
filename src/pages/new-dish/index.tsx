@@ -28,6 +28,7 @@ import { styles } from './styles';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { CreateMenu } from '../../redux/reducers/restaurant/slice';
 import { actions } from '../../redux';
+import Toast from 'react-native-toast-message';
 
 interface RouterProps extends MorfandoRouterParams<'NewDish'> {}
 
@@ -149,13 +150,36 @@ export function NewDish({ navigation }: RouterProps) {
 
   const handleOnAcceptModal = React.useCallback(
     (categoryName: string) => {
-      console.log(categoryName, selectedRestaurant?.id);
-      dispatch(
-        actions.restaurants.createCategory({
-          categoryName,
-          restaurantId: selectedRestaurant?.id || createdRestaurantId || 0,
-        }),
-      );
+      // console.log(categoryName, selectedRestaurant?.id);
+      //Validacion para no crear categorias
+      if (
+        categoriesList.find(cat =>
+          cat.name
+            .toLocaleLowerCase()
+            .includes(categoryName.toLocaleLowerCase()),
+        )
+      ) {
+        console.log('Ya esta la categoria');
+        showToast(
+          'error',
+          'Categoria existente',
+          'La categoria que intenta crear ya existe',
+        );
+      } else {
+        console.log('No esta la categoria');
+        dispatch(
+          actions.restaurants.createCategory({
+            categoryName,
+            restaurantId: selectedRestaurant?.id || createdRestaurantId || 0,
+          }),
+        );
+        showToast(
+          'success',
+          'Categoria creada',
+          'Categoria creada satisfactoriamente 🎉',
+        );
+      }
+
       handleCloseCategoryModal();
     },
     [
@@ -165,6 +189,14 @@ export function NewDish({ navigation }: RouterProps) {
       createdRestaurantId,
     ],
   );
+
+  const showToast = (toasterType: string, title: string, body: string) => {
+    Toast.show({
+      type: toasterType,
+      text1: title,
+      text2: body,
+    });
+  };
 
   React.useEffect(() => {
     return () => {
@@ -317,6 +349,7 @@ export function NewDish({ navigation }: RouterProps) {
           />
         </View>
       </ScrollPage>
+      <Toast />
     </View>
   );
 }
