@@ -25,18 +25,19 @@ export function RestaurantClient({}) {
   const { loading, selectedRestaurant } = useAppSelector(
     state => state.restaurant.view,
   );
-  const [isFavorite, setFavorite] = React.useState(
-    selectedRestaurant?.favorite,
-  );
-  const LikeIcon = isFavorite ? ICONS.like : ICONS.likeNoBackground;
+
+  const LikeIcon = selectedRestaurant?.favorite
+    ? ICONS.like
+    : ICONS.likeNoBackground;
 
   const dispatch = useAppDispatch();
 
-  const deleteFavorite = React.useCallback(() => {
+  const changeFavoriteStatus = React.useCallback(() => {
     selectedRestaurant?.id &&
-      dispatch(actions.restaurants.putFavorite(selectedRestaurant.id));
-    setFavorite(!isFavorite);
-  }, [dispatch, selectedRestaurant, isFavorite]);
+      dispatch(
+        actions.restaurants.putFavoriteWithReload(selectedRestaurant.id),
+      );
+  }, [dispatch, selectedRestaurant]);
 
   const lat = Number(selectedRestaurant?.lat) || 37;
   const lon = Number(selectedRestaurant?.lon) || -58;
@@ -71,7 +72,7 @@ export function RestaurantClient({}) {
                 </View>
                 <View>
                   <PressableView
-                    onPress={deleteFavorite}
+                    onPress={changeFavoriteStatus}
                     containerStyles={styles.restaurantTopPosition}>
                     <LikeIcon />
                   </PressableView>
