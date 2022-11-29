@@ -7,7 +7,6 @@ import {
   CTAText,
   TransparentButton,
   Caption,
-  ImageButton,
   Headline5,
 } from '../../components/shared';
 import { styles } from './styles';
@@ -26,10 +25,12 @@ const Header = ({}: HeaderProps) => {
   const {
     user: { name, email },
   } = useAppSelector(state => state.user);
-  console.log(name);
   return (
     <View style={styles.personalInformationContainer}>
-      <Image style={styles.image}source={require('../../assets/images/temporal/Ellipse.png')} />
+      <Image
+        style={styles.image}
+        source={require('../../assets/images/temporal/Ellipse.png')}
+      />
       <View style={styles.personalNameContainer}>
         <View style={styles.profileName}>
           <Headline5>{name}</Headline5>
@@ -85,10 +86,9 @@ export function Profile({}: PropTypes) {
     navigation.push('ViewFavs');
   }, [navigation]);
 
-  //Modal de confirmacion para eliminar cuenta
   const [isModalVisible, setModalVisible] = React.useState<boolean>(false);
-  //Modal de confirmacion para cierre de sesion
-  const [isModaCloseSesionlVisible, setModalCloseSesionVisible] = React.useState<boolean>(false);
+  const [isModaCloseSesionlVisible, setModalCloseSesionVisible] =
+    React.useState<boolean>(false);
 
   const showConfirmModal = async () => {
     setModalVisible(true);
@@ -108,7 +108,7 @@ export function Profile({}: PropTypes) {
   };
   const handleCloseSesionModal = async () => {
     setModalCloseSesionVisible(false);
-    dispatch(actions.userActions.logOut())
+    dispatch(actions.userActions.logOut());
   };
 
   const hideCloseSesionModal = async () => {
@@ -234,7 +234,7 @@ export function Profile({}: PropTypes) {
         textPrimaryButton={localizedStrings.login.confirm}
         textSecondaryButton={localizedStrings.login.cancel}
       />
-        <ConfirmModal
+      <ConfirmModal
         isVisible={isModaCloseSesionlVisible}
         onConfirm={handleCloseSesionModal}
         onCancel={hideCloseSesionModal}

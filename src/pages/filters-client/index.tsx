@@ -229,6 +229,7 @@ export function FiltersClient({ navigation }: RouterProps) {
             type="captionDarkPink"
             message={localizedStrings.restaurant.clientFilters.cleanFilters}
             onPress={handleCleanFilters}
+            containerStyles={styles.cleanFiltersButton}
           />
           <ColorfulButton
             buttonContainerStyle={styles.newDishButton}

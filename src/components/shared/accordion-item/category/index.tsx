@@ -7,7 +7,7 @@ import { ICONS } from '../../../../constants';
 import { Body2, Body3 } from '../../morfando-text';
 import { styles } from './styles';
 import { ImageButton } from '../../image-button';
-import { useAppDispatch } from '../../../../redux/store';
+import { useAppDispatch, useAppSelector } from '../../../../redux/store';
 import { actions } from '../../../../redux';
 
 interface PropTypes {
@@ -16,6 +16,7 @@ interface PropTypes {
 
 export function AccordionItem({ itemsCategory }: PropTypes) {
   const dispatch = useAppDispatch();
+  const { isAdmin } = useAppSelector(state => state.user.user);
   const deleteDish = React.useCallback(() => {
     dispatch(actions.restaurants.deleteDish(itemsCategory.id));
   }, [itemsCategory, dispatch]);
@@ -44,9 +45,11 @@ export function AccordionItem({ itemsCategory }: PropTypes) {
           <Body2 style={styles.itemPrice}>{'$' + itemsCategory.price}</Body2>
         </View>
       </View>
-      <View style={styles.iconContainer}>
-        <ImageButton imageSvg={ICONS.trash} onPress={deleteDish} />
-      </View>
+      {isAdmin && (
+        <View style={styles.iconContainer}>
+          <ImageButton imageSvg={ICONS.trash} onPress={deleteDish} />
+        </View>
+      )}
     </View>
   );
 }

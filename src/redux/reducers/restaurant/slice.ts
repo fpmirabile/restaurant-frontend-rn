@@ -506,18 +506,15 @@ const deleteDish = createAsyncThunk(
   async (dishId: number, { getState, rejectWithValue, dispatch }) => {
     try {
       const rState = getState() as any;
-      const restaurant = rState.restaurant.view.selectedRestaurant
-      console.log(restaurant)
-      
-      if(restaurant){
+      const restaurant = rState.restaurant.view.selectedRestaurant;
+      if (restaurant) {
         const response = await RestaurantAPI.deleteDish(dishId);
-        console.log(dishId)
+        console.log(dishId);
         if (dishId) {
           dispatch(selectRestaurant(restaurant.id));
         }
         return response;
       }
-
     } catch (error) {
       console.log('delete dish error', error);
       return rejectWithValue(error);

@@ -112,10 +112,7 @@ const header = React.memo(() => {
     user: {
       user: { isAdmin },
     },
-    restaurant: {
-      filterText,
-      home: { error },
-    },
+    restaurant: { filterText },
   } = useAppSelector(state => state);
   const dispatch = useAppDispatch();
   const RestaurantIcon = ICONS.restaurant;
@@ -145,11 +142,6 @@ const header = React.memo(() => {
             value={filterText}
             placeholder="Buscar restaurantes / tipo de comida"
           />
-        </View>
-      )}
-      {error && (
-        <View>
-          <Body>${error}</Body>
         </View>
       )}
       <View style={styles.titleContainer}>
