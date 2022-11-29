@@ -218,6 +218,21 @@ const getNearRestaurants = createAsyncThunk(
   },
 );
 
+const putFavoriteWithReload = createAsyncThunk(
+  'restaurant/getFavoritesAndReload',
+  async (payload: number, { rejectWithValue, dispatch }) => {
+    try {
+      await dispatch(putFavorite(payload));
+      setTimeout(() => {
+        dispatch(getFavorites());
+      }, 2000);
+      return payload;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
 const putFavorite = createAsyncThunk(
   'restaurant/favorite',
   async (payload: number, { rejectWithValue }) => {
@@ -900,7 +915,16 @@ const restaurantAppSlice = createSlice({
       newRestaurants[resIndex].favorite = !newRestaurants[resIndex].favorite;
       state.restaurants = newRestaurants;
       state.listRestaurants = newRestaurants;
+
+      if (state.view.selectedRestaurant) {
+        console.log('cambio estado');
+        state.view.selectedRestaurant = {
+          ...state.view.selectedRestaurant,
+          favorite: !state.view.selectedRestaurant.favorite,
+        };
+      }
     });
+
     builder.addCase(createCategory.pending, state => {
       state.menu.loading = true;
       state.menu.error = undefined;
@@ -1000,6 +1024,7 @@ export const restaurantSlice = {
     openOrCloseRestaurant,
     filterRestaurantsByQuery,
     deleteDish,
+    putFavoriteWithReload,
     saveNewComment,
   },
   reducer,
