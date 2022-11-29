@@ -31,8 +31,6 @@ export function RestaurantClient({}) {
     ? ICONS.like
     : ICONS.likeNoBackground;
 
-  const dispatch = useAppDispatch();
-
   const changeFavoriteStatus = React.useCallback(() => {
     selectedRestaurant?.id &&
       dispatch(

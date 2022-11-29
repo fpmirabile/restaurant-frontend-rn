@@ -7,13 +7,19 @@ import { ICONS } from '../../../../constants';
 import { Body2, Body3 } from '../../morfando-text';
 import { styles } from './styles';
 import { ImageButton } from '../../image-button';
+import { useAppDispatch } from '../../../../redux/store';
+import { actions } from '../../../../redux';
 
 interface PropTypes {
   itemsCategory: ItemsCategory;
 }
 
 export function AccordionItem({ itemsCategory }: PropTypes) {
-  console.log(itemsCategory);
+  const dispatch = useAppDispatch();
+  const deleteDish = React.useCallback(() => {
+    dispatch(actions.restaurants.deleteDish(itemsCategory.id));
+  }, [itemsCategory, dispatch]);
+
   return (
     <View style={styles.container}>
       <TouchableOpacity>
@@ -39,7 +45,7 @@ export function AccordionItem({ itemsCategory }: PropTypes) {
         </View>
       </View>
       <View style={styles.iconContainer}>
-        <ImageButton imageSvg={ICONS.trash} />
+        <ImageButton imageSvg={ICONS.trash} onPress={deleteDish} />
       </View>
     </View>
   );

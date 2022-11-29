@@ -501,6 +501,30 @@ const saveMenu = createAsyncThunk(
   },
 );
 
+const deleteDish = createAsyncThunk(
+  'restaurant/deleteDish',
+  async (dishId: number, { getState, rejectWithValue, dispatch }) => {
+    try {
+      const rState = getState() as any;
+      const restaurant = rState.restaurant.view.selectedRestaurant
+      console.log(restaurant)
+      
+      if(restaurant){
+        const response = await RestaurantAPI.deleteDish(dishId);
+        console.log(dishId)
+        if (dishId) {
+          dispatch(selectRestaurant(restaurant.id));
+        }
+        return response;
+      }
+
+    } catch (error) {
+      console.log('delete dish error', error);
+      return rejectWithValue(error);
+    }
+  },
+);
+
 const selectRestaurant = createAsyncThunk(
   'restaurants/selectRestaurant',
   async (payload: number, { rejectWithValue, dispatch }) => {
@@ -826,6 +850,7 @@ const restaurantAppSlice = createSlice({
           (action.payload as any).message || 'Ocurrio un error insperado';
       }
     });
+
     builder.addCase(selectRestaurant.pending, state => {
       state.view.loading = true;
     });
@@ -985,6 +1010,7 @@ export const restaurantSlice = {
     createCategory,
     openOrCloseRestaurant,
     filterRestaurantsByQuery,
+    deleteDish,
     putFavoriteWithReload,
     saveNewComment,
   },

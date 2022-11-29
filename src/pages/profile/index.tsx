@@ -36,7 +36,6 @@ const Header = ({}: HeaderProps) => {
         </View>
         <Caption>{email}</Caption>
       </View>
-      <ImageButton imageStyle={styles.editIcon} imageSvg={ICONS.edit} />
     </View>
   );
 };
