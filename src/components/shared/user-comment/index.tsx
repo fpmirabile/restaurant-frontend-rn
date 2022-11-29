@@ -26,7 +26,7 @@ export function UserComment({ comment }: PropTypes) {
         <Body darkPinkColor fontType="bold">
           {comment.name}
         </Body>
-        <Body>{comment.comment}</Body>
+        <Body style={styles.commentWidthSize}>{comment.comment}</Body>
         <View style={styles.starsSpace}>
           <Rating
             starSize={16}

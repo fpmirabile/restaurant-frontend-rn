@@ -5,7 +5,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    // flex: 1,
   },
   profilePhoto: {
     marginLeft: 16,
@@ -25,5 +24,8 @@ export const styles = StyleSheet.create({
   },
   starsSpace: {
     paddingTop: 8,
+  },
+  commentWidthSize: {
+    maxWidth: 300,
   },
 });
