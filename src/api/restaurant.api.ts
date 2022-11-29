@@ -2,6 +2,7 @@ import {
   authenticatedGet,
   authenticatedPost,
   authenticatedPut,
+  authenticatedDelete, //TODO DELETE DISH
 } from './config/calls';
 import { createQueryString } from './config/common';
 
@@ -144,6 +145,10 @@ const openOrClose = async (restaurantId: number) => {
   return authenticatedPut(`/restaurant/${restaurantId}/open`);
 };
 
+const deleteDish = async (dishId: number) => {
+  return authenticatedDelete(`/restaurant/category/meal/${dishId}`);
+};
+
 export const RestaurantAPI = {
   getRestaurants,
   getRestaurantsNearMe,
@@ -156,4 +161,7 @@ export const RestaurantAPI = {
   editRestaurant,
   createNewCategory,
   openOrClose,
+  deleteDish, //TODO DELETE DISH
 };
+// "/restaurant/:restaurantId/category/:categoryId"
+// /restaurant/category/meal/:mealId <= plato

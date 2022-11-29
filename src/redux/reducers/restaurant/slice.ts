@@ -485,6 +485,25 @@ const saveMenu = createAsyncThunk(
   },
 );
 
+//!TODO ELIMINAR PLATOOOOOO
+const deleteDish = createAsyncThunk(
+  'restaurant/deleteDish',
+  async (dishId: number, { getState, rejectWithValue, dispatch }) => {
+    try {
+      const rState = getState() as any;
+      const restaurant = rState.selectedRestaurant;
+      const response = await RestaurantAPI.deleteDish(dishId);
+      if (dishId) {
+        dispatch(selectRestaurant(restaurant.id));
+      }
+      return response;
+    } catch (error) {
+      console.log('delete dish error', error);
+      return rejectWithValue(error);
+    }
+  },
+);
+
 const selectRestaurant = createAsyncThunk(
   'restaurants/selectRestaurant',
   async (payload: number, { rejectWithValue, dispatch }) => {
@@ -784,6 +803,24 @@ const restaurantAppSlice = createSlice({
       //     (action.payload as any).message || 'Ocurrio un error insperado';
       // }
     });
+
+    builder.addCase(deleteDish.pending, state => {
+      state.menu.loading = true;
+    });
+    builder.addCase(deleteDish.fulfilled, state => {
+      state.menu = {
+        ...initialState.menu,
+      };
+    });
+    builder.addCase(deleteDish.rejected, state => {
+      state.menu.loading = false;
+      console.log('delete dish rejected');
+      // if (action.payload) {
+      //   state.create.error =
+      //     (action.payload as any).message || 'Ocurrio un error insperado';
+      // }
+    });
+
     builder.addCase(selectRestaurant.pending, state => {
       state.view.loading = true;
     });
@@ -913,6 +950,7 @@ export const restaurantSlice = {
     createCategory,
     openOrCloseRestaurant,
     filterRestaurantsByQuery,
+    deleteDish,
   },
   reducer,
 };
