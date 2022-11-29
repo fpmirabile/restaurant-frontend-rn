@@ -485,18 +485,23 @@ const saveMenu = createAsyncThunk(
   },
 );
 
-//!TODO ELIMINAR PLATOOOOOO
 const deleteDish = createAsyncThunk(
   'restaurant/deleteDish',
   async (dishId: number, { getState, rejectWithValue, dispatch }) => {
     try {
       const rState = getState() as any;
-      const restaurant = rState.selectedRestaurant;
-      const response = await RestaurantAPI.deleteDish(dishId);
-      if (dishId) {
-        dispatch(selectRestaurant(restaurant.id));
+      const restaurant = rState.restaurant.view.selectedRestaurant
+      console.log(restaurant)
+      
+      if(restaurant){
+        const response = await RestaurantAPI.deleteDish(dishId);
+        console.log(dishId)
+        if (dishId) {
+          dispatch(selectRestaurant(restaurant.id));
+        }
+        return response;
       }
-      return response;
+
     } catch (error) {
       console.log('delete dish error', error);
       return rejectWithValue(error);
