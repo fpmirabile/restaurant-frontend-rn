@@ -2,31 +2,32 @@ import { StyleSheet } from 'react-native';
 import { COLORS } from '../../constants';
 
 export const styles = StyleSheet.create({
-  container: {
+  containerView: {
+    backgroundColor: COLORS.background,
     flex: 1,
+    flexGrow: 1,
+  },
+  container: {
     padding: 16,
+    flex: 1,
+    flexGrow: 1,
   },
   title: {
-    flex: 1,
     marginTop: 8,
     textAlign: 'left',
   },
-  subtilte: {
+  subtitle: {
     textAlign: 'left',
     marginTop: 24,
     marginBottom: 8,
   },
-  containerView: {
-    backgroundColor: COLORS.background,
-    flex: 1,
-  },
   applyFilter: {
-    backgroundColor: COLORS.white,
     paddingVertical: 18,
     paddingHorizontal: 16,
     alignItems: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
+    flex: 1,
   },
   newDishButton: {
     width: 328,
@@ -37,10 +38,6 @@ export const styles = StyleSheet.create({
   },
   containerInput: {
     flex: 8,
-  },
-  priceRange: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
   },
   close: {
     paddingTop: 16,

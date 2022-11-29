@@ -3,6 +3,7 @@ import {
   authenticatedPost,
   authenticatedPut,
 } from './config/calls';
+import { createQueryString } from './config/common';
 
 export type Days = 'L' | 'M' | 'X' | 'J' | 'V' | 'S' | 'D';
 
@@ -48,13 +49,20 @@ const putFavorite = (restaurantId: number): Promise<any> => {
   return authenticatedPut('/restaurant/' + restaurantId + '/favorites');
 };
 
+export type Filter = {
+  foodType?: string;
+  stars?: number;
+  priceRange?: string;
+};
 const getRestaurantsNearMe = (
   lat: number,
   lon: number,
-  distance: number = 80,
+  distance: number = 50,
+  filters: Filter = {},
 ): Promise<Restaurant[]> => {
-  //Dejo clavado el 80, pero ahi deberia ir la distancia que filtra el usuario
-  return authenticatedGet(`/restaurants/near/${lat}/${lon}/${distance}`);
+  const filterQueryString = createQueryString(filters, ['distance']);
+  const url = `/restaurants/near/${lat}/${lon}/${distance}${filterQueryString}`;
+  return authenticatedGet(url);
 };
 
 export interface Comment {

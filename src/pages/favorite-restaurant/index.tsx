@@ -5,7 +5,7 @@ import {
   Body,
   Body2,
   CTAText,
-  Headline4,
+  Headline5,
   PressableView,
   Title,
 } from '../../components/shared';
@@ -111,7 +111,7 @@ const listEmpty = React.memo(() => {
   return (
     <View style={styles.listEmpty}>
       <View>
-        <Headline4 darkPinkColor>Ups, no encontramos nada por aquí</Headline4>
+        <Headline5 darkPinkColor>Ups, no encontramos nada por aquí</Headline5>
       </View>
       <View style={styles.bodyEmpty}>
         <SadBurger />

@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
   addPictureBody: {
     marginTop: 5,
     width: 240,
-    textAlign:'center',
+    textAlign: 'center',
   },
   imageUploaded: {
     height: 200,
@@ -34,5 +34,9 @@ export const styles = StyleSheet.create({
   },
   separator: {
     marginHorizontal: 8,
+  },
+  bottomSheetChildrenContainer: {},
+  bottomSheetButton: {
+    marginVertical: 12,
   },
 });

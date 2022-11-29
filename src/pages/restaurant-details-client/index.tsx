@@ -106,7 +106,7 @@ export function RestaurantClient({}) {
                 <View style={styles.commentStarsDetails}>
                   <CTAText>Comentarios</CTAText>
                   <Body2 darkPinkColor fontType="bold">
-                    25
+                    {selectedRestaurant?.comments.length || 0}
                   </Body2>
                 </View>
               </Shadow>

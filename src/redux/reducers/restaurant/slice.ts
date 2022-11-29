@@ -6,6 +6,7 @@ import {
   RestaurantAPI,
   Category,
   FullRestaurant,
+  Filter,
 } from '../../../api/restaurant.api';
 import { tryRequestGeoPermissions } from '../../../util/geolocalization';
 import Geolocation from '@react-native-community/geolocation';
@@ -18,6 +19,13 @@ type State = {
   listRestaurants: Restaurant[];
   favorites: Restaurant[];
   filterText: string;
+  filters: {
+    foodType?: string;
+    stars?: number;
+    priceRangeFrom?: string;
+    priceRangeTo?: string;
+    distance?: number;
+  };
   home: {
     loading: boolean;
     error: string;
@@ -86,6 +94,13 @@ const initialState: State = {
   favorites: [],
   listRestaurants: [],
   filterText: '',
+  filters: {
+    foodType: undefined,
+    priceRangeFrom: undefined,
+    priceRangeTo: undefined,
+    stars: undefined,
+    distance: undefined,
+  },
   home: {
     loading: false,
     error: '',
@@ -198,7 +213,7 @@ const getNearRestaurants = createAsyncThunk(
 
       return [];
     } catch (error) {
-      rejectWithValue(error);
+      return rejectWithValue(error);
     }
   },
 );
@@ -209,7 +224,7 @@ const putFavorite = createAsyncThunk(
     try {
       await RestaurantAPI.putFavorite(payload);
     } catch (error) {
-      rejectWithValue(error);
+      return rejectWithValue(error);
     }
   },
 );
@@ -333,7 +348,7 @@ const saveEditRestaurant = createAsyncThunk(
         dispatch(getRestaurants());
       }, 2000);
     } catch (error) {
-      rejectWithValue(error);
+      return rejectWithValue(error);
     }
   },
 );
@@ -377,7 +392,7 @@ const createRestaurant = createAsyncThunk(
       return response;
     } catch (err) {
       console.log(err);
-      rejectWithValue(err);
+      return rejectWithValue(err);
     }
   },
 );
@@ -413,7 +428,7 @@ const getLatAndLon = async (
     }
   } catch (error) {
     console.log(error);
-    rejectWithValue(error);
+    return rejectWithValue(error);
   }
 };
 
@@ -465,7 +480,7 @@ const saveMenu = createAsyncThunk(
       return response;
     } catch (error) {
       console.log('create menu error', error);
-      rejectWithValue(error);
+      return rejectWithValue(error);
     }
   },
 );
@@ -482,7 +497,7 @@ const selectRestaurant = createAsyncThunk(
       return restaurant;
     } catch (error) {
       console.log('selected restaurant rejected', error);
-      rejectWithValue(error);
+      return rejectWithValue(error);
     }
   },
 );
@@ -498,7 +513,34 @@ const openOrCloseRestaurant = createAsyncThunk(
       }, 1000);
       return restaurantId;
     } catch (error) {
-      rejectWithValue(error);
+      return rejectWithValue(error);
+    }
+  },
+);
+
+const filterRestaurantsByQuery = createAsyncThunk(
+  'restaurants/filterByQuery',
+  async (
+    filters: Filter & { distance: number },
+    { rejectWithValue, dispatch },
+  ) => {
+    try {
+      const loc = await dispatch(getCurrentPosition());
+      const { latitude, longitude } = loc.payload as {
+        latitude: number;
+        longitude: number;
+      };
+
+      const restaurants = await RestaurantAPI.getRestaurantsNearMe(
+        latitude,
+        longitude,
+        filters.distance,
+        filters,
+      );
+
+      return { filters, restaurants };
+    } catch (error) {
+      return rejectWithValue({ error, filters });
     }
   },
 );
@@ -507,6 +549,13 @@ const restaurantAppSlice = createSlice({
   name: 'restaurant',
   initialState,
   reducers: {
+    setLatAndLon: (
+      state,
+      action: PayloadAction<{ latitude: number; longitude: number }>,
+    ) => {
+      state.create.stepOne.lat = action.payload.latitude.toString();
+      state.create.stepOne.lon = action.payload.longitude.toString();
+    },
     cleanMenuCreation: state => {
       state.menu = {
         ...initialState.menu,
@@ -550,7 +599,7 @@ const restaurantAppSlice = createSlice({
         typeOfFood: foodType,
       };
     },
-    filter: (state, action: PayloadAction<string>) => {
+    filterByName: (state, action: PayloadAction<string>) => {
       const filterText = action.payload;
       state.filterText = filterText;
       if (!filterText) {
@@ -816,6 +865,33 @@ const restaurantAppSlice = createSlice({
         state.menu.error = message;
       }
     });
+    builder.addCase(filterRestaurantsByQuery.pending, state => {
+      state.home.loading = true;
+    });
+    builder.addCase(filterRestaurantsByQuery.fulfilled, (state, action) => {
+      if (action.payload) {
+        const { filters, restaurants: newRestaurants } = action.payload;
+        state.home.loading = false;
+        state.home.error = '';
+        state.restaurants = newRestaurants || [];
+        state.listRestaurants = [...(newRestaurants || [])];
+        state.filterText = '';
+        state.filters = filters;
+      }
+    });
+    builder.addCase(filterRestaurantsByQuery.rejected, (state, action) => {
+      const { error, filters } = action.payload as {
+        error: any;
+        filters: Filter & { distance: number };
+      };
+      state.home.loading = false;
+      state.filterText = '';
+      state.filters = filters;
+      const message = (error as any).message;
+      if (message) {
+        state.home.error = message;
+      }
+    });
   },
 });
 
@@ -836,6 +912,7 @@ export const restaurantSlice = {
     saveEditRestaurant,
     createCategory,
     openOrCloseRestaurant,
+    filterRestaurantsByQuery,
   },
   reducer,
 };

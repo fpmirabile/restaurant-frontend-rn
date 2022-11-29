@@ -49,7 +49,8 @@ export const localizedStrings = new LocalizedStrings({
         kindOfFood: 'Tipo de comida',
         priceRange: 'Rango de precio',
         restaurantPictures: 'Imagenes del restaurante',
-        addPictures: 'Puede seleccionar varias imagenes manteniendo presionada la primera imagen por unos segundos',
+        addPictures:
+          'Puede seleccionar varias imagenes manteniendo presionada la primera imagen por unos segundos',
         picturesCaption: (addedAmount: number, totalAmount: number) =>
           `Fotos: ${addedAmount}/${totalAmount} - La primera foto en seleccionar será la foto de portada.`,
       },
@@ -105,13 +106,12 @@ export const localizedStrings = new LocalizedStrings({
         menu: 'Menú',
         comments: 'Comentarios',
       },
-      clientFiltres: {
+      clientFilters: {
         filter: 'Filtros',
-        maxdistance: 'Distancia máxima',
-        foodtype: 'Tipo de comida',
-        pricerange: 'Rango de precio',
-        from: 'Desde',
-        to: 'Hasta',
+        maxDistance: 'Distancia máxima',
+        foodType: 'Tipo de comida',
+        priceRange: 'Rango de precio',
+        priceRanges: 'Rango de precios',
         calification: 'Calificación',
         starsnumber: 'Cantidad de estrellas',
         applyfilters: 'Aplicar filtros',

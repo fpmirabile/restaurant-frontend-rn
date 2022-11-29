@@ -80,6 +80,7 @@ export const styles = StyleSheet.create({
   },
   restaurantBackgroundImage: {
     width: '100%',
+    height: 200,
   },
   restaurantInfoContainer: {
     paddingHorizontal: 16,

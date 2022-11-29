@@ -29,6 +29,7 @@
     "react": "18.1.0",
     "react-native": "^0.70.4",
     "react-native-accordion-wrapper": "^1.0.1",
+    "react-native-actions-sheet": "^0.8.10",
     "react-native-config": "^1.4.6",
     "react-native-dropdown-select-list": "^2.0.2",
     "react-native-image-base64-png": "^0.2.1",
