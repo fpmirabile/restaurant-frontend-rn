@@ -37,6 +37,10 @@ export function ForgotPassword() {
     (field: 'email' | 'code' | 'password' | 'repeatPassword') =>
       (value: string) => {
         if (field === 'email') {
+          if (emailSent) {
+            setEmailSent(false);
+          }
+
           setEmail(value);
         } else if (field === 'code') {
           setCode(value);
@@ -46,12 +50,23 @@ export function ForgotPassword() {
           setRepeatPassword(value);
         }
       },
-    [],
+    [emailSent],
   );
 
+  const goBack = React.useCallback(() => {
+    navigation.reset({ index: 0, routes: [{ name: 'Login' }] });
+  }, [navigation]);
+
   const handleChangePassword = React.useCallback(() => {
-    dispatch(actions.userActions.changePassword(newPassword));
-  }, [dispatch, newPassword]);
+    dispatch(
+      actions.userActions.changePassword({
+        email: email,
+        password: newPassword,
+      }),
+    );
+
+    goBack();
+  }, [dispatch, newPassword, email, goBack]);
 
   const handleEmailSend = React.useCallback(() => {
     if (!emailSent) {
@@ -66,10 +81,6 @@ export function ForgotPassword() {
       setPasswordChange(true);
     }
   }, [code, email, emailSent]);
-
-  const goBack = React.useCallback(() => {
-    navigation.reset({ index: 0, routes: [{ name: 'Login' }] });
-  }, [navigation]);
 
   return (
     <ImageBackground

@@ -2,6 +2,7 @@ import {
   authenticatedDelete,
   authenticatedGet,
   authenticatedPost,
+  authenticatedPut,
 } from './config/calls';
 
 export interface User {
@@ -64,6 +65,13 @@ const loginSso = async ({
   });
 };
 
+const changePassword = async (email: string, password: string) => {
+  return authenticatedPut('/user/password', {
+    email,
+    password,
+  });
+};
+
 const deleteUser = async () => {
   return authenticatedDelete('/users');
 };
@@ -74,4 +82,5 @@ export const UserAPI = {
   me,
   registerNewOwner,
   deleteUser,
+  changePassword,
 };

@@ -135,9 +135,9 @@ const deleteUser = createAsyncThunk(
 
 const changePassword = createAsyncThunk(
   'user/changePassword',
-  async (payload: string, { rejectWithValue }) => {
+  async (payload: { email: string; password: string }, { rejectWithValue }) => {
     try {
-      // await UserAPI.changePassword(payload);
+      await UserAPI.changePassword(payload.email, payload.password);
     } catch (error) {
       console.log('Error al cambiar la contraseña');
       return rejectWithValue(error);
