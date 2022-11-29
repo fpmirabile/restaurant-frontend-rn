@@ -164,6 +164,7 @@ export function NewDish({ navigation }: RouterProps) {
           type: 'error',
           text1: 'Categoria existente',
           text2: 'La categoria que intenta crear ya existe',
+          autoHide: true,
         });
       } else {
         console.log('No esta la categoria');
@@ -177,6 +178,7 @@ export function NewDish({ navigation }: RouterProps) {
           type: 'success',
           text1: 'Categoria creada',
           text2: 'Categoria creada satisfactoriamente 🎉',
+          autoHide: true,
         });
       }
 

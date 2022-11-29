@@ -223,6 +223,7 @@ const putFavorite = createAsyncThunk(
   async (payload: number, { rejectWithValue }) => {
     try {
       await RestaurantAPI.putFavorite(payload);
+      return payload;
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -833,9 +834,14 @@ const restaurantAppSlice = createSlice({
         state.home.error = message;
       }
     });
-    builder.addCase(putFavorite.fulfilled, state => {
+    builder.addCase(putFavorite.fulfilled, (state, action) => {
       state.home.loading = false;
       state.home.error = '';
+      const newRestaurants = [...state.restaurants];
+      const resIndex = newRestaurants.findIndex(i => i.id === action.payload);
+      newRestaurants[resIndex].favorite = !newRestaurants[resIndex].favorite;
+      state.restaurants = newRestaurants;
+      state.listRestaurants = newRestaurants;
     });
     builder.addCase(createCategory.pending, state => {
       state.menu.loading = true;

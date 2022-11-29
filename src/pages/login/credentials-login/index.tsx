@@ -14,7 +14,7 @@ import { styles } from './styles';
 import { Body, Caption } from '../../../components/shared/morfando-text';
 import { localizedStrings } from '../../../localization/localized-strings';
 import { LoginForm } from '..';
-import { isValidEmail, isValidPassword } from '../../../util/validation';
+import { isValidEmail } from '../../../util/validation';
 import { useAppSelector } from '../../../redux/store';
 
 type InputType = 'username' | 'password';
@@ -76,9 +76,7 @@ function LoginWithCredentialsComponent({
       <PasswordInput
         onChange={handleInputOnChange('password')}
         onEndEditing={handleInputOnChange('password')}
-        onValidateText={isValidPassword}
         value={form.password.value}
-        errorMessage="La contraseña no cumple con nuestras normas (al menos 1 mayuscula, 1 miniscula, 1 simbolo, 1 numero y 6 caracteres"
         placeholder={localizedStrings.login.password}
       />
       <TouchableText

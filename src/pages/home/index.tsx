@@ -181,11 +181,11 @@ const listEmpty = React.memo(() => {
       <View style={{ flex: 1 }}>
         <Headline6 darkPinkColor>
           {isAdmin
-            ? 'Aun no cargaste ningùn Restaurant'
+            ? 'Aun no cargaste ningún Restaurant'
             : 'Parece no haber restaurants cerca tuyo'}
         </Headline6>
       </View>
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, marginTop: 32 }}>
         <SadBurger />
       </View>
     </View>
@@ -221,13 +221,17 @@ export function Home({ navigation }: PropTypes) {
     navigation.push('CreateRestaurant');
   }, [navigation]);
 
-  React.useLayoutEffect(() => {
+  const handleReload = React.useCallback(() => {
     if (!isAdmin) {
       dispatch(actions.restaurants.getNearRestaurants());
     } else {
       dispatch(actions.restaurants.getRestaurants());
     }
   }, [dispatch, isAdmin]);
+
+  React.useLayoutEffect(() => {
+    handleReload();
+  }, [handleReload]);
 
   React.useEffect(() => {
     if (isAdmin) {
@@ -246,6 +250,8 @@ export function Home({ navigation }: PropTypes) {
       )}
       {!loading && (
         <FlatList
+          refreshing={loading}
+          onRefresh={handleReload}
           ListHeaderComponent={header}
           data={restaurants}
           renderItem={renderItemComponent}
