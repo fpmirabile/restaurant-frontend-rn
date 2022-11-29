@@ -178,7 +178,7 @@ const getCurrentPosition = createAsyncThunk('currentPosition', async () => {
           });
         },
         {
-          enableHighAccuracy: false,
+          enableHighAccuracy: true,
           maximumAge: 1,
           timeout: 10000,
         },
@@ -491,7 +491,7 @@ const selectRestaurant = createAsyncThunk(
     try {
       const restaurant = await RestaurantAPI.getSingleRestaurant(payload);
       const state = restaurant.address.split(',')[3]?.trim() || '';
-      console.log('response selectRestaurant');
+      console.log('response selectRestaurant', payload);
       dispatch(placeSlice.actions.getLocalities(state));
       dispatch(getCategoriesByRestaurant(restaurant.id));
       return restaurant;

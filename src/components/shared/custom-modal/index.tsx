@@ -58,11 +58,12 @@ export function CustomModal({
   const handleOnAccept = React.useCallback(() => {
     if (onAcceptModal) {
       onAcceptModal(inputText);
+      handleInputChange('');
       return;
     }
 
     onClose && onClose();
-  }, [onAcceptModal, inputText, onClose]);
+  }, [onAcceptModal, inputText, onClose, handleInputChange]);
 
   return (
     <Modal isVisible={isVisible} style={styles.modalStyles}>

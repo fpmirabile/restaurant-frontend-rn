@@ -2,7 +2,6 @@ import * as React from 'react';
 import { View } from 'react-native';
 import {
   Body,
-  Caption,
   ColorfulButton,
   Title,
   TransparentButton,
@@ -29,7 +28,6 @@ export function RestaurantCreated({ navigation, route }: PropTypes) {
 
   return (
     <View style={styles.container}>
-      
       <Title>{localizedStrings.restaurant.created.title(loading, error)}</Title>
       {!loading && !error && (
         <View>

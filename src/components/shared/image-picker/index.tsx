@@ -10,6 +10,7 @@ import { ImageButton } from '../image-button';
 import ActionSheet, { ActionSheetRef } from 'react-native-actions-sheet';
 import { styles } from './styles';
 import { TouchableText } from '../touchable-text';
+import { requestCameraPermission } from '../../../util/permissions';
 
 interface PropTypes {
   onImageAdded?: (images: string[]) => void;
@@ -33,7 +34,8 @@ export function ImagePicker({
     actionSheetRef.current?.show();
   };
 
-  const handleOpenGallery = React.useCallback(() => {
+  const handleOpenGallery = React.useCallback(async () => {
+    await requestCameraPermission();
     launchImageLibrary(
       {
         mediaType: 'photo',

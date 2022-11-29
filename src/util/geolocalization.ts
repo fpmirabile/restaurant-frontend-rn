@@ -14,9 +14,11 @@ export const tryRequestGeoPermissions = async ({
 }: PermissionRequest): Promise<boolean> => {
   try {
     const granted = await PermissionsAndroid.request(permission, {
-      title: 'Acceder a gps',
-      message: 'Necesitamos saber donde estas parado',
+      title: 'Acceder a tu localizacion',
+      message:
+        'Necesitamos acceder a tu localizacion para darte una mejor experiencia de usuario',
       buttonPositive: 'Aceptar',
+      buttonNegative: 'Cancelar',
     });
 
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
