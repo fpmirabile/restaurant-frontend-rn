@@ -17,11 +17,12 @@ import { Shadow } from 'react-native-shadow-2';
 import { Rating } from 'react-native-ratings';
 import NoAvailableImage from '../../assets/images/no-available-image.svg';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
-import { styles } from './styles';
 import { Title2 } from '../../components/shared/morfando-text';
 import { actions } from '../../redux';
+import { styles } from './styles';
 
 export function RestaurantClient({}) {
+  const dispatch = useAppDispatch();
   const { loading, selectedRestaurant } = useAppSelector(
     state => state.restaurant.view,
   );
@@ -41,6 +42,20 @@ export function RestaurantClient({}) {
 
   const lat = Number(selectedRestaurant?.lat) || 37;
   const lon = Number(selectedRestaurant?.lon) || -58;
+
+  const handleSaveComment = React.useCallback(
+    (message: string, stars: number) => {
+      dispatch(
+        actions.restaurants.saveNewComment({
+          restaurantId: selectedRestaurant?.id,
+          message,
+          stars,
+        }),
+      );
+    },
+    [dispatch, selectedRestaurant],
+  );
+
   return (
     <ScrollPage internalContainerStyles={styles.container}>
       {loading && (
@@ -164,7 +179,10 @@ export function RestaurantClient({}) {
               <Body>{localizedStrings.restaurant.view.noMenus}</Body>
             </View>
           )}
-          <CommentAccordionList comments={selectedRestaurant?.comments || []} />
+          <CommentAccordionList
+            onSaveComment={handleSaveComment}
+            comments={selectedRestaurant?.comments || []}
+          />
         </>
       )}
     </ScrollPage>

@@ -143,6 +143,17 @@ const openOrClose = async (restaurantId: number) => {
   return authenticatedPut(`/restaurant/${restaurantId}/open`);
 };
 
+const createComment = async (
+  restaurantId: number,
+  message: string,
+  stars: number,
+) => {
+  return authenticatedPost(`restaurant/${restaurantId}/stars`, {
+    comment: message,
+    stars,
+  });
+};
+
 export const RestaurantAPI = {
   getRestaurants,
   getRestaurantsNearMe,
@@ -155,4 +166,5 @@ export const RestaurantAPI = {
   editRestaurant,
   createNewCategory,
   openOrClose,
+  createComment,
 };

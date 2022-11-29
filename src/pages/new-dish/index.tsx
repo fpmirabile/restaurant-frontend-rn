@@ -150,8 +150,6 @@ export function NewDish({ navigation }: RouterProps) {
 
   const handleOnAcceptModal = React.useCallback(
     (categoryName: string) => {
-      // console.log(categoryName, selectedRestaurant?.id);
-      //Validacion para no crear categorias
       if (
         categoriesList.find(cat =>
           cat.name
@@ -159,7 +157,6 @@ export function NewDish({ navigation }: RouterProps) {
             .includes(categoryName.toLocaleLowerCase()),
         )
       ) {
-        console.log('Ya esta la categoria');
         showPersonalizedToast({
           type: 'error',
           text1: 'Categoria existente',
@@ -167,7 +164,6 @@ export function NewDish({ navigation }: RouterProps) {
           autoHide: true,
         });
       } else {
-        console.log('No esta la categoria');
         dispatch(
           actions.restaurants.createCategory({
             categoryName,

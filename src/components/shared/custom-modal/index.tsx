@@ -20,7 +20,7 @@ interface PropTypes {
   textSecondaryButton: string;
   input?: Boolean;
   inputPlaceholder?: string;
-  onAcceptModal?: (value: string) => void;
+  onAcceptModal?: (value: string, stars: number) => void;
   onCancelModal?: () => void;
 }
 
@@ -37,13 +37,11 @@ export function CustomModal({
   onAcceptModal,
 }: PropTypes) {
   const [inputText, setInputText] = React.useState<string>('');
-  const [restaurantReview] = React.useState<string>('');
   const [rating, updateRating] = React.useState<number>(0);
 
-  const actualizarEstrellas = React.useCallback(
-    (estrellas: number) => {
-      updateRating(estrellas);
-      console.log(estrellas);
+  const handleStarsChanged = React.useCallback(
+    (stars: number) => {
+      updateRating(stars);
     },
     [updateRating],
   );
@@ -57,13 +55,13 @@ export function CustomModal({
 
   const handleOnAccept = React.useCallback(() => {
     if (onAcceptModal) {
-      onAcceptModal(inputText);
+      onAcceptModal(inputText, rating);
       handleInputChange('');
       return;
     }
 
     onClose && onClose();
-  }, [onAcceptModal, inputText, onClose, handleInputChange]);
+  }, [onAcceptModal, inputText, onClose, handleInputChange, rating]);
 
   return (
     <Modal isVisible={isVisible} style={styles.modalStyles}>
@@ -88,13 +86,16 @@ export function CustomModal({
                   startingValue={rating}
                   fractions={0}
                   ratingColor="#FFDF6B"
-                  onFinishRating={actualizarEstrellas}
+                  onFinishRating={handleStarsChanged}
                 />
               </View>
               <View style={styles.spaceForText}>
                 <Input
-                  value={restaurantReview}
-                  placeholder={'Ingrese su comentario sobre el resaturante'}
+                  multiline
+                  numberOfLines={3}
+                  value={inputText}
+                  placeholder={'Ingrese sus comentarios del restaurant'}
+                  onChangeText={handleInputChange}
                 />
               </View>
             </View>

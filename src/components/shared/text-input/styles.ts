@@ -19,6 +19,11 @@ export const styles = StyleSheet.create({
     fontFamily: 'OpenSans-Regular',
     width: '100%',
   },
+  inputMultiline: {
+    width: 333,
+    height: 100,
+    textAlignVertical: 'top',
+  },
   inputBorder: {
     borderRadius: 3.5,
     borderBottomColor: COLORS.grey,

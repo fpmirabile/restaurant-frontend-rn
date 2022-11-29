@@ -36,6 +36,8 @@ interface PropTypes {
   keyboardType?: KeyboardTypeOptions;
   borderBottom?: boolean;
   onValidateText?: (text: string) => boolean;
+  multiline?: boolean;
+  numberOfLines?: number;
 }
 
 export function Input({
@@ -56,6 +58,8 @@ export function Input({
   disabled,
   keyboardType,
   onValidateText,
+  multiline,
+  numberOfLines,
 }: PropTypes) {
   const [isValid, setIsValid] = React.useState<boolean>(true);
   const handleEndEditing = React.useCallback(
@@ -76,7 +80,11 @@ export function Input({
       <TextInput
         keyboardType={keyboardType}
         onChangeText={onChangeText}
-        style={borderBottom ? styles.inputBorder : styles.input}
+        style={
+          borderBottom
+            ? styles.inputBorder
+            : [styles.input, multiline && styles.inputMultiline]
+        }
         placeholder={placeholder}
         value={value}
         onBlur={onBlur}
@@ -85,6 +93,8 @@ export function Input({
         secureTextEntry={secureTextEntry}
         editable={!disabled}
         placeholderTextColor={placeholderColor}
+        multiline={multiline}
+        numberOfLines={multiline ? numberOfLines : undefined}
       />
       {!!RightIcon && (
         <ImageButton
