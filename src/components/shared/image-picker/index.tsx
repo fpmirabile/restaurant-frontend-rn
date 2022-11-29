@@ -1,13 +1,15 @@
 import * as React from 'react';
-import { launchImageLibrary } from 'react-native-image-picker';
+import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 import { Image, View, FlatList } from 'react-native';
 import { ICONS } from '../../../constants';
 import { localizedStrings } from '../../../localization/localized-strings';
-import { Body, Caption } from '../morfando-text';
+import { Caption } from '../morfando-text';
 import { PressableView } from '../pressable-view';
-import { styles } from './styles';
 import { ListRenderItemInfo } from 'react-native';
 import { ImageButton } from '../image-button';
+import ActionSheet, { ActionSheetRef } from 'react-native-actions-sheet';
+import { styles } from './styles';
+import { TouchableText } from '../touchable-text';
 
 interface PropTypes {
   onImageAdded?: (images: string[]) => void;
@@ -20,6 +22,7 @@ export function ImagePicker({
   onImageAdded,
   previousImages,
 }: PropTypes) {
+  const actionSheetRef = React.useRef<ActionSheetRef | null>(null);
   const AddImageIcon = ICONS.addImage;
   const removeImageIcon = ICONS.removeImage;
   const [assets, setAssets] = React.useState<string[]>(
@@ -27,7 +30,11 @@ export function ImagePicker({
   );
 
   const handlePressedMe = async () => {
-    await launchImageLibrary(
+    actionSheetRef.current?.show();
+  };
+
+  const handleOpenGallery = React.useCallback(() => {
+    launchImageLibrary(
       {
         mediaType: 'photo',
         selectionLimit: maxAmountOfImages,
@@ -47,7 +54,34 @@ export function ImagePicker({
         }
       },
     );
-  };
+    actionSheetRef.current?.hide();
+  }, [onImageAdded, maxAmountOfImages]);
+
+  const handleOpenCamera = React.useCallback(() => {
+    launchCamera(
+      {
+        mediaType: 'photo',
+        saveToPhotos: true,
+        cameraType: 'back',
+      },
+      response => {
+        if (response.assets) {
+          const result: string[] =
+            assets.length > 5 ? [...assets.slice(0, -1)] : [...assets];
+          response.assets.forEach(asset => {
+            if (asset.uri) {
+              result.push(asset.uri);
+            }
+          });
+          if (onImageAdded) {
+            onImageAdded(result);
+          }
+          setAssets(result);
+        }
+      },
+    );
+    actionSheetRef.current?.hide();
+  }, [onImageAdded, assets]);
 
   const AddNewImageComponent = React.memo(() => {
     return (
@@ -102,6 +136,20 @@ export function ImagePicker({
         )}
         ItemSeparatorComponent={renderSeparatorItem}
       />
+      <ActionSheet ref={actionSheetRef}>
+        <View style={styles.bottomSheetChildrenContainer}>
+          <TouchableText
+            containerStyles={styles.bottomSheetButton}
+            onPress={handleOpenCamera}
+            message="Camara"
+          />
+          <TouchableText
+            containerStyles={styles.bottomSheetButton}
+            onPress={handleOpenGallery}
+            message="Galeria"
+          />
+        </View>
+      </ActionSheet>
     </View>
   );
 }
