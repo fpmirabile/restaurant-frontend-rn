@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { BackHandler, View } from 'react-native';
 import { Caption, ScrollPage, Title } from '../../../components/shared';
 import { localizedStrings } from '../../../localization/localized-strings';
 import { MorfandoRouterParams } from '../../../navigation/navigation';
@@ -42,17 +42,31 @@ export function CreateRestaurant({ navigation }: PropTypes) {
         dispatch(actions.restaurants.createRestaurant());
       }
 
-      navigation.push('FinishedRestaurantCreation');
+      navigation.push('FinishedRestaurantCreation', { isEdit: !!id });
       return;
     }
 
-    console.log(Object.values(stepOne));
     if (Object.values(stepOne).some(value => !value)) {
       console.log(Object.values(stepOne));
       return;
     }
     setStep(nextStep);
   }, [step, navigation, dispatch, stepOne, stepTwo, id]);
+
+  const handleBackPress = React.useCallback(() => {
+    console.log('device back pressed');
+    handleGoBack();
+    return true;
+  }, [handleGoBack]);
+
+  React.useEffect(() => {
+    const backButtonRegister = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackPress,
+    );
+
+    return () => backButtonRegister.remove();
+  }, [handleBackPress]);
 
   const StepComponent = !!steps[step - 1] && steps[step - 1];
   return (

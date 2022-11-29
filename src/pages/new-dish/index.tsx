@@ -28,6 +28,7 @@ import { styles } from './styles';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { CreateMenu } from '../../redux/reducers/restaurant/slice';
 import { actions } from '../../redux';
+import { showPersonalizedToast } from '../../util/toast';
 
 interface RouterProps extends MorfandoRouterParams<'NewDish'> {}
 
@@ -149,13 +150,34 @@ export function NewDish({ navigation }: RouterProps) {
 
   const handleOnAcceptModal = React.useCallback(
     (categoryName: string) => {
-      console.log(categoryName, selectedRestaurant?.id);
-      dispatch(
-        actions.restaurants.createCategory({
-          categoryName,
-          restaurantId: selectedRestaurant?.id || createdRestaurantId || 0,
-        }),
-      );
+      if (
+        categoriesList.find(cat =>
+          cat.name
+            .toLocaleLowerCase()
+            .includes(categoryName.toLocaleLowerCase()),
+        )
+      ) {
+        showPersonalizedToast({
+          type: 'error',
+          text1: 'Categoria existente',
+          text2: 'La categoria que intenta crear ya existe',
+          autoHide: true,
+        });
+      } else {
+        dispatch(
+          actions.restaurants.createCategory({
+            categoryName,
+            restaurantId: selectedRestaurant?.id || createdRestaurantId || 0,
+          }),
+        );
+        showPersonalizedToast({
+          type: 'success',
+          text1: 'Categoria creada',
+          text2: 'Categoria creada satisfactoriamente 🎉',
+          autoHide: true,
+        });
+      }
+
       handleCloseCategoryModal();
     },
     [
@@ -163,6 +185,7 @@ export function NewDish({ navigation }: RouterProps) {
       selectedRestaurant,
       handleCloseCategoryModal,
       createdRestaurantId,
+      categoriesList,
     ],
   );
 

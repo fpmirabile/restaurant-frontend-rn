@@ -120,14 +120,30 @@ const googleSignIn = createAsyncThunk(
   },
 );
 
-const deleteUser = createAsyncThunk('user/delete', async () => {
-  try {
-    console.log('Eliminando');
-    await UserAPI.deleteUser();
-  } catch (error) {
-    console.log('Error al eliminar la cuenta');
-  }
-});
+const deleteUser = createAsyncThunk(
+  'user/delete',
+  async (_, { rejectWithValue }) => {
+    try {
+      console.log('Eliminando');
+      await UserAPI.deleteUser();
+    } catch (error) {
+      console.log('Error al eliminar la cuenta');
+      return rejectWithValue(error);
+    }
+  },
+);
+
+const changePassword = createAsyncThunk(
+  'user/changePassword',
+  async (payload: { email: string; password: string }, { rejectWithValue }) => {
+    try {
+      await UserAPI.changePassword(payload.email, payload.password);
+    } catch (error) {
+      console.log('Error al cambiar la contraseña');
+      return rejectWithValue(error);
+    }
+  },
+);
 
 export type UserState = {
   isAppInitLoading: boolean;
@@ -150,9 +166,13 @@ export type UserState = {
     ssoError: string;
     credentialsError: string;
   };
+  forgotPassword: {
+    loading: boolean;
+    error: string;
+  };
 };
 
-const initialState = {
+const initialState: UserState = {
   isAppInitLoading: true,
   auth: {
     jwt: '',
@@ -172,6 +192,10 @@ const initialState = {
     loading: false,
     ssoError: '',
     credentialsError: '',
+  },
+  forgotPassword: {
+    error: '',
+    loading: false,
   },
 };
 
@@ -289,6 +313,19 @@ const userAppSlice = createSlice({
         ...initialState.user,
       };
     });
+    builder.addCase(changePassword.pending, state => {
+      state.forgotPassword.loading = true;
+    });
+    builder.addCase(changePassword.fulfilled, state => {
+      state.forgotPassword.loading = false;
+    });
+    builder.addCase(changePassword.rejected, (state, action) => {
+      state.forgotPassword.loading = false;
+      const errorObject = action.payload as any;
+      if (action.payload && errorObject.message) {
+        state.forgotPassword.error = errorObject.message;
+      }
+    });
   },
 });
 
@@ -302,6 +339,7 @@ export const userSlice = {
     loginWithCredentials,
     googleSignIn,
     deleteUser,
+    changePassword,
   },
   reducer,
 };

@@ -24,12 +24,15 @@ export function AccordionItem({ itemsCategory }: PropTypes) {
     <View style={styles.container}>
       <TouchableOpacity>
         <View style={styles.imageContainer}>
-          {itemsCategory.images.length === 0 ? (
+          {itemsCategory.images.length === 0 || !itemsCategory.images ? (
             <Image
               source={require('../../../../assets/images/no-dish-photo.png')}
             />
           ) : (
-            <Image source={{ uri: itemsCategory.images[0] }} />
+            <Image
+              style={styles.images}
+              source={{ uri: itemsCategory.images[0] }}
+            />
           )}
         </View>
       </TouchableOpacity>

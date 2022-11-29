@@ -21,6 +21,7 @@
     "@react-native-community/checkbox": "^0.5.13",
     "@react-native-community/datetimepicker": "^6.5.3",
     "@react-native-community/geolocation": "^3.0.3",
+    "@react-native-community/netinfo": "^9.3.7",
     "@react-native-google-signin/google-signin": "^8.2.0",
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/native-stack": "^6.9.1",
@@ -29,6 +30,7 @@
     "react": "18.1.0",
     "react-native": "^0.70.4",
     "react-native-accordion-wrapper": "^1.0.1",
+    "react-native-actions-sheet": "^0.8.10",
     "react-native-config": "^1.4.6",
     "react-native-dropdown-select-list": "^2.0.2",
     "react-native-image-base64-png": "^0.2.1",
@@ -42,6 +44,7 @@
     "react-native-screens": "^3.17.0",
     "react-native-shadow-2": "^7.0.6",
     "react-native-svg": "^13.2.0",
+    "react-native-toast-message": "^2.1.5",
     "react-redux": "^8.0.4",
     "redux-persist": "^6.0.0"
   },

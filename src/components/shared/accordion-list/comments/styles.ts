@@ -16,4 +16,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: COLORS.background,
   },
+  noCommentsContainer: {
+    marginVertical: 16,
+  },
+  addCommentContainer: {
+    alignSelf: 'flex-end',
+  },
 });

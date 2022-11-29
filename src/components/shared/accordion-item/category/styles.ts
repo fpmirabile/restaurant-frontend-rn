@@ -34,4 +34,8 @@ export const styles = StyleSheet.create({
   iconContainer: {
     justifyContent: 'center',
   },
+  images: {
+    width: 100,
+    height: 56,
+  },
 });

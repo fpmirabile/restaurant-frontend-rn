@@ -53,8 +53,7 @@ const putFavorite = (restaurantId: number): Promise<any> => {
 export type Filter = {
   foodType?: string;
   stars?: number;
-  priceRangeFrom?: string;
-  priceRangeTo?: string;
+  priceRange?: string;
 };
 const getRestaurantsNearMe = (
   lat: number,
@@ -145,6 +144,17 @@ const openOrClose = async (restaurantId: number) => {
   return authenticatedPut(`/restaurant/${restaurantId}/open`);
 };
 
+const createComment = async (
+  restaurantId: number,
+  message: string,
+  stars: number,
+) => {
+  return authenticatedPost(`restaurant/${restaurantId}/stars`, {
+    comment: message,
+    stars,
+  });
+};
+
 const deleteDish = async (dishId: number) => {
   return authenticatedDelete(`/restaurant/category/meal/${dishId}`);
 };
@@ -162,6 +172,7 @@ export const RestaurantAPI = {
   createNewCategory,
   openOrClose,
   deleteDish, //TODO DELETE DISH
+  createComment,
 };
 // "/restaurant/:restaurantId/category/:categoryId"
 // /restaurant/category/meal/:mealId <= plato

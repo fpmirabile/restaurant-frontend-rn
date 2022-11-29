@@ -14,8 +14,9 @@ import { styles } from './styles';
 import { Body, Caption } from '../../../components/shared/morfando-text';
 import { localizedStrings } from '../../../localization/localized-strings';
 import { LoginForm } from '..';
-import { isValidEmail, isValidPassword } from '../../../util/validation';
+import { isValidEmail } from '../../../util/validation';
 import { useAppSelector } from '../../../redux/store';
+import { useAppNavigation } from '../../../hook/navigation';
 
 type InputType = 'username' | 'password';
 interface PropTypes {
@@ -31,6 +32,7 @@ function LoginWithCredentialsComponent({
   onFormChanged,
   form,
 }: PropTypes) {
+  const navigation = useAppNavigation();
   const { credentialsError: error, loading: isLoading } = useAppSelector(
     state => state.user.login,
   );
@@ -50,13 +52,17 @@ function LoginWithCredentialsComponent({
       });
     };
 
-  const handleLogin = () => {
+  const handleLogin = React.useCallback(() => {
     if (isLoading) {
       return;
     }
 
     onLogin();
-  };
+  }, [onLogin, isLoading]);
+
+  const handleForgotPasswordNavigation = React.useCallback(() => {
+    navigation.navigate('ForgotPassword');
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
@@ -76,15 +82,14 @@ function LoginWithCredentialsComponent({
       <PasswordInput
         onChange={handleInputOnChange('password')}
         onEndEditing={handleInputOnChange('password')}
-        onValidateText={isValidPassword}
         value={form.password.value}
-        errorMessage="La contraseña no cumple con nuestras normas (al menos 1 mayuscula, 1 miniscula, 1 simbolo, 1 numero y 6 caracteres"
         placeholder={localizedStrings.login.password}
       />
       <TouchableText
         containerStyles={styles.forgotPassword}
         textStyles={styles.forgotPasswordColor}
         message={localizedStrings.login.forgotPassword}
+        onPress={handleForgotPasswordNavigation}
       />
       {!!error && (
         <View style={styles.serverError}>
