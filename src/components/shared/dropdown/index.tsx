@@ -57,6 +57,7 @@ export function Dropdown({
         dropdownStyles={styles.dropdownStyles}
         dropdownTextStyles={styles.dropdownTextStyles as any}
         inputStyles={styles.dropdownTextStyles as any}
+        notFoundText="No hay resultados"
       />
       {!isValid && (
         <Caption style={styles.errorMessage}>{errorMessage}</Caption>

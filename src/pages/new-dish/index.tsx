@@ -28,7 +28,7 @@ import { styles } from './styles';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { CreateMenu } from '../../redux/reducers/restaurant/slice';
 import { actions } from '../../redux';
-import Toast from 'react-native-toast-message';
+import { showPersonalizedToast } from '../../util/toast';
 
 interface RouterProps extends MorfandoRouterParams<'NewDish'> {}
 
@@ -160,11 +160,11 @@ export function NewDish({ navigation }: RouterProps) {
         )
       ) {
         console.log('Ya esta la categoria');
-        showToast(
-          'error',
-          'Categoria existente',
-          'La categoria que intenta crear ya existe',
-        );
+        showPersonalizedToast({
+          type: 'error',
+          text1: 'Categoria existente',
+          text2: 'La categoria que intenta crear ya existe',
+        });
       } else {
         console.log('No esta la categoria');
         dispatch(
@@ -173,11 +173,11 @@ export function NewDish({ navigation }: RouterProps) {
             restaurantId: selectedRestaurant?.id || createdRestaurantId || 0,
           }),
         );
-        showToast(
-          'success',
-          'Categoria creada',
-          'Categoria creada satisfactoriamente 🎉',
-        );
+        showPersonalizedToast({
+          type: 'success',
+          text1: 'Categoria creada',
+          text2: 'Categoria creada satisfactoriamente 🎉',
+        });
       }
 
       handleCloseCategoryModal();
@@ -187,16 +187,9 @@ export function NewDish({ navigation }: RouterProps) {
       selectedRestaurant,
       handleCloseCategoryModal,
       createdRestaurantId,
+      categoriesList,
     ],
   );
-
-  const showToast = (toasterType: string, title: string, body: string) => {
-    Toast.show({
-      type: toasterType,
-      text1: title,
-      text2: body,
-    });
-  };
 
   React.useEffect(() => {
     return () => {
@@ -349,7 +342,6 @@ export function NewDish({ navigation }: RouterProps) {
           />
         </View>
       </ScrollPage>
-      <Toast />
     </View>
   );
 }
