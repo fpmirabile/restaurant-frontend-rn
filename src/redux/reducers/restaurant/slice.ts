@@ -851,19 +851,6 @@ const restaurantAppSlice = createSlice({
       }
     });
 
-    builder.addCase(deleteDish.pending, state => {
-      state.menu.loading = true;
-    });
-    builder.addCase(deleteDish.fulfilled, state => {
-      state.menu = {
-        ...initialState.menu,
-      };
-    });
-    builder.addCase(deleteDish.rejected, state => {
-      state.menu.loading = false;
-      console.log('delete dish rejected');
-    });
-
     builder.addCase(selectRestaurant.pending, state => {
       state.view.loading = true;
     });
