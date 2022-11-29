@@ -6,9 +6,9 @@ import {
   Body2,
   Body,
   CTAText,
-  ImageButton,
   CategoryAccordion,
   CommentAccordionList,
+  PressableView,
 } from '../../components/shared';
 import MapView, { Marker } from 'react-native-maps';
 import { localizedStrings } from '../../localization/localized-strings';
@@ -16,14 +16,27 @@ import { ICONS } from '../../constants';
 import { Shadow } from 'react-native-shadow-2';
 import { Rating } from 'react-native-ratings';
 import NoAvailableImage from '../../assets/images/no-available-image.svg';
-import { useAppSelector } from '../../redux/store';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { styles } from './styles';
 import { Title2 } from '../../components/shared/morfando-text';
+import { actions } from '../../redux';
 
 export function RestaurantClient({}) {
   const { loading, selectedRestaurant } = useAppSelector(
     state => state.restaurant.view,
   );
+  const [isFavorite, setFavorite] = React.useState(
+    selectedRestaurant?.favorite,
+  );
+  const LikeIcon = isFavorite ? ICONS.like : ICONS.likeNoBackground;
+
+  const dispatch = useAppDispatch();
+
+  const deleteFavorite = React.useCallback(() => {
+    selectedRestaurant?.id &&
+      dispatch(actions.restaurants.putFavorite(selectedRestaurant.id));
+    setFavorite(!isFavorite);
+  }, [dispatch, selectedRestaurant, isFavorite]);
 
   const lat = Number(selectedRestaurant?.lat) || 37;
   const lon = Number(selectedRestaurant?.lon) || -58;
@@ -57,7 +70,11 @@ export function RestaurantClient({}) {
                   <Title2 darkPinkColor>{selectedRestaurant?.name}</Title2>
                 </View>
                 <View>
-                  <ImageButton imageSvg={ICONS.likeNoBackground} />
+                  <PressableView
+                    onPress={deleteFavorite}
+                    containerStyles={styles.restaurantTopPosition}>
+                    <LikeIcon />
+                  </PressableView>
                 </View>
               </View>
               <View style={styles.restaurantDetailContainer}>
