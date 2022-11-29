@@ -6,9 +6,9 @@ import {
   Body2,
   Body,
   CTAText,
-  ImageButton,
   CategoryAccordion,
   CommentAccordionList,
+  PressableView,
 } from '../../components/shared';
 import MapView, { Marker } from 'react-native-maps';
 import { localizedStrings } from '../../localization/localized-strings';
@@ -26,6 +26,19 @@ export function RestaurantClient({}) {
   const { loading, selectedRestaurant } = useAppSelector(
     state => state.restaurant.view,
   );
+
+  const LikeIcon = selectedRestaurant?.favorite
+    ? ICONS.like
+    : ICONS.likeNoBackground;
+
+  const dispatch = useAppDispatch();
+
+  const changeFavoriteStatus = React.useCallback(() => {
+    selectedRestaurant?.id &&
+      dispatch(
+        actions.restaurants.putFavoriteWithReload(selectedRestaurant.id),
+      );
+  }, [dispatch, selectedRestaurant]);
 
   const lat = Number(selectedRestaurant?.lat) || 37;
   const lon = Number(selectedRestaurant?.lon) || -58;
@@ -73,7 +86,11 @@ export function RestaurantClient({}) {
                   <Title2 darkPinkColor>{selectedRestaurant?.name}</Title2>
                 </View>
                 <View>
-                  <ImageButton imageSvg={ICONS.likeNoBackground} />
+                  <PressableView
+                    onPress={changeFavoriteStatus}
+                    containerStyles={styles.restaurantTopPosition}>
+                    <LikeIcon />
+                  </PressableView>
                 </View>
               </View>
               <View style={styles.restaurantDetailContainer}>
