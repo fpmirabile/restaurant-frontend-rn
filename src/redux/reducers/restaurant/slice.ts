@@ -546,6 +546,32 @@ const filterRestaurantsByQuery = createAsyncThunk(
   },
 );
 
+const saveNewComment = createAsyncThunk(
+  'restaurant/saveComment',
+  async (
+    payload: { restaurantId?: number; message: string; stars: number },
+    { rejectWithValue, dispatch },
+  ) => {
+    try {
+      if (payload.restaurantId) {
+        const response = await RestaurantAPI.createComment(
+          payload.restaurantId,
+          payload.message,
+          payload.stars,
+        );
+
+        console.log('save comment response', response);
+        setTimeout(() => {
+          dispatch(selectRestaurant(payload.restaurantId || 0));
+        }, 1000);
+        return response;
+      }
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
 const restaurantAppSlice = createSlice({
   name: 'restaurant',
   initialState,
@@ -751,21 +777,15 @@ const restaurantAppSlice = createSlice({
           (action.payload as any).message || 'Ocurrio un error insperado';
       }
     });
-
-    //Extra reducres categorias
     builder.addCase(getCategoriesByRestaurant.rejected, (_, action) => {
       console.log('get categories rejected', action);
     });
     builder.addCase(getCategoriesByRestaurant.pending, () => {
-      // state.home.loading = true;
       console.log('get categorias pending');
     });
     builder.addCase(getCategoriesByRestaurant.fulfilled, (state, action) => {
       console.log('get categories fullfilled', action.payload);
       state.categories = action.payload || [];
-      // state.categories = action.payload || [];
-      // state.categories.id = action.payload.id;
-      // state.categories.name = action.payload.name
     });
 
     builder.addCase(handleStepOneSave.fulfilled, (state, action) => {
@@ -783,13 +803,13 @@ const restaurantAppSlice = createSlice({
         ...initialState.menu,
       };
     });
-    builder.addCase(saveMenu.rejected, state => {
+    builder.addCase(saveMenu.rejected, (state, action) => {
       state.menu.loading = false;
       console.log('create menu rejected');
-      // if (action.payload) {
-      //   state.create.error =
-      //     (action.payload as any).message || 'Ocurrio un error insperado';
-      // }
+      if (action.payload) {
+        state.create.error =
+          (action.payload as any).message || 'Ocurrio un error insperado';
+      }
     });
     builder.addCase(selectRestaurant.pending, state => {
       state.view.loading = true;
@@ -906,6 +926,20 @@ const restaurantAppSlice = createSlice({
         state.home.error = message;
       }
     });
+    builder.addCase(saveNewComment.pending, state => {
+      state.view.loading = true;
+    });
+    builder.addCase(saveNewComment.fulfilled, state => {
+      state.view.loading = false;
+      state.view.error = '';
+    });
+    builder.addCase(saveNewComment.rejected, (state, action) => {
+      state.view.loading = false;
+      const payload = action.payload as any;
+      if (payload.message) {
+        state.view.error = payload.message;
+      }
+    });
   },
 });
 
@@ -927,6 +961,7 @@ export const restaurantSlice = {
     createCategory,
     openOrCloseRestaurant,
     filterRestaurantsByQuery,
+    saveNewComment,
   },
   reducer,
 };

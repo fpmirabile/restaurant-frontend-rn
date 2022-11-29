@@ -27,6 +27,7 @@ import { COLORS } from '../constants';
 import Toast from 'react-native-toast-message';
 import { hasInternetConnectionListener } from '../util/connection';
 import { showPersonalizedToast } from '../util/toast';
+import { ForgotPassword } from '../pages/forgot-password';
 
 export interface MorfandoRouterParams<A extends keyof RootStackParamList>
   extends NativeStackScreenProps<RootStackParamList, A> {}
@@ -44,6 +45,7 @@ export type RootStackParamList = {
   RestaurantClient: undefined;
   ViewFavs: undefined;
   FiltersClient: undefined;
+  ForgotPassword: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -87,6 +89,7 @@ export function Navigation() {
                 name="SuccessRegistration"
                 component={SuccessRegistration}
               />
+              <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
             </Stack.Group>
           ) : (
             <Stack.Group>
