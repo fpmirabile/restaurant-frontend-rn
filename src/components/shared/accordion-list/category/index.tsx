@@ -36,7 +36,7 @@ export function CategoriesAccordion({ category }: PropTypes) {
       </TouchableOpacity>
       {showContent && category.items.length === 0 && (
         <View style={[styles.body, styles.childCategory]}>
-          <Body>Este menu no disponible de platos disponibles</Body>
+          <Body>Esta categoría aun no cuenta con platos asignados.</Body>
         </View>
       )}
       {showContent &&
