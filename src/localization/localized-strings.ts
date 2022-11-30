@@ -6,7 +6,7 @@ export const localizedStrings = new LocalizedStrings({
     login: {
       iAmClient: 'Soy cliente',
       iAmOwner: 'Soy dueño de restaurante',
-      ssoLogin: 'Inicia sesion con Google',
+      ssoLogin: 'Inicia sesión con Google',
       email: 'Email',
       password: 'Contraseña',
       forgotPassword: '¿Olvidaste tu contraseña?',
@@ -20,10 +20,10 @@ export const localizedStrings = new LocalizedStrings({
     profile: {
       myFavRestaurants: 'Mis restaurantes favoritos',
       myLikes: 'Mis favoritos',
-      legalInfo: 'Informacion legal',
-      tAndCond: 'Terminos y condiciones',
-      accountManagement: 'Administracion de cuenta',
-      signOut: 'Cerrar sesion',
+      legalInfo: 'Información legal',
+      tAndCond: 'Términos y condiciones',
+      accountManagement: 'Administración de cuenta',
+      signOut: 'Cerrar sesión',
       deleteAccount: 'Eliminar cuenta',
     },
     restaurant: {
@@ -38,7 +38,7 @@ export const localizedStrings = new LocalizedStrings({
         neighborhood: 'Barrio',
         town: 'Localidad',
         state: 'Provincia',
-        geolocalization: 'Geolocalizacion',
+        geolocalization: 'Geolocalización',
         localizationSubtitle:
           'Mueva el marcador en caso de que no se encuentre geolocalizado correctamente',
         openHoursTitle: 'Horario de apertura',
@@ -48,9 +48,9 @@ export const localizedStrings = new LocalizedStrings({
         kindOfFoodAndRange: 'Tipo de comida y rango de precio',
         kindOfFood: 'Tipo de comida',
         priceRange: 'Rango de precio',
-        restaurantPictures: 'Imagenes del restaurante',
+        restaurantPictures: 'Imágenes del restaurante',
         addPictures:
-          'Puede seleccionar varias imagenes manteniendo presionada la primera imagen por unos segundos',
+          'Puede seleccionar varias imágenes manteniendo presionada la primera imagen por unos segundos',
         picturesCaption: (addedAmount: number, totalAmount: number) =>
           `Fotos: ${addedAmount}/${totalAmount} - La primera foto en seleccionar será la foto de portada.`,
       },
@@ -66,18 +66,18 @@ export const localizedStrings = new LocalizedStrings({
         subtitle:
           'Felicitaciones, tu restaurante ya se encuentra creado y listo para comenzar a añadir los platos.',
         subtitleEdit: 'Ya completaste la edición de tu restaurante 🎉. Podes continuar añadiendo nuevos platos 🍽️.',
-        primaryButton: 'Continuar con el menu',
+        primaryButton: 'Continuar con el menú',
         secondaryButton: 'Continuar luego',
       },
       view: {
-        createNewDish: 'Crear nuevo plato/item',
+        createNewDish: 'Crear nuevo plato/ítem',
         noCategories:
           'Lo sentimos, este restaurante no cuenta con categorías creadas',
         noMenus:
-          'Lo sentimos, este restaurante no cuenta con ningun menu para ofrecerte.',
+          'Lo sentimos, este restaurante no cuenta con ningún menú para ofrecerte.',
         openLocal: 'Local abierto',
         errorMessage:
-          'Lo sentimos no podemos mostrarte la informacion sobre este restaurante en este momento.',
+          'Lo sentimos no podemos mostrarte la información sobre este restaurante en este momento.',
       },
       bottomBar: {
         cancel: 'Cancelar',
@@ -85,21 +85,21 @@ export const localizedStrings = new LocalizedStrings({
         next: 'Siguiente',
       },
       newDish: {
-        title: 'Creación nuevo plato/item',
-        category: 'Categoria',
-        dishInformation: 'Información de plato/item',
-        categories: 'Categorias',
-        dishName: 'Nombre de plato/item',
+        title: 'Creación nuevo plato/ítem',
+        category: 'Categoría',
+        dishInformation: 'Información de plato/ítem',
+        categories: 'Categorías',
+        dishName: 'Nombre de plato/ítem',
         sellPrice: 'Precio de venta',
-        dishImages: 'Imagenes del plato/item',
+        dishImages: 'Imágenes del plato/ítem',
         dishIngredients: 'Ingredientes (opcional)',
         ingredient: 'Indique el ingrediente',
         addIngredient: '+ Agregar ingrediente',
         finish: 'Finalizar',
         cancel: 'Cancelar',
         create: 'Crear',
-        modalTitle: 'Crear nueva categoria',
-        modalInputPlaceholder: 'Nombre de categoria',
+        modalTitle: 'Crear nueva categoría',
+        modalInputPlaceholder: 'Nombre de categoría',
       },
       clientView: {
         location: '¿Como llegar?',
